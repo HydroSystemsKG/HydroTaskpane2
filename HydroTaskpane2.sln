@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 15 for Windows Desktop
+VisualStudioVersion = 15.0.33801.198
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydroTaskpane2", "HydroTaskpane2\HydroTaskpane2.csproj", "{1691E82D-9748-459B-898E-8D396D412FDA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1691E82D-9748-459B-898E-8D396D412FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1691E82D-9748-459B-898E-8D396D412FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1691E82D-9748-459B-898E-8D396D412FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1691E82D-9748-459B-898E-8D396D412FDA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {53064BE9-CBFE-42EE-B0FD-B149A004BB79}
+	EndGlobalSection
+EndGlobal
