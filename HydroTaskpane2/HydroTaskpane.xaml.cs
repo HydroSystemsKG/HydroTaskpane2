@@ -43,6 +43,13 @@ namespace HydroTaskpane2
                 {"Drawing", AttributeConstants.drawingDict}
             };
 
+            Dictionary<string, string> images = new Dictionary<string, string>
+            {
+                {"Part", @"C:\Users\amenzel\source\repos\HydroTaskpane2\HydroTaskpane2\Images\part_icon_sldworks.png"},
+                {"Assembly", @"C:\Users\amenzel\source\repos\HydroTaskpane2\HydroTaskpane2\Images\assembly_icon_sldworks.png"},
+                {"Drawing", @"C:\Users\amenzel\source\repos\HydroTaskpane2\HydroTaskpane2\Images\drawing_icon_sldworks.png"}
+            };
+
             foreach (string groupName in groupReference.Keys)
             {
                 AttributeGroup refGroup = new AttributeGroup() { name = groupName };
@@ -61,6 +68,8 @@ namespace HydroTaskpane2
                     refGroup.groups.Add(currentGroup);
                 }
 
+                refGroup.image = images[groupName];
+
                 groups.Add(refGroup);
             }
 
@@ -73,8 +82,13 @@ namespace HydroTaskpane2
     public class AttributeGroup
     {
         public string name { get; set; }
+
         public ObservableCollection<AttributeField> attributes { get; set; }
         public ObservableCollection<AttributeGroup> groups { get; set; }
+
+        public string image { get; set; }
+        public string space { get; set; }
+        public string bold { get; set; }
 
         public IList<object> Items
         {
@@ -97,6 +111,12 @@ namespace HydroTaskpane2
                         childNodes.Add(group);
                     foreach (var attr in this.attributes)
                         childNodes.Add(attr);
+                }
+
+                if (this.image != null)
+                {
+                    this.space = "   ";
+                    this.bold = "Bold";
                 }
 
                 return childNodes;
