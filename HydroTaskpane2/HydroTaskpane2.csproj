@@ -63,6 +63,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Constants\AttributeConstants.cs" />
     <Compile Include="HydroTaskpane.xaml.cs">
       <DependentUpon>HydroTaskpane.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -94,7 +95,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\assembly_icon_sldworks.png" />
+    <Resource Include="Images\closed_folder.png" />
+    <Resource Include="Images\drawing_icon_sldworks.png" />
+    <Resource Include="Images\part_icon_sldworks.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Debug_Compass_v2.png" />
     <Resource Include="Images\openFolder.png" />

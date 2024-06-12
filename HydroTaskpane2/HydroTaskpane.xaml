@@ -15,6 +15,20 @@
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
         Background="Transparent">
+    <Window.Resources>
+        <Style TargetType="TreeViewItem">
+            <Setter Property="FontFamily"  Value="Callibri"/>
+            <Setter Property="FontSize" Value="9pt"/>
+        </Style>
+        <Style x:Key="StackPanelStyle" TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="3"/>
+        </Style>
+        <Style TargetType="StackPanel">
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="Margin" Value="3 3 3 3"/>
+        </Style>
+    </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -45,225 +59,25 @@
                   Grid.Row="1"
                   Background="#F7F7F7"
                   BorderBrush="#00376b"
-                  BorderThickness="5,5,5,5">
+                  BorderThickness="5,5,5,5"
+                  ItemsSource="{Binding}">
 
-            <TreeViewItem IsExpanded="False">
-                <TreeViewItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Descriptions" FontFamily="Callibri" FontSize="9pt"/>
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:AttributeGroup}" ItemsSource="{Binding Items}">
+                    <StackPanel>
+                        <StackPanel.Resources>
+                            <Style TargetType="StackPanel" BasedOn="{StaticResource ResourceKey=StackPanelStyle}"/>
+                        </StackPanel.Resources>
+                        <TextBlock Text="{Binding name}" FontWeight="Bold"/>
                     </StackPanel>
-                </TreeViewItem.Header>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Description" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Additional Description" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="CAD Description" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-            </TreeViewItem>
-            <TreeViewItem IsExpanded="False">
-                <TreeViewItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Material" FontFamily="Callibri" FontSize="9pt"/>
+                </HierarchicalDataTemplate>
+                <DataTemplate DataType="{x:Type local:AttributeField}">
+                    <StackPanel>
+                        <TextBlock Text="{Binding name}"/>
                     </StackPanel>
-                </TreeViewItem.Header>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Material Hydro Variant 1" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Material Hydro Variant 2" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Material Hydro Additional Text" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Material Original" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Material Original Additional Text" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-            </TreeViewItem>
-            <TreeViewItem IsExpanded="False">
-                <TreeViewItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Treatments" FontFamily="Callibri" FontSize="9pt"/>
-                    </StackPanel>
-                </TreeViewItem.Header>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Heat Treatment" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Preconditioning" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Surface Finish" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-            </TreeViewItem>
-            <TreeViewItem IsExpanded="False">
-                <TreeViewItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Color" FontFamily="Callibri" FontSize="9pt"/>
-                    </StackPanel>
-                </TreeViewItem.Header>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Standard Color" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Lacquering" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-            </TreeViewItem>
-            <TreeViewItem IsExpanded="False">
-                <TreeViewItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Additional Information" FontFamily="Callibri" FontSize="9pt"/>
-                    </StackPanel>
-                </TreeViewItem.Header>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Additional Information" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Based On" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="DIN ISO 2768 | General Tolerances" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="ISO 9013 | Separation Methods Precision" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Semifinished Standard" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-            </TreeViewItem>
-            <TreeViewItem IsExpanded="False">
-                <TreeViewItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Welding" FontFamily="Callibri" FontSize="9pt"/>
-                    </StackPanel>
-                </TreeViewItem.Header>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Weldment" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Dye Penetrion Inspection acc. ISO 3452-1" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="ISO 17637 | Visual Inspection" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="DIN EN ISO 5817 | Quality Level for Imperfection" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-            </TreeViewItem>
-            <TreeViewItem IsExpanded="False">
-                <TreeViewItem.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Dimensions" FontFamily="Callibri" FontSize="9pt"/>
-                    </StackPanel>
-                </TreeViewItem.Header>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Measurements" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-                <TreeViewItem>
-                    <TreeViewItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Weight" FontFamily="Callibri" FontSize="9pt"/>
-                        </StackPanel>
-                    </TreeViewItem.Header>
-                </TreeViewItem>
-            </TreeViewItem>
+                </DataTemplate>
+            </TreeView.Resources>
+            
         </TreeView>
 
         <!-- Viasualization/changing structure will be presented in Grid.Row = 3, since Row 2 is the gridsplitter -->
@@ -272,7 +86,15 @@
                 Background="#F7F7F7"
                 BorderBrush="#00376b"
                 BorderThickness="5,5,5,5"
-                CornerRadius="8,8,8,8" />
+                CornerRadius="8,8,8,8" >
+
+        </Border>
+
+        <TextBox Grid.Row="3" 
+                 Height="30" 
+                 TextWrapping="Wrap" 
+                 Text="TextBox" 
+                 Margin="10,44,10,371"/>
 
     </Grid>
 </Window>
