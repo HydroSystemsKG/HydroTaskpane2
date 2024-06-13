@@ -22,7 +22,7 @@
         </Style>
         <Style x:Key="StackPanelStyle" TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
-            <Setter Property="Margin" Value="3 1"/>
+            <Setter Property="Margin" Value="3 3"/>
         </Style>
         <Style TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
@@ -30,7 +30,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Name="TaskpaneGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="35" />
             <RowDefinition Height="*" MinHeight="70"/>
@@ -92,17 +92,40 @@
                     </StackPanel>
                 </DataTemplate>
             </TreeView.Resources>
-            
+
         </TreeView>
 
         <!-- Viasualization/changing structure will be presented in Grid.Row = 3, since Row 2 is the gridsplitter -->
 
         <Border Grid.Row="3"
-                Background="#F7F7F7"
-                BorderBrush="#00376b"
-                BorderThickness="5,5,5,5"
-                CornerRadius="8,8,8,8" >
+                    Background="#F7F7F7"
+                    BorderBrush="#00376b"
+                    BorderThickness="5,5,5,5">
+            
+            <ScrollViewer Name="AttrScrollViewer" VerticalScrollBarVisibility="Auto" Height="900">
+                
+                <Canvas Name="CanvasTxt">
+                    <TextBox Canvas.Left="50" Canvas.Top="50" Text="Hello" Width="300"/>
+                    <ComboBox Canvas.Left="50" Canvas.Top="25" Width="300" 
+                              IsDropDownOpen="False" 
+                              IsEditable="True"
+                              
+                              >
+                        <ComboBoxItem Content="One"/>
+                        <ComboBoxItem Content="Two"/>
+                        <ComboBoxItem Content="Three"/>
+                        <ComboBoxItem Content="Four"/>
+                        <ComboBoxItem Content="Five"/>
+                        <ComboBoxItem Content="Six"/>
+                        <ComboBoxItem Content="Seven"/>
+                        <ComboBoxItem Content="Eight"/>
+                        <ComboBoxItem Content="Nine"/>
+                        <ComboBoxItem Content="Ten"/>
+                    </ComboBox>
 
+                </Canvas>
+
+            </ScrollViewer>
         </Border>
 
     </Grid>
