@@ -151,17 +151,17 @@
                                       ItemsSource="{Binding dropdown}" 
                                       Visibility="{Binding comboBoxControl, Converter={StaticResource BoolToVisConverter}}" 
                                       IsTextSearchEnabled="True"
-                                      Name="{Binding hashCode}"/>
+                                      Text="{Binding content}"/>
                             <TextBox Width="{Binding 
                                                Converter={StaticResource PercentageConverter}, 
                                                ElementName=FieldsListBox, 
                                                Path=ActualWidth, 
                                                ConverterParameter=0.9}"  
                                      Visibility="{Binding textBoxControl, Converter={StaticResource BoolToVisConverter}}"
-                                     Name="{Binding hashCode}"/>
+                                     Text="{Binding content}"/>
                             <CheckBox Content="{Binding label}" 
                                       Visibility="{Binding checkBoxControl, Converter={StaticResource BoolToVisConverter}}"
-                                      Name="{Binding hashCode}"/>
+                                      IsChecked="{Binding content}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

@@ -25,7 +25,6 @@ namespace HydroTaskpane2
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Dictionary<string, object> contentDict = new Dictionary<string, object>();
 
         public MainWindow()
         {
@@ -34,33 +33,6 @@ namespace HydroTaskpane2
             // populate treeview + populate fields
             populateTree();
         }
-
-        #region contentDict control
-
-        public void updateDict()
-        {
-            foreach (string name in contentDict.Keys)
-            {
-                ContentControl control = (ContentControl)TaskpaneGrid.FindName(name);
-                object content = control.Content;
-
-                contentDict[name] = content;
-            }
-        }
-
-        public void loadFromDict()
-        {
-            foreach (string name in contentDict.Keys)
-            {
-                ContentControl control = (ContentControl)TaskpaneGrid.FindName(name);
-                object content = contentDict[name];
-
-                control.Content = content;
-            }
-        }
-
-        #endregion
-
 
         public int sortType(string key)
         {
@@ -115,20 +87,6 @@ namespace HydroTaskpane2
                     {
                         int type = sortType(groupName);
                         Field field = new Field(attr, type);
-                        // under work
-                        object content = null;
-                        
-                        if (!contentDict.Keys.Contains(field.hashCode))
-                        {
-                            contentDict.Add(field.hashCode, null);
-                        }
-                        else if (contentDict[field.hashCode] != null)
-                        {
-                            content = contentDict[field.hashCode];
-                            field.content = content;
-                        }
-
-                        // ############
 
                         ObservableCollection<Field> fields = new ObservableCollection<Field>();
                         fields.Add(field);
@@ -238,12 +196,12 @@ namespace HydroTaskpane2
         public List<string> dropdown { get; set; }
 
         public object content { get; set; }
-        public string hashCode { get; set; }
 
         public Field(string label, int type)
         {
-            this.hashCode = this.GetHashCode().ToString();
             this.label = label;
+            this.content = null;
+
             switch (type)
             {
                 case 0:
@@ -292,33 +250,6 @@ namespace HydroTaskpane2
             {
                 string[] fileContent = File.ReadAllLines(this.file).Where(l => l.Contains(";")).Select(l => l.Replace(";"," | ")).ToArray();
                 this.dropdown = new List<string>(fileContent);
-            }
-        }
-
-    }
-
-    public class FieldView : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
-
-        private object _controlValue;
-        public object controlValue
-        {
-            get { return _controlValue; }
-            set
-            {
-                _controlValue = value;
-                OnPropertyChanged(nameof(controlValue));
             }
         }
 
