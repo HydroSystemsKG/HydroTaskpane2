@@ -28,6 +28,37 @@
             <Setter Property="Orientation" Value="Horizontal"/>
             <Setter Property="Margin" Value="3 3 3 3"/>
         </Style>
+        <Style x:Key="NoSelectionListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,0,0,0"/>
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <!-- This removes focus visualization -->
+                        <Setter Property="Control.Template" Value="{x:Null}"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                            <!-- Some default triggers removed to avoid background changes on selection -->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <local:BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
+        <local:PercentageConverter x:Key="PercentageConverter"/>
     </Window.Resources>
 
     <Grid Name="TaskpaneGrid">
@@ -98,34 +129,45 @@
         <!-- Viasualization/changing structure will be presented in Grid.Row = 3, since Row 2 is the gridsplitter -->
 
         <Border Grid.Row="3"
-                    Background="#F7F7F7"
-                    BorderBrush="#00376b"
-                    BorderThickness="5,5,5,5">
+                Background="#F7F7F7"
+                BorderBrush="#00376b"
+                BorderThickness="5,5,5,5">
             
-            <ScrollViewer Name="AttrScrollViewer" VerticalScrollBarVisibility="Auto" Height="900">
-                
-                <Canvas Name="CanvasTxt">
-                    <TextBox Canvas.Left="50" Canvas.Top="50" Text="Hello" Width="300"/>
-                    <ComboBox Canvas.Left="50" Canvas.Top="25" Width="300" 
-                              IsDropDownOpen="False" 
-                              IsEditable="True"
-                              
-                              >
-                        <ComboBoxItem Content="One"/>
-                        <ComboBoxItem Content="Two"/>
-                        <ComboBoxItem Content="Three"/>
-                        <ComboBoxItem Content="Four"/>
-                        <ComboBoxItem Content="Five"/>
-                        <ComboBoxItem Content="Six"/>
-                        <ComboBoxItem Content="Seven"/>
-                        <ComboBoxItem Content="Eight"/>
-                        <ComboBoxItem Content="Nine"/>
-                        <ComboBoxItem Content="Ten"/>
-                    </ComboBox>
+            <ListBox x:Name="FieldsListBox" Background="#F7F7F7" ItemsSource="{Binding Path=SelectedItem.fields, ElementName=AttributeGroups}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource NoSelectionListBoxItemStyle}" />
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:AttributeField}">
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="{Binding label}" HorizontalAlignment="Left" Padding="0,5,5,5"/>
+                            <ComboBox Width="{Binding 
+                                               Converter={StaticResource PercentageConverter}, 
+                                               ElementName=FieldsListBox, 
+                                               Path=ActualWidth, 
+                                               ConverterParameter=0.9}" 
+                                      IsDropDownOpen="False" 
+                                      IsEditable="True" 
+                                      ItemsSource="{Binding dropdown}" 
+                                      Visibility="{Binding comboBoxControl, Converter={StaticResource BoolToVisConverter}}" 
+                                      IsTextSearchEnabled="True"
+                                      Name="{Binding hashCode}"/>
+                            <TextBox Width="{Binding 
+                                               Converter={StaticResource PercentageConverter}, 
+                                               ElementName=FieldsListBox, 
+                                               Path=ActualWidth, 
+                                               ConverterParameter=0.9}"  
+                                     Visibility="{Binding textBoxControl, Converter={StaticResource BoolToVisConverter}}"
+                                     Name="{Binding hashCode}"/>
+                            <CheckBox Content="{Binding label}" 
+                                      Visibility="{Binding checkBoxControl, Converter={StaticResource BoolToVisConverter}}"
+                                      Name="{Binding hashCode}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
 
-                </Canvas>
-
-            </ScrollViewer>
+            </ListBox>
+            
         </Border>
 
     </Grid>
