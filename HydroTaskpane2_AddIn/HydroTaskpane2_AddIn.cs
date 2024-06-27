@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SldWorks;
 using System.Runtime.InteropServices;
+using SldWorks;
 using SwConst;
 using SWPublished;
 using SolidWorksTools;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using _3DExperienceHydroFixPack;
+using HydroTaskpane2_AddIn.Load_Taskpane;
 
 namespace HydroTaskpane2_AddIn
 {
@@ -18,6 +22,8 @@ namespace HydroTaskpane2_AddIn
     public class HydroTaskpane2_AddIn : ISwAddin
     {
         SldWorks.SldWorks swApp;
+        public SldWorksOptionsEventHandler optionSet;
+        public LoadTaskpane loadTaskpane;
 
         #region COM Registration
         //
@@ -46,19 +52,55 @@ namespace HydroTaskpane2_AddIn
         }
         #endregion COM Registration
 
+        #region Solidworks Connection
+
         public bool ConnectToSW(object ThisSW, int Cookie)
         {
+            Debug.Print(" ::::::::::::::::::::::::");
+            Debug.Print(" :: Hydro Taskpane 2.0 ::");
+            Debug.Print(" ::::::::::::::::::::::::");
+
+            DateTime buildDate = new FileInfo(Assembly.GetExecutingAssembly().Location).LastWriteTime;
+
+            Debug.Print(" :: Hydro Taskpane 2.0 :: Version " + buildDate.ToString("yyyy-MM-dd HH:mm:ss"));
+            Debug.Print(" :: Hydro Taskpane 2.0 :: Loading Hydro Taskpane 2.0 AddIn in SldWorks...");
+
             swApp = (SldWorks.SldWorks)ThisSW;
+            swApp.SetAddinCallbackInfo(0, this, Cookie);
+            optionSet = new SldWorksOptionsEventHandler(swApp, OptionsFixPackClass.mainMethod, null);
+
+            //Load Taskpane
+            loadTaskpane = new LoadTaskpane(swApp);
+
+            //LoadTaskpane();
+
+            Debug.Print(" :: Hydro Taskpane 2.0 :: ...erledigt!");
 
             return true;
         }
 
         public bool DisconnectFromSW()
         {
+            // unload taskpane
+            loadTaskpane.DetachEventHandlers();
+            loadTaskpane = null;
+
+            // remove option setting
+            optionSet.FinishByDetach();
+            optionSet = null;
+
+            // Unload Taskpane
+            //UnloadTaskpane();
+
             swApp = null;
             GC.Collect();
 
             return true;
         }
+
+        #endregion
+
+
+
     }
 }

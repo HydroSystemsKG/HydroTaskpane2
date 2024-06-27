@@ -17,6 +17,7 @@ using System.Diagnostics;
 using HydroTaskpane2.Constants;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 
 namespace HydroTaskpane2
@@ -24,16 +25,36 @@ namespace HydroTaskpane2
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    [ProgId(IDClass.SWTASKPANE_PROGID)]
+    public partial class HydroTaskpane2_UI : Window
     {
         public static Dictionary<Tuple<string, int>, string> controlAttributeValues;
 
-        public MainWindow()
+        public HydroTaskpane2_UI()
         {
             InitializeComponent();
+        }
 
+        public void CustomInit()
+        {
             // populate treeview + populate fields
             populateTree();
+        }
+
+        public void hideTreeView(bool hide)
+        {
+            AttributeGroups.IsEnabled = hide;
+        }
+
+        public void disableTreeViewItem(string name, bool enabled)
+        {
+            foreach (AttributeGroup group in AttributeGroups.ItemsSource)
+            {
+                if (group.name.ToLower() == name.ToLower())
+                {
+                    group.enabled = enabled;
+                }
+            }
         }
 
         public int sortType(string key)
@@ -123,6 +144,7 @@ namespace HydroTaskpane2
         public string image { get; set; }
         public string space { get; set; }
         public string bold { get; set; }
+        public bool enabled { get; set; }
 
         public IList<object> Items
         {
@@ -170,6 +192,7 @@ namespace HydroTaskpane2
         {
             this.attributes = new ObservableCollection<AttributeField>();
             this.fields = new ObservableCollection<Field>();
+            this.enabled = true;
         }
     }
 

@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Constants\IDClass.cs" />
     <Compile Include="Variable\AttributeVariable.cs" />
     <Page Include="HydroTaskpane.xaml">
       <Generator>MSBuild:Compile</Generator>

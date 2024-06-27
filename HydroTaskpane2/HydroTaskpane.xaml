@@ -1,4 +1,4 @@
-﻿<Window x:Class="HydroTaskpane2.MainWindow"
+﻿<Window x:Class="HydroTaskpane2.HydroTaskpane2_UI"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:HydroTaskpane2"
         mc:Ignorable="d"
         Title="Hydro Taskpane"
-        x:Name="HydroTaskpaneV2"
+        x:Name="HydroTaskpane2"
         Height="959"
         MinHeight="428"
         Width="448"
@@ -95,7 +95,7 @@
 
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type local:AttributeGroup}" ItemsSource="{Binding Items}">
-                    <StackPanel>
+                    <StackPanel IsEnabled="{Binding enabled}">
                         <StackPanel.Resources>
                             <Style TargetType="StackPanel" BasedOn="{StaticResource ResourceKey=StackPanelStyle}"/>
                         </StackPanel.Resources>
