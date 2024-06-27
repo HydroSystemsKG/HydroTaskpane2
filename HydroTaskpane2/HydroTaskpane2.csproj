@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="HydroTaskpane2_AddIn.cs" />
     <Compile Include="Variable\AttributeVariable.cs" />
     <Page Include="HydroTaskpane.xaml">
       <Generator>MSBuild:Compile</Generator>
