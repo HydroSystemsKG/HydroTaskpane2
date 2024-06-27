@@ -24,7 +24,7 @@ namespace _3DExperienceHydroFixPack
             get { return swApp; }
             set { swApp = value; }
         }
-        
+
 
         private static Dictionary<string, int> pdmOptionsDict = new Dictionary<string, int>
         {
@@ -40,6 +40,8 @@ namespace _3DExperienceHydroFixPack
             {"ChooseOpenMode", 1}, // checked
         };
 
+        public static string databasePath = @"C:\Program Files\SolidWorks\Hydro\Toolbox_Hydro-Systems_local_3dx\lang\english\SWBrowser.sldedb";
+
         #endregion
 
         public OptionsClass(SldWorks.SldWorks swAppI)
@@ -52,6 +54,9 @@ namespace _3DExperienceHydroFixPack
             try
             {
                 // change all options
+                // pdf color
+                changePDFColor();
+
                 // toolbox
                 changeToolboxSystemOptions();
 
@@ -60,6 +65,9 @@ namespace _3DExperienceHydroFixPack
 
                 // PDM
                 changePDMOptions();
+
+                // additional changes
+                changeAdditionalSettings();
             }
             catch (Exception e)
             {
@@ -68,7 +76,7 @@ namespace _3DExperienceHydroFixPack
         }
 
         #region change options 
-        
+
         private static void changeToolboxSystemOptions()
         {
             // set system options
@@ -80,29 +88,27 @@ namespace _3DExperienceHydroFixPack
             swApp.SetUserPreferenceToggle((int)swUserPreferenceToggle_e.swUseFolderAsDefaultSearchLocation, false);
 
             // change toolbox browser path (Registry Key)
-            RegistryKey registryKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Solidworks\SOLIDWORKS 2021\SolidWorks Toolbox Browser", RegistryKeyPermissionCheck.ReadWriteSubTree);
-
-            string[] valueNames = registryKey.GetValueNames();
-            foreach (string subKey in valueNames)
+            string cpfPath = toolboxRegistryPath();
+            try
             {
-                if (subKey == "CopyFileDirectory")
-                {
-                    object value = toolboxRegistryPath();
-
-                    object keyValue = registryKey.GetValue(subKey);
-
-                    if (keyValue != value)
-                    {
-                        registryKey.SetValue(subKey, value);
-                        Debug.WriteLine($"SUBKEY: {subKey}; VALUE: {value.ToString()}");
-                    }
-
-                    break;
-                }
+                changeToolboxDatabase();
+            }
+            catch (Exception e)
+            {
+                Debug.Print($"::: OptionsClass ::: changeToolboxSystemOptions ::: failed to change toolbox database - {e.ToString()} :::");
             }
 
-            registryKey.Close();
-            registryKey = null;
+        }
+
+        private static void changeAdditionalSettings()
+        {
+            // turn "3D Interconnect" checkbox off - Systemoptions : General : Import
+            swApp.SetUserPreferenceToggle((int)swUserPreferenceToggle_e.swMultiCAD_Enable3DInterconnect, false);
+        }
+
+        private static void changePDFColor()
+        {
+            swApp.SetUserPreferenceToggle((int)swUserPreferenceToggle_e.swPDFExportInColor, false);
         }
 
         private static void changeReferencedDocuments()
@@ -164,7 +170,24 @@ namespace _3DExperienceHydroFixPack
             subregistryKey = null;
 
         }
-        
+
+        private static void changeToolboxDatabase()
+        {
+            // call exe from ToolboxQuery
+            string processPath = @"\\CAD_DE_SW\D_sw-pool\Hydro\System-Optionen\Macros\ToolboxQuery\ToolboxQuery\ToolboxQuery\bin\Release\ToolboxQuery.exe";
+
+            ProcessStartInfo info = new ProcessStartInfo(processPath)
+            {
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            Process process = new Process();
+            process.StartInfo = info;
+            process.Start();
+        }
+
         #endregion
 
         #region path tools
@@ -180,7 +203,7 @@ namespace _3DExperienceHydroFixPack
         public static string cachePath()
         {
             string user = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToLower().Split('\\').Last();
-            string cache = $@"D:\3DEXPERIENCE\OnPremise({user})\";
+            string cache = $@"D:\3DEXPERIENCE\OnPremise({user})";
 
             return cache;
 
