@@ -52,36 +52,6 @@ namespace HydroTaskpane2
             return type;
         }
 
-        #region save and load json file
-
-        public static void importDict()
-        {
-
-            Dictionary<Tuple<string, int>, string> jsonDict;
-        }
-
-        public static void SaveObject(object saveObject, string filePath)
-        {
-            using (StreamWriter file = File.CreateText(filePath))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Formatting = Formatting.Indented;
-                serializer.Serialize(file, saveObject);
-            }
-        }
-
-        public static Dictionary<Tuple<string, int>, string> LoadCustomDict(string jsonPath)
-        {
-            Dictionary<Tuple<string, int>, string> keyValuePairs;
-
-            var text = File.ReadAllText(jsonPath);
-            keyValuePairs = JsonConvert.DeserializeObject<Dictionary<Tuple<string, int>, string>>(text);
-
-            return keyValuePairs;
-        }
-
-        #endregion
-
         #region TreeView methods and classes
         public void populateTree()
         {
