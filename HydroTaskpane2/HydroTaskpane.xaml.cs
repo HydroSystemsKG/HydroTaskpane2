@@ -44,7 +44,16 @@ namespace HydroTaskpane2
 
         public void hideTreeView(bool hide)
         {
-            AttributeGroups.IsEnabled = hide;
+            AttributeGroups.IsEnabled = !hide;
+
+            if (hide)
+            {
+                AttributeGroups.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                AttributeGroups.Visibility = Visibility.Visible;
+            }
         }
 
         

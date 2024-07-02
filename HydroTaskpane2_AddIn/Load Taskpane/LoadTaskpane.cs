@@ -36,14 +36,15 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             {
                 Debug.Print($" :: Hydro Taskpane 2.0 :: Failed to create taskpaneview... Exception Type[{e.GetType().ToString()}]; {e.ToString()}");
             }
-            
-            //AttachEventHandlers();
+
+            // Set up events
+            Debug.Print(" :: Hydro Taskpane 2.0 :: Add Events...");
+            AttachEventHandlers();
         }
 
         private void createTaskpane()
         {
             // Create taskpane
-
             Debug.Print(" :: Hydro Taskpane 2.0 :: Load taskpane...");
 
             string[] iconpaths = new string[3];
@@ -64,10 +65,6 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
             // add taskpane host control to view
             addHost(iconpaths, title);
-
-            // Set up events
-            Debug.Print(" :: Hydro Taskpane 2.0 :: Add Events...");
-            AttachEventHandlers();
         }
 
         private void addHost(string[] iconpaths, string title)
@@ -77,8 +74,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
             Debug.Print(" :: Hydro Taskpane 2.0 :: Add Controls...");
             this.taskpane = new HydroTaskpane2_UI();
-
-
+            
             ElementHost element = new CustomElementHost
             {
                 Child = this.taskpane,
@@ -132,20 +128,31 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
             if (swModel == null)
             {
-                taskpane.hideTreeView(true);
+                try
+                {
+                    Debug.Print(" :: Hydro Taskpane 2.0 :: swTaskPane_TaskPaneActivateNotify :: Hide TreeView... ::");
+                    taskpane.hideTreeView(true);
+                }
+                catch (Exception e)
+                {
+                    Debug.Print($" :: Hydro Taskpane 2.0 :: swTaskPane_TaskPaneActivateNotify :: ...Exception Type[{e.GetType().ToString()}]; {e.ToString()} ::");
+                }
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocPART)
             {
+                taskpane.hideTreeView(false);
                 taskpane.disableTreeViewItem("assembly", false);
                 taskpane.disableTreeViewItem("drawing", false);
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
             {
+                taskpane.hideTreeView(false);
                 taskpane.disableTreeViewItem("part", false);
                 taskpane.disableTreeViewItem("drawing", false);
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
             {
+                taskpane.hideTreeView(false);
                 taskpane.disableTreeViewItem("part", false);
                 taskpane.disableTreeViewItem("assembly", false);
             }
