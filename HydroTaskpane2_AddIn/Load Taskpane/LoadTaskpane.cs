@@ -106,7 +106,8 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             swTaskpaneView = null;
         }
 
-        
+        #region attach + detach Handlers
+
         private void AttachEventHandlers()
         {
             this.swTaskpaneView.TaskPaneActivateNotify += swTaskPane_TaskPaneActivateNotify;
@@ -120,10 +121,11 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             this.swTaskpaneView.TaskPaneDeactivateNotify -= swTaskPane_TaskPaneDeactivateNotify;
             this.swTaskpaneView.TaskPaneDestroyNotify -= swTaskPane_TaskPaneDestroyNotify;
         }
-        
+
+        #endregion
 
         #region Load taskpane event handlers
-        
+
         private int swTaskPane_TaskPaneActivateNotify()
         {
             ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
