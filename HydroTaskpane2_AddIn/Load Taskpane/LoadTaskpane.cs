@@ -102,6 +102,10 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             swTaskpaneView = null;
         }
 
+        #region hide controls
+
+        #endregion
+
         #region attach + detach Handlers
 
         private void AttachEventHandlers()
@@ -132,17 +136,30 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
                 {
                     Debug.Print(" :: Hydro Taskpane 2.0 :: swTaskPane_TaskPaneActivateNotify :: Hide TreeView... ::");
                     taskpane.hideTreeView(true);
+                    taskpane.hideControls(true);
+
+                    return 1;
                 }
                 catch (Exception e)
                 {
                     Debug.Print($" :: Hydro Taskpane 2.0 :: swTaskPane_TaskPaneActivateNotify :: ...Exception Type[{e.GetType().ToString()}]; {e.ToString()} ::");
                 }
             }
-            else if (swModel.GetType() == (int)swDocumentTypes_e.swDocPART)
+
+            taskpane.hideTreeView(false);
+            taskpane.hideControls(false);
+
+            if (swModel.GetType() == (int)swDocumentTypes_e.swDocPART)
             {
-                taskpane.hideTreeView(false);
-                taskpane.disableTreeViewItem("assembly", false);
-                taskpane.disableTreeViewItem("drawing", false);
+                try
+                {
+                    taskpane.disableTreeViewItem("assembly", false);
+                    taskpane.disableTreeViewItem("drawing", false);
+                }
+                catch(Exception e)
+                {
+                    Debug.Print($" :: Hydro Taskpane 2.0 :: swTaskPane_TaskPaneActivateNotify :: Part ...Exception Type[{e.GetType().ToString()}]; {e.ToString()} ::");
+                }
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
             {
@@ -156,6 +173,9 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
                 taskpane.disableTreeViewItem("part", false);
                 taskpane.disableTreeViewItem("assembly", false);
             }
+
+            taskpane.hideTreeView(false);
+            taskpane.hideControls(false);
 
             return 0;
         }

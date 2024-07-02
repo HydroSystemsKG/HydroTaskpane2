@@ -42,6 +42,8 @@ namespace HydroTaskpane2
             populateTree();
         }
 
+        #region hide controls
+
         public void hideTreeView(bool hide)
         {
             AttributeGroups.IsEnabled = !hide;
@@ -56,7 +58,30 @@ namespace HydroTaskpane2
             }
         }
 
-        
+        public void hideControls(bool hide)
+        {
+            if (hide)
+            {
+                if (FieldsListBox.Items.Count > 0)
+                {
+                    foreach (Field field in this.FieldsListBox.Items)
+                    {
+                        Debug.Print($"::: Erasing Field content: [{field.label}] - [{field.content}] ::: ");
+                        field.content = null;
+                    }
+                }
+
+                FieldsListBox.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                FieldsListBox.Items.Refresh();
+                FieldsListBox.Visibility = Visibility.Visible;
+            }
+        }
+
+        #endregion
+
         public void disableTreeViewItem(string name, bool enabled)
         {
             foreach (AttributeGroup group in AttributeGroups.ItemsSource)
