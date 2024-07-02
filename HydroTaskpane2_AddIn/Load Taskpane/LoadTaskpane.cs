@@ -12,6 +12,7 @@ using System.Diagnostics;
 using HydroTaskpane2;
 using HydroTaskpane2.Constants;
 using System.Runtime.InteropServices;
+using HydroTaskpane2_AddIn.Host;
 
 namespace HydroTaskpane2_AddIn.Load_Taskpane
 {
@@ -77,7 +78,8 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             Debug.Print(" :: Hydro Taskpane 2.0 :: Add Controls...");
             this.taskpane = new HydroTaskpane2_UI();
 
-            ElementHost element = new ElementHost
+
+            ElementHost element = new CustomElementHost
             {
                 Child = this.taskpane,
                 Dock = System.Windows.Forms.DockStyle.Fill

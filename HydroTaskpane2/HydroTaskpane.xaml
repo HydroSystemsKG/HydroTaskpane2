@@ -6,9 +6,7 @@
         xmlns:local="clr-namespace:HydroTaskpane2"
         mc:Ignorable="d"
         x:Name="HydroTaskpane2"
-        Height="959"
         MinHeight="428"
-        Width="448"
         MinWidth="428"
         Background="Transparent">
     <UserControl.Resources>
