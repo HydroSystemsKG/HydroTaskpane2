@@ -145,6 +145,7 @@
                                       ItemsSource="{Binding dropdown}" 
                                       Visibility="{Binding comboBoxControl, Converter={StaticResource BoolToVisConverter}}" 
                                       IsTextSearchEnabled="True"
+                                      Height="{Binding height}"
                                       Text="{Binding content}"/>
                             <TextBox Width="{Binding 
                                                Converter={StaticResource PercentageConverter}, 
@@ -152,7 +153,9 @@
                                                Path=ActualWidth, 
                                                ConverterParameter=0.9}"  
                                      Visibility="{Binding textBoxControl, Converter={StaticResource BoolToVisConverter}}"
-                                     Text="{Binding content}"/>
+                                     Height="{Binding height}"
+                                     Text="{Binding content}"
+                                     VerticalContentAlignment="Center"/>
                             <CheckBox Content="{Binding label}" 
                                       Visibility="{Binding checkBoxControl, Converter={StaticResource BoolToVisConverter}}"
                                       IsChecked="{Binding content}"/>

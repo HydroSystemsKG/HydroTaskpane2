@@ -67,7 +67,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
             // Set up events
             Debug.Print(" :: Hydro Taskpane 2.0 :: Add Events...");
-            //AttachEventHandlers();
+            AttachEventHandlers();
         }
 
         private void addHost(string[] iconpaths, string title)
@@ -92,6 +92,8 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
         public void unloadTaskpane()
         {
+            // detach event handlers
+            DetachEventHandlers();
             taskpane = null;
 
             // delete taskpaneview...
@@ -104,7 +106,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             swTaskpaneView = null;
         }
 
-        /*
+        
         private void AttachEventHandlers()
         {
             this.swTaskpaneView.TaskPaneActivateNotify += swTaskPane_TaskPaneActivateNotify;
@@ -118,32 +120,32 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             this.swTaskpaneView.TaskPaneDeactivateNotify -= swTaskPane_TaskPaneDeactivateNotify;
             this.swTaskpaneView.TaskPaneDestroyNotify -= swTaskPane_TaskPaneDestroyNotify;
         }
-        */
+        
 
         #region Load taskpane event handlers
-        /*
+        
         private int swTaskPane_TaskPaneActivateNotify()
         {
             ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
 
             if (swModel == null)
             {
-                taskpane_ui.hydroTaskpane.hideTreeView(true);
+                taskpane.hideTreeView(true);
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocPART)
             {
-                taskpane_ui.hydroTaskpane.disableTreeViewItem("assembly", false);
-                taskpane_ui.hydroTaskpane.disableTreeViewItem("drawing", false);
+                taskpane.disableTreeViewItem("assembly", false);
+                taskpane.disableTreeViewItem("drawing", false);
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
             {
-                taskpane_ui.hydroTaskpane.disableTreeViewItem("part", false);
-                taskpane_ui.hydroTaskpane.disableTreeViewItem("drawing", false);
+                taskpane.disableTreeViewItem("part", false);
+                taskpane.disableTreeViewItem("drawing", false);
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
             {
-                taskpane_ui.hydroTaskpane.disableTreeViewItem("part", false);
-                taskpane_ui.hydroTaskpane.disableTreeViewItem("assembly", false);
+                taskpane.disableTreeViewItem("part", false);
+                taskpane.disableTreeViewItem("assembly", false);
             }
 
             return 0;
@@ -160,7 +162,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             Debug.Print(" :: Hydro Taskpane 2.0 :: TaskPaneDestroyNotify...");
             return 1;
         }
-        */
+        
         #endregion
     }
 }

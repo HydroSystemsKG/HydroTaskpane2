@@ -224,11 +224,14 @@ namespace HydroTaskpane2
 
         public object content { get; set; }
 
+        public string height { get; set; }
+
         public Field(string label, int type)
         {
             this.label = label;
             this.content = null;
             this.dataType = type;
+            this.height = "20";
 
             switch (type)
             {
