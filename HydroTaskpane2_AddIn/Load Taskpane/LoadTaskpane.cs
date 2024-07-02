@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.Integration;
 using SldWorks;
 using SwConst;
 using SWPublished;
@@ -10,23 +11,32 @@ using SolidWorksTools;
 using System.Diagnostics;
 using HydroTaskpane2;
 using HydroTaskpane2.Constants;
+using System.Runtime.InteropServices;
 
 namespace HydroTaskpane2_AddIn.Load_Taskpane
 {
+    [ComVisible(true)]
     public class LoadTaskpane
     {
         public SldWorks.SldWorks swApp { get; set; }
-        public TaskpaneView swTaskpaneView { get; set; }
 
-        private HydroTaskpane2_UI taskpane_ui;
-        public const string SWTASKPANE_PROGID = IDClass.SWTASKPANE_PROGID;
+        private TaskpaneView swTaskpaneView { get; set; }
+        private HydroTaskpane2_UI taskpane { get; set; }
 
         public LoadTaskpane(SldWorks.SldWorks swApp)
         {
             this.swApp = swApp;
 
-            createTaskpane();
-            AttachEventHandlers();
+            try
+            {
+                createTaskpane();
+            }
+            catch(Exception e)
+            {
+                Debug.Print($" :: Hydro Taskpane 2.0 :: Failed to create taskpaneview... Exception Type[{e.GetType().ToString()}]; {e.ToString()}");
+            }
+            
+            //AttachEventHandlers();
         }
 
         private void createTaskpane()
@@ -48,22 +58,51 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             iconpaths[1] = iconpath + iconname + mediumImage.ToString() + ".png";
             iconpaths[2] = iconpath + iconname + largeImage.ToString() + ".png";
 
+            string title = "Hydro Taskpane 2.0";
             Debug.Print(" :: Hydro Taskpane 2.0 :: Loading icons " + iconpaths[0] + ", " + iconpaths[1] + " and " + iconpaths[2] + "...");
 
-            Debug.Print(" :: Hydro Taskpane 2.0 :: Create taskpane...");
-            swTaskpaneView = (TaskpaneView)swApp.CreateTaskpaneView3(iconpaths, "Hydro Taskpane");
-
-            Debug.Print(" :: Hydro Taskpane 2.0 :: Add Controls...");
-            taskpane_ui = (HydroTaskpane2_UI)swTaskpaneView.AddControl(SWTASKPANE_PROGID, string.Empty);
-
-            Debug.Print(" :: Hydro Taskpane 2.0 :: Initialization...");
-            taskpane_ui.CustomInit();
+            // add taskpane host control to view
+            addHost(iconpaths, title);
 
             // Set up events
             Debug.Print(" :: Hydro Taskpane 2.0 :: Add Events...");
             //AttachEventHandlers();
         }
 
+        private void addHost(string[] iconpaths, string title)
+        {
+            Debug.Print(" :: Hydro Taskpane 2.0 :: Create taskpane...");
+            swTaskpaneView = (TaskpaneView)swApp.CreateTaskpaneView3(iconpaths, title);
+
+            Debug.Print(" :: Hydro Taskpane 2.0 :: Add Controls...");
+            this.taskpane = new HydroTaskpane2_UI();
+
+            ElementHost element = new ElementHost
+            {
+                Child = this.taskpane,
+                Dock = System.Windows.Forms.DockStyle.Fill
+            };
+
+            this.swTaskpaneView.DisplayWindowFromHandlex64(element.Handle.ToInt64());
+
+            this.taskpane.CustomInit();
+        }
+
+        public void unloadTaskpane()
+        {
+            taskpane = null;
+
+            // delete taskpaneview...
+            swTaskpaneView.DeleteView();
+
+            // ...release COM Object...
+            Marshal.ReleaseComObject(swTaskpaneView);
+
+            // ... and set to null
+            swTaskpaneView = null;
+        }
+
+        /*
         private void AttachEventHandlers()
         {
             this.swTaskpaneView.TaskPaneActivateNotify += swTaskPane_TaskPaneActivateNotify;
@@ -77,42 +116,32 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             this.swTaskpaneView.TaskPaneDeactivateNotify -= swTaskPane_TaskPaneDeactivateNotify;
             this.swTaskpaneView.TaskPaneDestroyNotify -= swTaskPane_TaskPaneDestroyNotify;
         }
-
-        private void unloadTaskpane()
-        {
-            taskpane_ui = null;
-
-            // delete taskpaneview...
-            swTaskpaneView.DeleteView();
-
-            // ... and set to null
-            swTaskpaneView = null;
-        }
+        */
 
         #region Load taskpane event handlers
-
+        /*
         private int swTaskPane_TaskPaneActivateNotify()
         {
             ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
 
             if (swModel == null)
             {
-                taskpane_ui.hideTreeView(true);
+                taskpane_ui.hydroTaskpane.hideTreeView(true);
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocPART)
             {
-                taskpane_ui.disableTreeViewItem("assembly", false);
-                taskpane_ui.disableTreeViewItem("drawing", false);
+                taskpane_ui.hydroTaskpane.disableTreeViewItem("assembly", false);
+                taskpane_ui.hydroTaskpane.disableTreeViewItem("drawing", false);
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
             {
-                taskpane_ui.disableTreeViewItem("part", false);
-                taskpane_ui.disableTreeViewItem("drawing", false);
+                taskpane_ui.hydroTaskpane.disableTreeViewItem("part", false);
+                taskpane_ui.hydroTaskpane.disableTreeViewItem("drawing", false);
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
             {
-                taskpane_ui.disableTreeViewItem("part", false);
-                taskpane_ui.disableTreeViewItem("assembly", false);
+                taskpane_ui.hydroTaskpane.disableTreeViewItem("part", false);
+                taskpane_ui.hydroTaskpane.disableTreeViewItem("assembly", false);
             }
 
             return 0;
@@ -129,7 +158,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             Debug.Print(" :: Hydro Taskpane 2.0 :: TaskPaneDestroyNotify...");
             return 1;
         }
-
+        */
         #endregion
     }
 }

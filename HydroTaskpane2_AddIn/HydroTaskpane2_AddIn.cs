@@ -23,7 +23,7 @@ namespace HydroTaskpane2_AddIn
     {
         SldWorks.SldWorks swApp;
         public SldWorksOptionsEventHandler optionSet;
-        public LoadTaskpane loadTaskpane;
+        public LoadTaskpane load { get; set; }
 
         #region COM Registration
         //
@@ -67,12 +67,10 @@ namespace HydroTaskpane2_AddIn
 
             swApp = (SldWorks.SldWorks)ThisSW;
             swApp.SetAddinCallbackInfo(0, this, Cookie);
-            optionSet = new SldWorksOptionsEventHandler(swApp, OptionsFixPackClass.mainMethod, null);
+            //optionSet = new SldWorksOptionsEventHandler(swApp, OptionsFixPackClass.mainMethod, null);
 
             //Load Taskpane
-            loadTaskpane = new LoadTaskpane(swApp);
-
-            //LoadTaskpane();
+            this.load = new LoadTaskpane(swApp);
 
             Debug.Print(" :: Hydro Taskpane 2.0 :: ...erledigt!");
 
@@ -82,15 +80,11 @@ namespace HydroTaskpane2_AddIn
         public bool DisconnectFromSW()
         {
             // unload taskpane
-            loadTaskpane.DetachEventHandlers();
-            loadTaskpane = null;
+            this.load.unloadTaskpane();
 
             // remove option setting
-            optionSet.FinishByDetach();
-            optionSet = null;
-
-            // Unload Taskpane
-            //UnloadTaskpane();
+            //optionSet.FinishByDetach();
+            //optionSet = null;
 
             swApp = null;
             GC.Collect();
@@ -99,8 +93,6 @@ namespace HydroTaskpane2_AddIn
         }
 
         #endregion
-
-
 
     }
 }

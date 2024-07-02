@@ -25,10 +25,11 @@ namespace HydroTaskpane2
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml
     /// </summary>
-    [ProgId(IDClass.SWTASKPANE_PROGID)]
-    public partial class HydroTaskpane2_UI : Window
+    [ProgId(intProgID)]
+    public partial class HydroTaskpane2_UI : UserControl
     {
         public static Dictionary<Tuple<string, int>, string> controlAttributeValues;
+        private const string intProgID = "HydroTaskpane2.Taskpane.UI";
 
         public HydroTaskpane2_UI()
         {
@@ -46,6 +47,7 @@ namespace HydroTaskpane2
             AttributeGroups.IsEnabled = hide;
         }
 
+        
         public void disableTreeViewItem(string name, bool enabled)
         {
             foreach (AttributeGroup group in AttributeGroups.ItemsSource)
@@ -86,9 +88,9 @@ namespace HydroTaskpane2
 
             Dictionary<string, string> images = new Dictionary<string, string>
             {
-                {"Part", @"C:\Users\amenzel\source\repos\HydroTaskpane2\HydroTaskpane2\Images\part_icon_sldworks.png"},
-                {"Assembly", @"C:\Users\amenzel\source\repos\HydroTaskpane2\HydroTaskpane2\Images\assembly_icon_sldworks.png"},
-                {"Drawing", @"C:\Users\amenzel\source\repos\HydroTaskpane2\HydroTaskpane2\Images\drawing_icon_sldworks.png"}
+                {"Part", @"\\CAD_DE_SW\D_sw-pool\Hydro\System-Optionen\Macros\HydroTaskpane2\HydroTaskpane2\Images\part_icon_sldworks.png"},
+                {"Assembly", @"\\CAD_DE_SW\D_sw-pool\Hydro\System-Optionen\Macros\HydroTaskpane2\HydroTaskpane2\Images\assembly_icon_sldworks.png"},
+                {"Drawing", @"\\CAD_DE_SW\D_sw-pool\Hydro\System-Optionen\Macros\HydroTaskpane2\HydroTaskpane2\Images\drawing_icon_sldworks.png"}
             };
 
             foreach (string groupName in groupReference.Keys)

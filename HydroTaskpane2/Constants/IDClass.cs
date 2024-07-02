@@ -8,7 +8,7 @@ namespace HydroTaskpane2.Constants
 {
     public class IDClass
     {
-        public const string SWTASKPANE_PROGID = "Hydro.SolidworksAddin.Taskpane2.UI";
+        public const string SWTASKPANE_PROGID = "HydroTaskpane2.HydroTaskpane2_UI";
 
     }
 }
