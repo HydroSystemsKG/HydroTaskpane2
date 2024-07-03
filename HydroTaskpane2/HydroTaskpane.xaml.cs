@@ -29,6 +29,7 @@ namespace HydroTaskpane2
     public partial class HydroTaskpane2_UI : UserControl
     {
         public static Dictionary<Tuple<string, int>, string> controlAttributeValues;
+        public ObservableCollection<AttributeGroup> groups;
         private const string intProgID = "HydroTaskpane2.Taskpane.UI";
 
         public HydroTaskpane2_UI()
@@ -84,13 +85,20 @@ namespace HydroTaskpane2
 
         public void disableTreeViewItem(string name, bool enabled)
         {
-            foreach (AttributeGroup group in AttributeGroups.ItemsSource)
+            foreach (AttributeGroup attrGroup in AttributeGroups.Items)
             {
-                if (group.name.ToLower() == name.ToLower())
+                if (attrGroup.name.ToLower() == name.ToLower())
                 {
-                    group.enabled = enabled;
+                    var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(attrGroup) as TreeViewItem;
+
+                    if (treeViewItem != null)
+                    {
+                        treeViewItem.IsEnabled = enabled;
+                    }
                 }
             }
+            
+            AttributeGroups.UpdateLayout();
         }
 
         public int sortType(string key)
@@ -112,7 +120,7 @@ namespace HydroTaskpane2
         #region TreeView methods and classes
         public void populateTree()
         {
-            List<AttributeGroup> groups = new List<AttributeGroup>();
+            groups = new ObservableCollection<AttributeGroup>();
             Dictionary<string, Dictionary<string, List<string>>> groupReference = new Dictionary<string, Dictionary<string, List<string>>>
             {
                 {"Part", AttributeConstants.partDict},

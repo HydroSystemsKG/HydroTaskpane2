@@ -51,6 +51,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DebugBuilder.cs" />
     <Compile Include="Host\CustomElementHost.cs" />
     <Compile Include="HydroTaskpane2_AddIn.cs" />
     <Compile Include="Load Taskpane\LoadTaskpane.cs" />

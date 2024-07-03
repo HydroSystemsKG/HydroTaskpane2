@@ -73,6 +73,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             swTaskpaneView = (TaskpaneView)swApp.CreateTaskpaneView3(iconpaths, title);
 
             Debug.Print(" :: Hydro Taskpane 2.0 :: Add Controls...");
+
             this.taskpane = new HydroTaskpane2_UI();
             
             ElementHost element = new CustomElementHost
@@ -153,6 +154,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             {
                 try
                 {
+                    taskpane.disableTreeViewItem("part", true);
                     taskpane.disableTreeViewItem("assembly", false);
                     taskpane.disableTreeViewItem("drawing", false);
                 }
@@ -163,19 +165,16 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
             {
-                taskpane.hideTreeView(false);
                 taskpane.disableTreeViewItem("part", false);
+                taskpane.disableTreeViewItem("assembly", true);
                 taskpane.disableTreeViewItem("drawing", false);
             }
             else if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
             {
-                taskpane.hideTreeView(false);
                 taskpane.disableTreeViewItem("part", false);
                 taskpane.disableTreeViewItem("assembly", false);
+                taskpane.disableTreeViewItem("drawing", true);
             }
-
-            taskpane.hideTreeView(false);
-            taskpane.hideControls(false);
 
             return 0;
         }
