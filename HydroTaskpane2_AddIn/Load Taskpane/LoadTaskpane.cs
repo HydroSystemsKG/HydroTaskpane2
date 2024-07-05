@@ -12,7 +12,9 @@ using System.Diagnostics;
 using HydroTaskpane2;
 using HydroTaskpane2.Constants;
 using System.Runtime.InteropServices;
+using HydroTaskpane2_AddIn.Event_Handlers;
 using HydroTaskpane2_AddIn.Host;
+using System.IO;
 
 namespace HydroTaskpane2_AddIn.Load_Taskpane
 {
@@ -23,6 +25,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
         private TaskpaneView swTaskpaneView { get; set; }
         private HydroTaskpane2_UI taskpane { get; set; }
+        private TaskpaneEventHandlers handlers { get; set; }
 
         public LoadTaskpane(SldWorks.SldWorks swApp)
         {
@@ -39,7 +42,8 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
             // Set up events
             Debug.Print(" :: Hydro Taskpane 2.0 :: Add Events...");
-            AttachEventHandlers();
+            handlers = new TaskpaneEventHandlers(swApp, swTaskpaneView, taskpane);
+            handlers.StartByAttach();
         }
 
         private void createTaskpane()
@@ -90,7 +94,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
         public void unloadTaskpane()
         {
             // detach event handlers
-            DetachEventHandlers();
+            handlers.FinishByDetach();
             taskpane = null;
 
             // delete taskpaneview...
@@ -103,94 +107,5 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             swTaskpaneView = null;
         }
 
-        #region hide controls
-
-        #endregion
-
-        #region attach + detach Handlers
-
-        private void AttachEventHandlers()
-        {
-            this.swTaskpaneView.TaskPaneActivateNotify += swTaskPane_TaskPaneActivateNotify;
-            this.swTaskpaneView.TaskPaneDeactivateNotify += swTaskPane_TaskPaneDeactivateNotify;
-            this.swTaskpaneView.TaskPaneDestroyNotify += swTaskPane_TaskPaneDestroyNotify;
-        }
-
-        public void DetachEventHandlers()
-        {
-            this.swTaskpaneView.TaskPaneActivateNotify -= swTaskPane_TaskPaneActivateNotify;
-            this.swTaskpaneView.TaskPaneDeactivateNotify -= swTaskPane_TaskPaneDeactivateNotify;
-            this.swTaskpaneView.TaskPaneDestroyNotify -= swTaskPane_TaskPaneDestroyNotify;
-        }
-
-        #endregion
-
-        #region Load taskpane event handlers
-
-        private int swTaskPane_TaskPaneActivateNotify()
-        {
-            ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
-
-            if (swModel == null)
-            {
-                try
-                {
-                    Debug.Print(" :: Hydro Taskpane 2.0 :: swTaskPane_TaskPaneActivateNotify :: Hide TreeView... ::");
-                    taskpane.hideTreeView(true);
-                    taskpane.hideControls(true);
-
-                    return 1;
-                }
-                catch (Exception e)
-                {
-                    Debug.Print($" :: Hydro Taskpane 2.0 :: swTaskPane_TaskPaneActivateNotify :: ...Exception Type[{e.GetType().ToString()}]; {e.ToString()} ::");
-                }
-            }
-
-            taskpane.hideTreeView(false);
-            taskpane.hideControls(false);
-
-            if (swModel.GetType() == (int)swDocumentTypes_e.swDocPART)
-            {
-                try
-                {
-                    taskpane.disableTreeViewItem("part", true);
-                    taskpane.disableTreeViewItem("assembly", false);
-                    taskpane.disableTreeViewItem("drawing", false);
-                }
-                catch(Exception e)
-                {
-                    Debug.Print($" :: Hydro Taskpane 2.0 :: swTaskPane_TaskPaneActivateNotify :: Part ...Exception Type[{e.GetType().ToString()}]; {e.ToString()} ::");
-                }
-            }
-            else if (swModel.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
-            {
-                taskpane.disableTreeViewItem("part", false);
-                taskpane.disableTreeViewItem("assembly", true);
-                taskpane.disableTreeViewItem("drawing", false);
-            }
-            else if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
-            {
-                taskpane.disableTreeViewItem("part", false);
-                taskpane.disableTreeViewItem("assembly", false);
-                taskpane.disableTreeViewItem("drawing", true);
-            }
-
-            return 0;
-        }
-
-        private int swTaskPane_TaskPaneDeactivateNotify()
-        {
-            Debug.Print(" :: Hydro Taskpane 2.0 :: TaskPaneDeactivateNotify...");
-            return 1;
-        }
-
-        private int swTaskPane_TaskPaneDestroyNotify()
-        {
-            Debug.Print(" :: Hydro Taskpane 2.0 :: TaskPaneDestroyNotify...");
-            return 1;
-        }
-        
-        #endregion
     }
 }

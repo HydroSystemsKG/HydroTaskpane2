@@ -30,6 +30,7 @@ namespace HydroTaskpane2
     {
         public static Dictionary<Tuple<string, int>, string> controlAttributeValues;
         public ObservableCollection<AttributeGroup> groups;
+
         private const string intProgID = "HydroTaskpane2.Taskpane.UI";
 
         public HydroTaskpane2_UI()
@@ -43,67 +44,57 @@ namespace HydroTaskpane2
             populateTree();
         }
 
-        #region hide controls
+        #region hide content
+
+        public void hideContent(bool hide)
+        {
+            hideTreeView(hide);
+            removeSelection();
+        }
 
         public void hideTreeView(bool hide)
         {
             AttributeGroups.IsEnabled = !hide;
+        }
 
-            if (hide)
+        public void hideTypeControls(int type, bool hide)
+        {
+            // disable type treeViewItem
+            foreach (AttributeGroup group in AttributeGroups.Items)
             {
-                AttributeGroups.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                AttributeGroups.Visibility = Visibility.Visible;
+                string groupName = group.name;
+                int groupType = sortType(groupName.ToLower());
+
+                var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
+
+                if (groupType == type)
+                {
+                    treeViewItem.IsEnabled = !hide;
+                }
+
+                treeViewItem.IsSelected = false;
             }
         }
 
-        public void hideControls(bool hide)
+        public void removeSelection()
         {
-            if (hide)
+            foreach (AttributeGroup group in AttributeGroups.Items)
             {
-                if (FieldsListBox.Items.Count > 0)
-                {
-                    foreach (Field field in this.FieldsListBox.Items)
-                    {
-                        Debug.Print($"::: Erasing Field content: [{field.label}] - [{field.content}] ::: ");
-                        field.content = null;
-                    }
-                }
+                string groupName = group.name;
+                int groupType = sortType(groupName.ToLower());
 
-                FieldsListBox.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                FieldsListBox.Items.Refresh();
-                FieldsListBox.Visibility = Visibility.Visible;
+                var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
+
+                treeViewItem.IsSelected = false;
+                treeViewItem.IsExpanded = false;
             }
         }
 
         #endregion
 
-        public void disableTreeViewItem(string name, bool enabled)
-        {
-            foreach (AttributeGroup attrGroup in AttributeGroups.Items)
-            {
-                if (attrGroup.name.ToLower() == name.ToLower())
-                {
-                    var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(attrGroup) as TreeViewItem;
-
-                    if (treeViewItem != null)
-                    {
-                        treeViewItem.IsEnabled = enabled;
-                    }
-                }
-            }
-            
-            AttributeGroups.UpdateLayout();
-        }
-
         public int sortType(string key)
         {
-            int type = 0;
+            int type = -1;
 
             if (key.ToLower() == "assembly")
             {
@@ -113,6 +104,10 @@ namespace HydroTaskpane2
             {
                 type = 2;
             }
+            else if (key.ToLower() == "part")
+            {
+                type = 0;
+            }
 
             return type;
         }
@@ -121,6 +116,7 @@ namespace HydroTaskpane2
         public void populateTree()
         {
             groups = new ObservableCollection<AttributeGroup>();
+
             Dictionary<string, Dictionary<string, List<string>>> groupReference = new Dictionary<string, Dictionary<string, List<string>>>
             {
                 {"Part", AttributeConstants.partDict},
