@@ -18,6 +18,9 @@ using HydroTaskpane2.Constants;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
+using SldWorks;
+using SwConst;
+using SwCommands;
 using Newtonsoft.Json;
 
 namespace HydroTaskpane2
@@ -32,6 +35,7 @@ namespace HydroTaskpane2
         public ObservableCollection<AttributeGroup> groups;
 
         private const string intProgID = "HydroTaskpane2.Taskpane.UI";
+        private double startingHeight = 458.75;
 
         public HydroTaskpane2_UI()
         {
@@ -48,8 +52,8 @@ namespace HydroTaskpane2
 
         public void hideContent(bool hide)
         {
+            removeSelection(false);
             hideTreeView(hide);
-            removeSelection();
         }
 
         public void hideTreeView(bool hide)
@@ -74,19 +78,53 @@ namespace HydroTaskpane2
 
                 treeViewItem.IsSelected = false;
             }
+
         }
 
-        public void removeSelection()
+        public void removeSelection(bool adjustHeight)
         {
+            try
+            {
+                foreach (AttributeGroup group in AttributeGroups.Items)
+                {
+                    var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
+                    treeViewItem.IsExpanded = false;
+                }
+
+                foreach (AttributeGroup group in AttributeGroups.Items)
+                {
+                    string groupName = group.name;
+                    int groupType = sortType(groupName.ToLower());
+
+                    var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
+
+                    treeViewItem.IsSelected = false;
+                }
+
+                if (adjustHeight)
+                {
+                    TaskpaneGrid.RowDefinitions[1].Height = new GridLength(startingHeight + 1, GridUnitType.Pixel);
+                }
+                
+            }
+            catch(Exception e)
+            {
+                Debug.Print(e.ToString());
+            }
+        }
+
+        public void clearControls()
+        {
+            List<Field> fieldList = new List<Field>();
+
             foreach (AttributeGroup group in AttributeGroups.Items)
             {
-                string groupName = group.name;
-                int groupType = sortType(groupName.ToLower());
+                fieldList.AddRange(group.fields.ToList());
+            }
 
-                var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
-
-                treeViewItem.IsSelected = false;
-                treeViewItem.IsExpanded = false;
+            foreach (Field field in fieldList)
+            {
+                field.content = null;
             }
         }
 
@@ -98,15 +136,15 @@ namespace HydroTaskpane2
 
             if (key.ToLower() == "assembly")
             {
-                type = 1;
+                type = (int)swDocumentTypes_e.swDocASSEMBLY;
             }
             else if (key.ToLower() == "drawing")
             {
-                type = 2;
+                type = (int)swDocumentTypes_e.swDocDRAWING;
             }
             else if (key.ToLower() == "part")
             {
-                type = 0;
+                type = (int)swDocumentTypes_e.swDocPART;
             }
 
             return type;
@@ -273,13 +311,13 @@ namespace HydroTaskpane2
 
             switch (type)
             {
-                case 0:
+                case (int)swDocumentTypes_e.swDocPART:
                     this.file = AttributeValueLists.partControlPathDict[this.label];
                     break;
-                case 1:
+                case (int)swDocumentTypes_e.swDocASSEMBLY:
                     this.file = AttributeValueLists.assemblyControlPathDict[this.label];
                     break;
-                case 2:
+                case (int)swDocumentTypes_e.swDocDRAWING:
                     this.file = AttributeValueLists.drawingControlPathDict[this.label];
                     break;
             }

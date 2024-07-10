@@ -97,10 +97,13 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
                 switch ((swDocumentTypes_e)swModel.GetType())
                 {
                     case swDocumentTypes_e.swDocDRAWING:
+                        (swModel as DrawingDoc).DestroyNotify2 += swModel_DestroyNotify2;
                         break;
                     case swDocumentTypes_e.swDocASSEMBLY:
+                        (swModel as AssemblyDoc).DestroyNotify2 += swModel_DestroyNotify2;
                         break;
                     case swDocumentTypes_e.swDocPART:
+                        (swModel as PartDoc).DestroyNotify2 += swModel_DestroyNotify2;
                         break;
                 }
             }
@@ -115,10 +118,13 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
                 switch ((swDocumentTypes_e)swModel.GetType())
                 {
                     case swDocumentTypes_e.swDocDRAWING:
+                        (swModel as DrawingDoc).DestroyNotify2 -= swModel_DestroyNotify2;
                         break;
                     case swDocumentTypes_e.swDocASSEMBLY:
+                        (swModel as AssemblyDoc).DestroyNotify2 -= swModel_DestroyNotify2;
                         break;
                     case swDocumentTypes_e.swDocPART:
+                        (swModel as PartDoc).DestroyNotify2 -= swModel_DestroyNotify2;
                         break;
                 }
             }
