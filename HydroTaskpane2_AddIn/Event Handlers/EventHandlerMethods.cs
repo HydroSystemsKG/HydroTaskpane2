@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Diagnostics;
 using HydroTaskpane2;
+using HydroTaskpane2.Attribution;
 
 namespace HydroTaskpane2_AddIn.Event_Handlers
 {
@@ -46,6 +47,8 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
                 taskpane.hideTypeControls((int)swDocumentTypes_e.swDocDRAWING, false); // drawing
             }
 
+            GeneralMethodCollection.startAttribution(swApp);
+
             return 0;
         }
 
@@ -75,6 +78,9 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
                 taskpane.hideTypeControls(1, true); // assembly
                 taskpane.hideTypeControls(2, false); // drawing
             }
+
+            GeneralMethodCollection.startAttribution(swApp);
+            GeneralMethodCollection.copyAttributeList(swApp);
 
             return 0;
         }
@@ -132,6 +138,9 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
         protected static int swTaskPane_TaskPaneActivateNotify()
         {
             ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
+
+            GeneralMethodCollection.setDescription(swApp);
+
             DebugBuilder.Print("TEST");
             
             if (swModel == null)
