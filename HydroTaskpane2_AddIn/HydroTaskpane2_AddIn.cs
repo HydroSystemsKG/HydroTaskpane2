@@ -67,7 +67,7 @@ namespace HydroTaskpane2_AddIn
 
             swApp = (SldWorks.SldWorks)ThisSW;
             swApp.SetAddinCallbackInfo(0, this, Cookie);
-            //optionSet = new SldWorksOptionsEventHandler(swApp, OptionsFixPackClass.mainMethod, null);
+            optionSet = new SldWorksOptionsEventHandler(swApp, OptionsFixPackClass.mainMethod, null);
 
             //Load Taskpane
             this.load = new LoadTaskpane(swApp);
@@ -83,8 +83,8 @@ namespace HydroTaskpane2_AddIn
             this.load.unloadTaskpane();
 
             // remove option setting
-            //optionSet.FinishByDetach();
-            //optionSet = null;
+            optionSet.FinishByDetach();
+            optionSet = null;
 
             swApp = null;
             GC.Collect();

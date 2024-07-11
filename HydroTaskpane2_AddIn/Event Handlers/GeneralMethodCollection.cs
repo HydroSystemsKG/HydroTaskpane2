@@ -13,7 +13,7 @@ using SolidWorksTools.File;
 using System.Reflection;
 using System.IO;
 using HydroSolidworksLibrary;
-using HydroTaskpane2.Attribution;
+using HydroTaskpane2_AddIn.Attribution;
 
 namespace HydroTaskpane2_AddIn.Event_Handlers
 {

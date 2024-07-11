@@ -10,7 +10,6 @@ using System.Runtime.InteropServices;
 using System.IO;
 using System.Diagnostics;
 using HydroTaskpane2;
-using HydroTaskpane2.Attribution;
 
 namespace HydroTaskpane2_AddIn.Event_Handlers
 {

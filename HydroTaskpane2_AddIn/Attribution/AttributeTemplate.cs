@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.IO;
 
-namespace HydroTaskpane2.Attribution
+namespace HydroTaskpane2_AddIn.Attribution
 {
     public static class AttributeTemplate
     {

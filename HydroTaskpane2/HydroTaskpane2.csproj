@@ -63,9 +63,6 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attribution\AttributeTemplate.cs" />
-    <Compile Include="Attribution\DescriptionGenerator.cs" />
-    <Compile Include="Attribution\ReferenceAttributeGenerator.cs" />
     <Compile Include="Constants\IDClass.cs" />
     <Compile Include="Variable\AttributeVariable.cs" />
     <Page Include="HydroTaskpane.xaml">

@@ -130,6 +130,12 @@ namespace HydroTaskpane2
 
         #endregion
 
+        #region get control values
+
+
+
+        #endregion
+
         public int sortType(string key)
         {
             int type = -1;

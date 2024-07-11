@@ -8,7 +8,7 @@ using SwCommands;
 using SwConst;
 using HydroSolidworksLibrary;
 
-namespace HydroTaskpane2.Attribution
+namespace HydroTaskpane2_AddIn.Attribution
 {
     public class DescriptionGenerator
     {
