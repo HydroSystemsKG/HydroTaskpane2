@@ -64,6 +64,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\IDClass.cs" />
+    <Compile Include="SWAttributeObserver\AttributeValuePairGenerator.cs" />
+    <Compile Include="SWAttributeObserver\Observer\ISWObserver.cs" />
+    <Compile Include="SWAttributeObserver\Observer\SWObserver.cs" />
+    <Compile Include="SWAttributeObserver\Processing\SWAttributeProcessor.cs" />
+    <Compile Include="SWAttributeObserver\Publisher\Publisher.cs" />
+    <Compile Include="SWAttributeObserver\Publisher\SWAttributePublisher.cs" />
+    <Compile Include="SWAttributeObserver\UpdatePublisher.cs" />
+    <Compile Include="Connectors\SWAppConnector.cs" />
+    <Compile Include="Connectors\SWModelConnector.cs" />
+    <Compile Include="SWAttributeReader\SWAttributeAssembler.cs" />
+    <Compile Include="SWAttributeReader\ReaderStrategy\ISWReaderStrategy.cs" />
+    <Compile Include="SWAttributeReader\ReaderStrategy\SWConfigReaderStrategy.cs" />
+    <Compile Include="SWAttributeReader\ReaderStrategy\SWCustomReaderStrategy.cs" />
+    <Compile Include="SWAttributeReader\SWReader.cs" />
     <Compile Include="Variable\AttributeVariable.cs" />
     <Page Include="HydroTaskpane.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -156,5 +170,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -15,6 +15,10 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 using HydroTaskpane2.Constants;
+using HydroTaskpane2.Variable;
+using HydroTaskpane2.SWAttributeReader;
+using HydroTaskpane2.SWAttributeObserver;
+using HydroTaskpane2.Connectors;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
@@ -34,12 +38,14 @@ namespace HydroTaskpane2
         public static Dictionary<Tuple<string, int>, string> controlAttributeValues;
         public ObservableCollection<AttributeGroup> groups;
 
+        private SWModelConnector modelConnector;
         private const string intProgID = "HydroTaskpane2.Taskpane.UI";
         private double startingHeight = 458.75;
 
         public HydroTaskpane2_UI()
         {
             InitializeComponent();
+            this.modelConnector = new SWModelConnector();
         }
 
         public void CustomInit()
@@ -50,39 +56,9 @@ namespace HydroTaskpane2
 
         #region hide content
 
-        public void hideContent(bool hide)
+        public void hide() // IT WORKS
         {
-            removeSelection(false);
-            hideTreeView(hide);
-        }
-
-        public void hideTreeView(bool hide)
-        {
-            AttributeGroups.IsEnabled = !hide;
-        }
-
-        public void hideTypeControls(int type, bool hide)
-        {
-            // disable type treeViewItem
-            foreach (AttributeGroup group in AttributeGroups.Items)
-            {
-                string groupName = group.name;
-                int groupType = sortType(groupName.ToLower());
-
-                var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
-
-                if (groupType == type)
-                {
-                    treeViewItem.IsEnabled = !hide;
-                }
-
-                treeViewItem.IsSelected = false;
-            }
-
-        }
-
-        public void removeSelection(bool adjustHeight)
-        {
+            // remove all selections
             try
             {
                 foreach (AttributeGroup group in AttributeGroups.Items)
@@ -93,47 +69,137 @@ namespace HydroTaskpane2
 
                 foreach (AttributeGroup group in AttributeGroups.Items)
                 {
-                    string groupName = group.name;
-                    int groupType = sortType(groupName.ToLower());
-
                     var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
-
                     treeViewItem.IsSelected = false;
                 }
 
-                if (adjustHeight)
-                {
-                    TaskpaneGrid.RowDefinitions[1].Height = new GridLength(startingHeight + 1, GridUnitType.Pixel);
-                }
-                
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.Print(e.ToString());
             }
-        }
 
-        public void clearControls()
-        {
+            // clear all controls + collapse treeview
+
             List<Field> fieldList = new List<Field>();
 
             foreach (AttributeGroup group in AttributeGroups.Items)
             {
                 fieldList.AddRange(group.fields.ToList());
+
+                var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
+                treeViewItem.IsEnabled = false;
+
+                FocusManager.SetFocusedElement(FocusManager.GetFocusScope(treeViewItem), null);
+                Keyboard.ClearFocus();
             }
 
             foreach (Field field in fieldList)
             {
                 field.content = null;
             }
+
+            // change control visibility
+            foreach (var item in FieldsListBox.Items)
+            {
+                var listBoxItem = FieldsListBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
+                listBoxItem.Visibility = System.Windows.Visibility.Hidden;
+            }
+
+            // adjust height parameter
+            try
+            {
+                TaskpaneGrid.RowDefinitions[1].Height = new GridLength(startingHeight + 1, GridUnitType.Pixel);
+            }
+            catch { }
+        }
+
+        public void show(int type) // IT WORKS
+        {
+            // enable type treeViewItem
+            foreach (AttributeGroup group in AttributeGroups.Items)
+            {
+                string groupName = group.name;
+                int groupType = sortType(groupName.ToLower());
+
+                var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
+
+                if (groupType == type)
+                {
+                    treeViewItem.IsEnabled = true;
+                }
+            }
         }
 
         #endregion
 
         #region get control values
+       
+        public void fillControls() // IT WORKS
+        {
+            try
+            {
+                SWAttributeAssembler assembler = new SWAttributeAssembler();
+                assembler.assembleAttributes();
 
+                List<Field> fieldList = new List<Field>();
 
+                foreach (AttributeGroup group in AttributeGroups.Items)
+                {
+                    fieldList.AddRange(group.fields.ToList());
+                }
 
+                foreach (Field field in fieldList)
+                {
+                    field.content = assembler.ControlValuePairs[field.label];
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Print(e.ToString());
+            }
+
+        }
+
+        public void fillAttributes(ModelDoc2 swModel) // IT WORKS
+        {
+            try
+            {
+                List<Field> fieldList = new List<Field>();
+
+                foreach (var item in FieldsListBox.Items)
+                {
+                    var listBoxItem = (ListBoxItem)FieldsListBox.ItemContainerGenerator.ContainerFromItem(item);
+
+                    FocusManager.SetFocusedElement(FocusManager.GetFocusScope(listBoxItem), null);
+                    Keyboard.ClearFocus();
+
+                    Field field = (Field)item;
+
+                    if (field.dataType == swModel.GetType())
+                    {
+                        if (field.content != null)
+                        {
+                            string content = field.content.ToString();
+                            string label = field.label;
+
+                            Debug.Print($"LABEL: {label}; CONTENT: {content}");
+
+                            UpdatePublisher publisher = new UpdatePublisher();
+                            publisher.Update(label, content);
+
+                            publisher = null;
+                        }
+                    }
+                   
+                }
+            }
+            catch(Exception e)
+            {
+                Debug.Print(e.ToString());
+            }
+        }
+        
         #endregion
 
         public int sortType(string key)
@@ -156,7 +222,8 @@ namespace HydroTaskpane2
             return type;
         }
 
-        #region TreeView methods and classes
+        #region TreeView methods
+
         public void populateTree()
         {
             groups = new ObservableCollection<AttributeGroup>();
@@ -214,8 +281,12 @@ namespace HydroTaskpane2
 
             AttributeGroups.ItemsSource = groups;
         }
-        
+
+        #endregion
+
     }
+
+    #region Field Classes
 
     public class AttributeGroup
     {
@@ -286,9 +357,6 @@ namespace HydroTaskpane2
         public string attribute { get; set; }
         public ObservableCollection<Field> fields { get; set; }
     }
-    #endregion
-
-    #region ComboBox methods and classes
 
     public class Field
     {
@@ -303,9 +371,8 @@ namespace HydroTaskpane2
         public bool labelControl { get; set; }
 
         public List<string> dropdown { get; set; }
-
+        
         public object content { get; set; }
-
         public string height { get; set; }
 
         public Field(string label, int type)
@@ -361,14 +428,16 @@ namespace HydroTaskpane2
 
             if (this.controlType == "comboBox")
             {
-                string[] fileContent = File.ReadAllLines(this.file).Where(l => l.Contains(";")).Select(l => l.Replace(";"," | ")).ToArray();
+                string[] fileContent = File.ReadAllLines(this.file).Where(l => l.Contains(";")).Select(l => l.Replace(";", " | ")).ToArray();
                 this.dropdown = new List<string>(fileContent);
             }
         }
 
     }
 
-    #region Converters
+    #endregion
+
+    #region converter methods
 
     public class BooleanToVisibilityConverter : IValueConverter
     {
@@ -399,7 +468,7 @@ namespace HydroTaskpane2
         {
             if (parameter == null)
                 return 0.7 * System.Convert.ToDouble(value);
-           
+
 
             string[] split = parameter.ToString().Split('.');
             double parameterDouble = System.Convert.ToDouble(split[0]) + System.Convert.ToDouble(split[1]) / (Math.Pow(10, split[1].Length));
@@ -412,8 +481,6 @@ namespace HydroTaskpane2
             return null;
         }
     }
-
-    #endregion
 
     #endregion
 

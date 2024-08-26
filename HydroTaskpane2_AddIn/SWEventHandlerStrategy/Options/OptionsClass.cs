@@ -12,7 +12,7 @@ using System.Management;
 using System.Windows;
 using Microsoft.Win32;
 
-namespace _3DExperienceHydroFixPack
+namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.Options
 {
     class OptionsClass
     {
@@ -42,6 +42,37 @@ namespace _3DExperienceHydroFixPack
 
         public static string databasePath = @"C:\Program Files\SolidWorks\Hydro\Toolbox_Hydro-Systems_local_3dx\lang\english\SWBrowser.sldedb";
 
+        private static List<string> StandardReferences = new List<string>
+        {
+            @"S:\Normteilzeichnungen 50000 - 59999",
+            @"S:\Nummer 00000 - 00119",
+            @"S:\Nummer 00120 - 00399",
+            @"S:\Nummer 00400 - 00444",
+            @"S:\Nummer 00445 - 00499",
+            @"S:\Nummer 00500 - 00999",
+            @"S:\Nummer 10000 - 14999",
+            @"S:\Nummer 15000 - 17999",
+            @"S:\Nummer 18000 - 18999",
+            @"S:\Nummer 19000 - 25016",
+            @"S:\Nummer 25017 - 31999",
+            @"S:\Nummer 32000 - 39999",
+            @"S:\Nummer 40000 - 99999",
+            @"S:\Nummer A-Z und Sondernummern",
+            @"S:\Toolbox_Normteile",
+            @"S:\Tools 00000000000000 - 49999999999999",
+            @"S:\Tools 97A00000000000 - 98A49999999999",
+            @"S:\Tools 98A50000000000 - 98A99999999999",
+            @"S:\Tools 98B00000000000 - 98D99999999999",
+            @"S:\Tools 98E00000000000 - 98F49999999999",
+            @"S:\Tools 98F50000000000 - 99Z99999999999",
+            @"S:\Tools 50000000000000 - 96A99999999999",
+            @"S:\Tools A0000000000000 - B9999999999999",
+            @"S:\Tools C0000000000000 - IAE99999999999",
+            @"S:\Tools J0000000000000 - Z9999999999999",
+            @"S:\Zwicky",
+            @"S:\LFT-Teile"
+        };
+
         #endregion
 
         public OptionsClass(SldWorks.SldWorks swAppI)
@@ -49,53 +80,88 @@ namespace _3DExperienceHydroFixPack
             swApp = swAppI;
         }
 
-        public virtual void setOptions()
+        public virtual int setOptions()
         {
-            try
+            bool addIn = HydroSolidworksLibrary.SldWorksStandards.AddInIsLoaded();
+            bool checkBox = HydroSolidworksLibrary.SldWorksStandards.checkIntegrationCheckbox();
+
+            if (checkBox && addIn)
             {
-                // change all options
-                // pdf color
-                changePDFColor();
+                try
+                {
+                    // change all options
+                    // pdf color
+                    changePDFColor();
 
-                // toolbox
-                changeToolboxSystemOptions();
+                    // toolbox
+                    string toolboxPath = @"C:\Program Files\SolidWorks\Hydro\Toolbox_Hydro-Systems_local_3dx\";
+                    changeToolboxSystemOptions(toolboxPath, true);
 
-                // dateipositionen
-                changeReferencedDocuments();
+                    // dateipositionen
+                    changeReferencedDocuments();
 
-                // PDM
-                changePDMOptions();
+                    // PDM
+                    changePDMOptions();
 
-                // additional changes
-                changeAdditionalSettings();
+                    // additional changes
+                    changeAdditionalSettings();
+                }
+                catch (Exception e)
+                {
+                    Debug.Print("::: SetOptions (Mit PDM) ::: ERROR: " + e.ToString());
+                }
             }
-            catch (Exception e)
+            else
             {
-                Debug.Print("::: SetOptions ::: ERROR: " + e.ToString());
+                try
+                {
+                    // change all options
+                    // pdf color
+                    changePDFColor();
+
+                    // toolbox
+                    string toolboxPath = @"S:\Hydro\System-Optionen\Toolbox_Hydro-Systems";
+                    changeToolboxSystemOptions(toolboxPath, false);
+
+                    // dateipositionen
+                    changeReferencedDocuments(StandardReferences);
+
+                    // additional changes
+                    changeAdditionalSettings();
+
+                }
+                catch (Exception e)
+                {
+                    Debug.Print("::: SetOptions (Ohne PDM) ::: ERROR: " + e.ToString());
+                }
             }
+
+            return 0;
         }
 
         #region change options 
 
-        private static void changeToolboxSystemOptions()
+        private static void changeToolboxSystemOptions(string toolboxPath, bool changeDatabase)
         {
             // set system options
             // Set toolbox path
-            string toolboxPath = @"C:\Program Files\SolidWorks\Hydro\Toolbox_Hydro-Systems_local_3dx\";
             swApp.SetUserPreferenceStringValue((int)swUserPreferenceStringValue_e.swHoleWizardToolBoxFolder, toolboxPath);
 
             // Uncheck toolbox default search checkbox
             swApp.SetUserPreferenceToggle((int)swUserPreferenceToggle_e.swUseFolderAsDefaultSearchLocation, false);
 
             // change toolbox browser path (Registry Key)
-            string cpfPath = toolboxRegistryPath();
-            try
+            if (changeDatabase)
             {
-                changeToolboxDatabase();
-            }
-            catch (Exception e)
-            {
-                Debug.Print($"::: OptionsClass ::: changeToolboxSystemOptions ::: failed to change toolbox database - {e.ToString()} :::");
+                string cpfPath = toolboxRegistryPath();
+                try
+                {
+                    changeToolboxDatabase();
+                }
+                catch (Exception e)
+                {
+                    Debug.Print($"::: OptionsClass ::: changeToolboxSystemOptions ::: failed to change toolbox database - {e.ToString()} :::");
+                }
             }
 
         }
@@ -111,14 +177,17 @@ namespace _3DExperienceHydroFixPack
             swApp.SetUserPreferenceToggle((int)swUserPreferenceToggle_e.swPDFExportInColor, false);
         }
 
-        private static void changeReferencedDocuments()
+        private static void changeReferencedDocuments(List<string> referenceList = null)
         {
             // set paths
-            List<string> referenceList = new List<string>
+            if (referenceList == null)
             {
-                toolboxRegistryPath(),
-                cachePath()
-            };
+                referenceList = new List<string>
+                {
+                    toolboxRegistryPath(),
+                    cachePath()
+                };
+            }
 
             string newReference = String.Join(";", referenceList);
             swApp.SetUserPreferenceStringValue((int)swUserPreferenceStringValue_e.swFileLocationsDocuments, newReference);

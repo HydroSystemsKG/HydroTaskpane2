@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using System.Windows.Interop;
 
-namespace HydroTaskpane2_AddIn.Host
+namespace HydroTaskpane2_AddIn.Load_Taskpane
 {
     public class CustomElementHost : ElementHost
     {

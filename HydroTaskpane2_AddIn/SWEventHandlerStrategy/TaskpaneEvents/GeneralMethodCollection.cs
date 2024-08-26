@@ -13,28 +13,34 @@ using SolidWorksTools.File;
 using System.Reflection;
 using System.IO;
 using HydroSolidworksLibrary;
-using HydroTaskpane2_AddIn.Attribution;
+using HydroTaskpane2.Connectors;
+using HydroTaskpane2_AddIn.SWEventHandlerStrategy.AttributeTemplates;
 
-namespace HydroTaskpane2_AddIn.Event_Handlers
+namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 {
-    public class GeneralMethodCollection
+    public class GeneralMethodCollection : SWAppConnector
     {
+
+        public GeneralMethodCollection() : base()
+        {
+
+        }
 
         #region public methods
 
-        public static void setDescription(SldWorks.SldWorks swApp)
+        public void setDescription()
         {
+            ModelDoc2 swModel = swApp.ActiveDoc();
+
             try
             {
-                ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
-
                 bool AddIn = HydroSolidworksLibrary.SldWorksStandards.AddInIsLoaded();
                 bool checkIntegration = HydroSolidworksLibrary.SldWorksStandards.checkIntegrationCheckbox();
 
                 if (AddIn && checkIntegration)
                 {
                     // check for V_Name
-                    setLoadAttributes(swApp, "V_Name", "SAP_MATNR", filterVName);
+                    setLoadAttributes("V_Name", "SAP_MATNR", filterVName);
 
                     // search description attribute within current configuration
 
@@ -47,13 +53,11 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
                     {
                         if (attr.ToLower() == "description")
                         {
-                            setLoadAttributes(swApp, "HYDRO_CAD_DESCRIPTION_COMPLETE_EN", attr);
+                            setLoadAttributes( "HYDRO_CAD_DESCRIPTION_COMPLETE_EN", attr);
                             break;
                         }
                     }
                 }
-
-                swModel = null;
             }
             catch (Exception e)
             {
@@ -61,16 +65,20 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
             }
         }
 
-        public static void copyAttributeList(SldWorks.SldWorks swApp)
+        #endregion
+
+        /*
+        public void copyAttributeList()
         {
-            ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
+            ModelDoc2 swModel = swApp.ActiveDoc;
 
             if (!(swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING))
             {
                 try
                 {
                     Debug.Print("CREATE TEMPLATE");
-                    AttributeTemplate.createTemplate(ref swApp);
+
+                    AttributeTemplate.createTemplate(swApp);
 
                     if (!AttributeTemplate.migAttributePresent)
                     {
@@ -90,9 +98,10 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
             }
 
             swModel = null;
+            
         }
 
-        public static void startAttribution(SldWorks.SldWorks swApp)
+        public void startAttribution()
         {
             // Implement Attribution method
             ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
@@ -112,15 +121,17 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
             }
 
             swModel = null;
+            
         }
 
         #endregion
+        */
 
         #region private methods
 
-        private static void setLoadAttributes(SldWorks.SldWorks swApp, string attrSource, string attrTarget, Func<string, string> valFilter = null)
+        private void setLoadAttributes(string attrSource, string attrTarget, Func<string, string> valFilter = null)
         {
-            ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
+            ModelDoc2 swModel = swApp.ActiveDoc;
 
             string attrSourceValue = HydroSolidworksLibrary.SldWorksStandards.getConfigAttribute(ref swModel, attrSource);
 
@@ -159,7 +170,7 @@ namespace HydroTaskpane2_AddIn.Event_Handlers
             HydroSolidworksLibrary.SldWorksStandards.setAttribute(ref swModel, attrTarget, attrSourceValue);
         }
 
-        private static string filterVName(string attrValue)
+        private string filterVName(string attrValue)
         {
             // check if string contains nested parentheses
             bool par = false;

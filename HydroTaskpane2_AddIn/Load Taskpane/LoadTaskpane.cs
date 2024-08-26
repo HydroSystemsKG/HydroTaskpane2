@@ -12,8 +12,9 @@ using System.Diagnostics;
 using HydroTaskpane2;
 using HydroTaskpane2.Constants;
 using System.Runtime.InteropServices;
-using HydroTaskpane2_AddIn.Event_Handlers;
-using HydroTaskpane2_AddIn.Host;
+using HydroTaskpane2_AddIn.SWEventHandlerStrategy.Options;
+using HydroTaskpane2_AddIn.SWEventHandlerStrategy.AttributeTemplates;
+using HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents;
 using System.IO;
 
 namespace HydroTaskpane2_AddIn.Load_Taskpane
@@ -23,13 +24,24 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
     {
         public SldWorks.SldWorks swApp { get; set; }
 
+        // event handler strategy (options)
+        private SWEventHandlerStrategy.SWContext swContextOptions;
+        private SWEventHandlerStrategy.SWContext swContextAttributes;
+        private SWEventHandlerStrategy.SWContext swContextTaskpane;
+
         private TaskpaneView swTaskpaneView { get; set; }
         private HydroTaskpane2_UI taskpane { get; set; }
-        private TaskpaneEventHandlers handlers { get; set; }
 
         public LoadTaskpane(SldWorks.SldWorks swApp)
         {
             this.swApp = swApp;
+
+            // add options event handler (attach all)
+            swContextOptions = new SWEventHandlerStrategy.SWContext(swApp, new SWOptionStrategy());
+            swContextAttributes = new SWEventHandlerStrategy.SWContext(swApp, new SWAttributeTemplateStrategy());
+
+            swContextOptions.AttachEventHandlers();
+            swContextAttributes.AttachEventHandlers();
 
             try
             {
@@ -42,8 +54,8 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
             // Set up events
             Debug.Print(" :: Hydro Taskpane 2.0 :: Add Events...");
-            handlers = new TaskpaneEventHandlers(swApp, swTaskpaneView, taskpane);
-            handlers.StartByAttach();
+            swContextTaskpane = new SWEventHandlerStrategy.SWContext(swApp, new SWTaskpaneStrategy(swTaskpaneView, taskpane));
+            swContextTaskpane.AttachEventHandlers();
         }
 
         private void createTaskpane()
@@ -94,7 +106,10 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
         public void unloadTaskpane()
         {
             // detach event handlers
-            handlers.FinishByDetach();
+            swContextOptions.DetachEventHandlers();
+            swContextAttributes.DetachEventHandlers();
+            swContextTaskpane.DetachEventHandlers();
+
             taskpane = null;
 
             // delete taskpaneview...

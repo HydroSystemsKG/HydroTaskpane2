@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.IO;
 
-namespace HydroTaskpane2_AddIn.Attribution
+namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.AttributeTemplates
 {
     public static class AttributeTemplate
     {
@@ -131,7 +131,7 @@ namespace HydroTaskpane2_AddIn.Attribution
 
         }
 
-        public static void createTemplate(ref SldWorks.SldWorks swApp)
+        public static void createTemplate(SldWorks.SldWorks swApp)
         {
             bool PLMLoaded = SldWorksStandards.AddInIsLoaded();
 
@@ -463,7 +463,7 @@ namespace HydroTaskpane2_AddIn.Attribution
                 try
                 {
                     // make sure that template exists
-                    createTemplate(ref swApp);
+                    createTemplate(swApp);
 
                     // generate required Dicts
                     Debug.Print("::: Attributes Templates | AttributionMethod ::: generate required Dicts");

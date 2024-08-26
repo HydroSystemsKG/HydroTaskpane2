@@ -9,7 +9,7 @@ using SwConst;
 using HydroSolidworksLibrary;
 using System.Diagnostics;
 
-namespace HydroTaskpane2_AddIn.Attribution
+namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.AttributeTemplates
 {
     public class ReferenceAttributeGenerator
     {

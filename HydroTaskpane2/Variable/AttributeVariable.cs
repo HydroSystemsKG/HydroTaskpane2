@@ -11,8 +11,9 @@ namespace HydroTaskpane2.Variable
     {
         public static Dictionary<string, List<string>> controlAttributes = new Dictionary<string, List<string>>
         {
-            {"Descriptions", new List<string>{ SldWorksConstants.sldworks_attr_description_en, SldWorksConstants.sldworks_attr_description_de} },
+            {"Description", new List<string>{ SldWorksConstants.sldworks_attr_description_en, SldWorksConstants.sldworks_attr_description_de} },
             {"Additional Description", new List<string>{ SldWorksConstants.sldworks_attr_additionaltext_en, SldWorksConstants.sldworks_attr_additionaltext_de } },
+            {"Additional Text", new List<string>{ SldWorksConstants.sldworks_attr_additionaltext_en, SldWorksConstants.sldworks_attr_additionaltext_de } },
             {"CAD Description", new List<string>{ SldWorksConstants.sldworks_attr_caddescription } },
             {"Material Hydro Variant 1", new List<string>{ SldWorksConstants.sldworks_attr_material, SldWorksConstants.sldworks_attr_material_number, SldWorksConstants.sldworks_attr_material_en, SldWorksConstants.sldworks_attr_material_de } },
             {"Material Hydro Variant 2", new List<string>{ SldWorksConstants.sldworks_attr_materialalt, SldWorksConstants.sldworks_attr_materialalt_number, SldWorksConstants.sldworks_attr_materialalt_en, SldWorksConstants.sldworks_attr_materialalt_de } },

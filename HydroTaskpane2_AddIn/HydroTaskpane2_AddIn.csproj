@@ -51,14 +51,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attribution\AttributeTemplate.cs" />
-    <Compile Include="Attribution\DescriptionGenerator.cs" />
-    <Compile Include="Attribution\ReferenceAttributeGenerator.cs" />
+    <Compile Include="SWEventHandlerStrategy\AttributeTemplates\AttributeTemplate.cs" />
+    <Compile Include="SWEventHandlerStrategy\AttributeTemplates\DescriptionGenerator.cs" />
+    <Compile Include="SWEventHandlerStrategy\AttributeTemplates\ReferenceAttributeGenerator.cs" />
     <Compile Include="DebugBuilder.cs" />
-    <Compile Include="Event Handlers\EventHandlerMethods.cs" />
-    <Compile Include="Event Handlers\GeneralMethodCollection.cs" />
-    <Compile Include="Event Handlers\TaskpaneEventHandlers.cs" />
-    <Compile Include="Host\CustomElementHost.cs" />
+    <Compile Include="SWEventHandlerStrategy\TaskpaneEvents\GeneralMethodCollection.cs" />
+    <Compile Include="Load Taskpane\CustomElementHost.cs" />
     <Compile Include="HydroTaskpane2_AddIn.cs" />
     <Compile Include="Load Taskpane\LoadTaskpane.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,9 +65,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Set Options\OptionsClass.cs" />
-    <Compile Include="Set Options\OptionsFixPackClass.cs" />
-    <Compile Include="Set Options\SldWorksOptionsEventHandler.cs" />
+    <Compile Include="SWEventHandlerStrategy\Options\OptionsClass.cs" />
+    <Compile Include="Standard\partStandard.cs" />
+    <Compile Include="SWEventHandlerStrategy\AttributeTemplates\SWAttributeTemplateStrategy.cs" />
+    <Compile Include="SWEventHandlerStrategy\ISWStrategy.cs" />
+    <Compile Include="SWEventHandlerStrategy\Options\SWOptionStrategy.cs" />
+    <Compile Include="SWEventHandlerStrategy\SWContext.cs" />
+    <Compile Include="SWEventHandlerStrategy\TaskpaneEvents\SWTaskpaneStrategy.cs" />
+    <Compile Include="SWEventHandlerStrategy\TaskpaneEvents\TaskpaneMethodCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SolidworksLibrary\SolidworksLibrary\HydroSolidworksLibrary.csproj">
@@ -125,5 +128,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

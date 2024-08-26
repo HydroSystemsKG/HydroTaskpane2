@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.33801.198
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydroTaskpane2", "HydroTaskpane2\HydroTaskpane2.csproj", "{1691E82D-9748-459B-898E-8D396D412FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydroSolidworksLibrary", "F:\Hydro\System-Optionen\Macros\SolidworksLibrary\SolidworksLibrary\HydroSolidworksLibrary.csproj", "{CA388C07-1A12-49F6-B18C-432119574155}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydroSolidworksLibrary", "..\SolidworksLibrary\SolidworksLibrary\HydroSolidworksLibrary.csproj", "{CA388C07-1A12-49F6-B18C-432119574155}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HydroTaskpane2_AddIn", "HydroTaskpane2_AddIn\HydroTaskpane2_AddIn.csproj", "{44F1748A-2D72-4D81-B057-3CF723505BE8}"
 EndProject
