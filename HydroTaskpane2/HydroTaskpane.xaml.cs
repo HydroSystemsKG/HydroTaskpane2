@@ -58,7 +58,7 @@ namespace HydroTaskpane2
 
         public void hide() // IT WORKS
         {
-            // remove all selections
+            // remove all selections + collapse treeview
             try
             {
                 foreach (AttributeGroup group in AttributeGroups.Items)
@@ -79,7 +79,7 @@ namespace HydroTaskpane2
                 Debug.Print(e.ToString());
             }
 
-            // clear all controls + collapse treeview
+            // clear all controls
 
             List<Field> fieldList = new List<Field>();
 
