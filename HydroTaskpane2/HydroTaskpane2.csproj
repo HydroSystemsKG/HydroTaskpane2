@@ -72,6 +72,12 @@
       <DependentUpon>SetStrength.cs</DependentUpon>
     </Compile>
     <Compile Include="Custom Controls\TabContent.cs" />
+    <Compile Include="Fabrication\ControlProduct.cs" />
+    <Compile Include="Fabrication\ControlProductComponent.cs" />
+    <Compile Include="Fabrication\ControlProductFactory.cs" />
+    <Compile Include="Fabrication\Factory.cs" />
+    <Compile Include="Fabrication\FactoryParameters.cs" />
+    <Compile Include="Fabrication\IControlProduct.cs" />
     <Compile Include="References\AttributeClass_e.cs" />
     <Compile Include="References\ControlCollectionSingleton.cs" />
     <Compile Include="References\ControlTypes.cs" />
