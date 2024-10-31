@@ -65,6 +65,13 @@
   <ItemGroup>
     <Compile Include="Constants\IDClass.cs" />
     <Compile Include="Converters\ConverterClasses.cs" />
+    <Compile Include="Custom Controls\SetStrength.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Custom Controls\SetStrength.designer.cs">
+      <DependentUpon>SetStrength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\TabContent.cs" />
     <Compile Include="SWAttributeObserver\AttributeValuePairGenerator.cs" />
     <Compile Include="SWAttributeObserver\Observer\ISWObserver.cs" />
     <Compile Include="SWAttributeObserver\Observer\SWObserver.cs" />
@@ -104,6 +111,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Custom Controls\SetStrength.resx">
+      <DependentUpon>SetStrength.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
