@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\IDClass.cs" />
+    <Compile Include="Converters\ConverterClasses.cs" />
     <Compile Include="SWAttributeObserver\AttributeValuePairGenerator.cs" />
     <Compile Include="SWAttributeObserver\Observer\ISWObserver.cs" />
     <Compile Include="SWAttributeObserver\Observer\SWObserver.cs" />
