@@ -14,7 +14,7 @@ namespace HydroTaskpane2.Connectors
     {
         public SldWorks.SldWorks swApp { get; set; }
 
-        public SWAppConnector()
+        protected virtual void connect()
         {
             this.swApp = (SldWorks.SldWorks)Marshal.GetActiveObject("SldWorks.Application");
         }

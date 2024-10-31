@@ -13,9 +13,28 @@ namespace HydroTaskpane2.Connectors
     {
         public ModelDoc2 swModel { get; private set; }
 
-        public SWModelConnector() : base()
+        private static readonly SWModelConnector instance = new SWModelConnector();
+
+        public static SWModelConnector GetInstance()
         {
-            swModel = (ModelDoc2)swApp.ActiveDoc;
+            instance.SWConnect();
+            return instance;
+        }
+
+        private SWModelConnector()
+        {
+            
+        }
+
+        public void SWConnect()
+        {
+            base.connect();
+
+            try
+            {
+                swModel = (ModelDoc2)swApp.ActiveDoc;
+            }
+            catch { }
         }
 
         public void SWDisconnect()
