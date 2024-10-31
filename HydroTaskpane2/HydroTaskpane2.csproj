@@ -72,6 +72,11 @@
       <DependentUpon>SetStrength.cs</DependentUpon>
     </Compile>
     <Compile Include="Custom Controls\TabContent.cs" />
+    <Compile Include="References\AttributeClass_e.cs" />
+    <Compile Include="References\ControlCollectionSingleton.cs" />
+    <Compile Include="References\ControlTypes.cs" />
+    <Compile Include="References\FieldList.cs" />
+    <Compile Include="References\PageNames.cs" />
     <Compile Include="SWAttributeObserver\AttributeValuePairGenerator.cs" />
     <Compile Include="SWAttributeObserver\Observer\ISWObserver.cs" />
     <Compile Include="SWAttributeObserver\Observer\SWObserver.cs" />
@@ -86,7 +91,7 @@
     <Compile Include="SWAttributeReader\ReaderStrategy\SWConfigReaderStrategy.cs" />
     <Compile Include="SWAttributeReader\ReaderStrategy\SWCustomReaderStrategy.cs" />
     <Compile Include="SWAttributeReader\SWReader.cs" />
-    <Compile Include="Variable\AttributeVariable.cs" />
+    <Compile Include="References\AttributeVariable.cs" />
     <Page Include="HydroTaskpane.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
