@@ -10,15 +10,18 @@ using SwConst;
 
 namespace HydroTaskpane2.SWAttributeObserver.Processing
 {
-    public class SWAttributeProcessor : SWModelConnector
+    public class SWAttributeProcessor
     {
-        public SWAttributeProcessor():base()
-        {
+        public SWModelConnector connector { get; private set; }
 
+        public SWAttributeProcessor()
+        {
+            this.connector = SWModelConnector.GetInstance();
         }
 
         private void setConfigAttribute(Tuple<string, string> attributeValuePair, Configuration configuration)
         {
+            ModelDoc2 swModel = connector.swModel;
             CustomPropertyManager swCustPropMgr;
 
             if (swModel.GetType() != (int)swDocumentTypes_e.swDocDRAWING)
@@ -29,12 +32,12 @@ namespace HydroTaskpane2.SWAttributeObserver.Processing
                                                 FieldType: (int)swCustomInfoType_e.swCustomInfoText,
                                                 FieldValue: attributeValuePair.Item2,
                                                 OverwriteExisting: (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
-
             }
         }
 
         private void setCustomAttribute(Tuple<string, string> attributeValuePair)
         {
+            ModelDoc2 swModel = connector.swModel;
             CustomPropertyManager swCustPropMgr = swModel.Extension.get_CustomPropertyManager("");
 
             int result = swCustPropMgr.Add3(FieldName: attributeValuePair.Item1,
@@ -45,6 +48,7 @@ namespace HydroTaskpane2.SWAttributeObserver.Processing
 
         public void setAttribute(Tuple<string, string> attributeValuePair)
         {
+            ModelDoc2 swModel = connector.swModel;
             Configuration configuration;
             string[] configNames = swModel.GetConfigurationNames();
 
@@ -52,7 +56,7 @@ namespace HydroTaskpane2.SWAttributeObserver.Processing
             {
                 foreach (string name in configNames)
                 {
-                    configuration = (Configuration)swModel.GetConfigurationByName(name);
+                    configuration = (Configuration)swModel.IGetConfigurationByName(name);
                     setConfigAttribute(attributeValuePair, configuration);
                 }
             }
@@ -60,8 +64,6 @@ namespace HydroTaskpane2.SWAttributeObserver.Processing
             setCustomAttribute(attributeValuePair);
 
             swModel.SetSaveFlag();
-
-            SWDisconnect();
         }
     }
 }

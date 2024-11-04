@@ -19,9 +19,9 @@ namespace HydroTaskpane2.SWAttributeObserver
             this.publisher = new SWAttributePublisher();
         }
 
-        public void Update(string label, object content)
+        public void Update(string name, object content)
         {
-            generator = new AttributeValuePairGenerator(label, content);
+            generator = new AttributeValuePairGenerator(name, content);
             generator.assemblePairDict();
 
             // subscriber/observer
@@ -33,7 +33,6 @@ namespace HydroTaskpane2.SWAttributeObserver
                 foreach (string attribute in generator.attributeValuePairs.Keys)
                 {
                     Tuple<string, string> tuple = new Tuple<string, string>(attribute, generator.attributeValuePairs[attribute]);
-
                     publisher.attributeValuePair = tuple;
                 }
             }

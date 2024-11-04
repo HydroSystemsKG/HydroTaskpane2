@@ -3,29 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HydroTaskpane2.Variable;
+using HydroTaskpane2.References;
 
 namespace HydroTaskpane2.SWAttributeObserver
 {
     public class AttributeValuePairGenerator
     {
-        private string label;
+        private string name;
         private string content;
         public Dictionary<string, string> attributeValuePairs { get; private set; }
 
-        public AttributeValuePairGenerator(string label, object content)
+        public AttributeValuePairGenerator(string name, object content)
         {
-            this.label = label;
+            this.name = name;
             this.content = content.ToString();
 
             this.attributeValuePairs = new Dictionary<string, string>();
         }
 
-        public void assemblePairDict()
+        public void AssemblePairDict()
         {
-            List<string> attributes = getAttributesFromLabel(label);
+            List<string> attributes = getAttributesFromName(name);
 
-            if (attributes.Count == 0 || attributes == null) { return; }
+            if (attributes.Count() == 0 || attributes == null) { return; }
 
             if (!content.Contains(" | "))
             {
@@ -42,10 +42,9 @@ namespace HydroTaskpane2.SWAttributeObserver
             }
         }
 
-        private List<string> getAttributesFromLabel(string label)
+        private List<string> getAttributesFromName(string name)
         {
-            return AttributeVariable.controlAttributes[label];
+            return AttributeVariable.controlAttributePairs[FieldList.controlAttributeClassesPairs[name]];
         }
-
     }
 }
