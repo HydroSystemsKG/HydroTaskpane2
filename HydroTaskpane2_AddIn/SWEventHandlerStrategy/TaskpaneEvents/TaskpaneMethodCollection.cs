@@ -182,7 +182,7 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
             DebugBuilder.Print("Fill attributes");
 
-            taskpane.fillAttributes(swModel);
+            taskpane.fillAttributes();
 
             DebugBuilder.Print("End method");
 

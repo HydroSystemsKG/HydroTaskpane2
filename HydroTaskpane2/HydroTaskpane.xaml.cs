@@ -44,7 +44,6 @@ namespace HydroTaskpane2
         public HydroTaskpane2_UI()
         {
             InitializeComponent();
-            CustomTabInit();
 
             this.startingHeight = 458.75;
         }
@@ -129,7 +128,7 @@ namespace HydroTaskpane2
             }
         }
 
-        private void CustomTabInit()
+        public void CustomTabInit()
         {
             var Properties = typeof(PageNames).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.GetValue(typeof(PageNames))).ToList();
 
@@ -366,7 +365,7 @@ namespace HydroTaskpane2
 
         #region fill attributes (after closing Taskpane session)
 
-        public void fillAttributes(object sender, RoutedEventArgs e)
+        public void fillAttributes()
         {
             Dictionary<string, IControlProduct> controls = ControlCollectionSingleton.GetInstance().controlCollection;
 
