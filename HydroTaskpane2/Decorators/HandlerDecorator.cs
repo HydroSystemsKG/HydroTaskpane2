@@ -37,5 +37,10 @@ namespace HydroTaskpane2.Decorators
 
             return product;
         }
+
+        public override void Clear()
+        {
+            base.Clear();
+        }
     }
 }

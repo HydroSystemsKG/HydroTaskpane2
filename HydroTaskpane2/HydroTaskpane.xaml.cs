@@ -39,12 +39,14 @@ namespace HydroTaskpane2
     public partial class HydroTaskpane2_UI : UserControl
     {
         private const string intProgID = "HydroTaskpane2.Taskpane.UI";
-        private double startingHeight = 458.75;
+        private double startingHeight;
 
         public HydroTaskpane2_UI()
         {
             InitializeComponent();
             CustomTabInit();
+
+            this.startingHeight = 458.75;
         }
 
         #region custom init
