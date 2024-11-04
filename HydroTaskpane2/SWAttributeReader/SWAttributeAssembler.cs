@@ -4,28 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HydroTaskpane2.Connectors;
-using HydroTaskpane2.Variable;
-using SldWorks;
-using SwCommands;
-using SwConst;
+using HydroTaskpane2.References;
 
 namespace HydroTaskpane2.SWAttributeReader
 {
     public class SWAttributeAssembler
     {
-        public SWModelConnector modelConnector { get; private set; }
+        public SWModelConnector connector { get; private set; }
         private readonly SWReader swReader;
 
-        public Dictionary<string, string> ControlValuePairs { get; private set; }
+        public Dictionary<int, string> controlValuePairs { get; private set; }
         public Dictionary<string, string> AttributeValuePairs { get; private set; }
 
         public SWAttributeAssembler()
         {
-            this.modelConnector = new SWModelConnector();
+            this.connector = SWModelConnector.GetInstance();
             this.swReader = new SWReader();
 
             this.AttributeValuePairs = new Dictionary<string, string>();
-            this.ControlValuePairs = new Dictionary<string, string>();
+            this.controlValuePairs = new Dictionary<int, string>();
         }
 
         public void assembleAttributes()
@@ -40,21 +37,21 @@ namespace HydroTaskpane2.SWAttributeReader
         {
             string controlValue;
 
-            foreach (string control in AttributeVariable.controlAttributes.Keys)
+            foreach (int key in AttributeVariable.controlAttributePairs.Keys)
             {
-                List<string> attributeKeys = AttributeVariable.controlAttributes[control];
+                List<string> attributeKeys = AttributeVariable.controlAttributePairs[key];
                 List<string> attributeValues = AttributeValuePairs.Where(a => attributeKeys.Contains(a.Key)).Select(a => a.Value).ToList();
 
-                if (attributeValues.All(v => string.IsNullOrEmpty(v)))
+                if (attributeValues.All(v => string.IsNullOrWhiteSpace(v) || string.IsNullOrEmpty(v)))
                 {
-                    controlValue = "";
+                    controlValue = " ";
                 }
                 else
                 {
-                    controlValue = string.Join("  |  ", attributeValues);
+                    controlValue = controlValue = string.Join("  |  ", attributeValues);
                 }
 
-                ControlValuePairs.Add(control, controlValue);
+                controlValuePairs.Add(key, controlValue);
             }
         }
     }

@@ -21,8 +21,8 @@ namespace HydroTaskpane2.SWAttributeReader.ReaderStrategy
         {
             this.reader = reader;
 
-            this.swApp = reader.modelConnector.swApp;
-            this.swModel = reader.modelConnector.swModel;
+            this.swApp = reader.connector.swApp;
+            this.swModel = reader.connector.swModel;
 
             this.attributeValuePairs = new Dictionary<string, string>();
         }
@@ -54,9 +54,7 @@ namespace HydroTaskpane2.SWAttributeReader.ReaderStrategy
                         attributeValuePairs.Add(attribute, "");
                     }
                 }
-
             }
-
         }
 
         public Dictionary<string, string> getDict()

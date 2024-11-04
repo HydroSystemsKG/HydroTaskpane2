@@ -21,8 +21,8 @@ namespace HydroTaskpane2.SWAttributeReader.ReaderStrategy
         {
             this.reader = reader;
 
-            this.swApp = reader.modelConnector.swApp;
-            this.swModel = reader.modelConnector.swModel;
+            this.swApp = reader.connector.swApp;
+            this.swModel = reader.connector.swModel;
 
             this.attributeValuePairs = new Dictionary<string, string>();
         }
@@ -31,6 +31,8 @@ namespace HydroTaskpane2.SWAttributeReader.ReaderStrategy
         {
             Dictionary<string, List<string>> mergedDict = new Dictionary<string, List<string>>();
             List<Dictionary<string, string>> dictList = new List<Dictionary<string, string>>();
+
+            if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING) { return; }
 
             Configuration configuration = default(Configuration);
             string[] configNames = swModel.GetConfigurationNames();
@@ -98,7 +100,6 @@ namespace HydroTaskpane2.SWAttributeReader.ReaderStrategy
                         configAttributeValuePairs.Add(attribute, "");
                     }
                 }
-
             }
 
             return configAttributeValuePairs;
