@@ -46,18 +46,6 @@ namespace HydroTaskpane2.Fabrication
                 case ((int)ControlTypes.checkBox):
                     strategy = new CheckBoxStrategy();
                     break;
-                case ((int)ControlTypes.assemblySurfaceComboBox):
-                    strategy = new ComboBoxStrategy();
-                    break;
-                case ((int)ControlTypes.partSurfaceComboBox):
-                    strategy = new ComboBoxStrategy();
-                    break;
-                case ((int)ControlTypes.partWeldingCheckBox):
-                    strategy = new CheckBoxStrategy();
-                    break;
-                case ((int)ControlTypes.assemblyWeldingCheckBox):
-                    strategy = new CheckBoxStrategy();
-                    break;
             }
 
             this.strategy = strategy;

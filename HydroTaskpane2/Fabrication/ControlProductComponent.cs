@@ -19,5 +19,7 @@ namespace HydroTaskpane2.Fabrication
         }
 
         public abstract UIElement GetControl();
+
+        public abstract void Clear();
     }
 }

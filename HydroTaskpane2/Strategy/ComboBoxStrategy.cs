@@ -71,6 +71,12 @@ namespace HydroTaskpane2.Strategy
             control = (UIElement)comboBox;
         }
 
+        public void Clear()
+        {
+            ComboBox comboBox = (ComboBox)control;
+            comboBox.Text = string.Empty;
+        }
+
         #region event handlers
 
         // common handlers

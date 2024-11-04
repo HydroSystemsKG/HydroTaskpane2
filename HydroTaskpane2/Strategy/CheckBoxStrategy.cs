@@ -59,5 +59,12 @@ namespace HydroTaskpane2.Strategy
             return product;
         }
 
+        public void Clear()
+        {
+            CheckBox checkBox = (CheckBox)control;
+
+            checkBox.IsChecked = false;
+        }
+
     }
 }

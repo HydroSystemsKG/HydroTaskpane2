@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FieldState.Custom_Controls
+namespace HydroTaskpane2.Custom_Controls
 {
     public partial class SetStrength : Form
     {

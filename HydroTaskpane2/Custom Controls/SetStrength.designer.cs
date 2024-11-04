@@ -1,4 +1,4 @@
-﻿namespace FieldState.Custom_Controls
+﻿namespace HydroTaskpane2.Custom_Controls
 {
     partial class SetStrength
     {

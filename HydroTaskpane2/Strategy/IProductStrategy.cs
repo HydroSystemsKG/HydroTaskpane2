@@ -13,5 +13,6 @@ namespace HydroTaskpane2.Strategy
         UIElement control { get; }
         void AssembleUIElement(FactoryParameters parameters);
         void Assemble(FactoryParameters parameters);
+        void Clear();
     }
 }

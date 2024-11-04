@@ -46,6 +46,12 @@ namespace HydroTaskpane2.Strategy
             control = (UIElement)textBox;
         }
 
+        public void Clear()
+        {
+            TextBox textBox = (TextBox)control;
+            textBox.Text = string.Empty;
+        }
+
         // get control from Singleton
 
         private ControlProductComponent getCollectionControl(string key)

@@ -4,16 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HydroTaskpane2"
+        xmlns:converter="clr-namespace:HydroTaskpane2.Converters"
         mc:Ignorable="d"
         x:Name="HydroTaskpane2"
         MinHeight="428"
         MinWidth="428"
         Background="Transparent">
+
     <UserControl.Resources>
-        <Style TargetType="TreeViewItem">
-            <Setter Property="FontFamily"  Value="Callibri"/>
-            <Setter Property="FontSize" Value="9pt"/>
-        </Style>
         <Style x:Key="StackPanelStyle" TargetType="StackPanel">
             <Setter Property="Orientation" Value="Horizontal"/>
             <Setter Property="Margin" Value="3 3"/>
@@ -51,121 +49,32 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <local:BooleanToVisibilityConverter x:Key="BoolToVisConverter"/>
-        <local:PercentageConverter x:Key="PercentageConverter"/>
+        <converter:PercentageConverter x:Key="PercentageConverter"/>
     </UserControl.Resources>
 
-    <Grid Name="TaskpaneGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
-            <RowDefinition Height="*" MinHeight="70"/>
-            <RowDefinition Height="2.5"/>
-            <RowDefinition Height="*" MinHeight="70"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+    
+        <Grid Name="TaskpaneGrid" Background="#F7F7F7">
 
-        <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" MinHeight="70"/>
+            </Grid.RowDefinitions>
 
-        <!-- Toolbar will be built in Grid.Row = 0 -->
+            <!-- Toolbar will be built in Grid.Row = 0 -->
 
-        <Border Grid.Row="0"
-                Background="#F7F7F7"
-                BorderBrush="#00376b"
-                BorderThickness="5,1,5,0.5"/>
+            <Border Grid.Row="0"
+                    Background="#F7F7F7"
+                    BorderBrush="#00376b"
+                    BorderThickness="5,5,5,5">
 
-        <!-- TreeView/Folder structure with the Attribute groups will be built in Grid.Row = 1 -->
+                <TabControl  x:Name="tbCtrl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Background="#F7F7F7">
 
-        <Border Grid.Row="1"
-                Background="#F7F7F7"
-                BorderBrush="#00376b"
-                BorderThickness="5,0.5,5,5"
-                CornerRadius="0,0,8,8" />
+                </TabControl>
 
-        <TreeView Name="AttributeGroups" 
-                  Grid.Row="1"
-                  Background="#F7F7F7"
-                  BorderBrush="#00376b"
-                  BorderThickness="5,5,5,5"
-                  ItemsSource="{Binding}">
+            </Border>
 
-            <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type local:AttributeGroup}" ItemsSource="{Binding Items}">
-                    <StackPanel IsEnabled="{Binding enabled}">
-                        <StackPanel.Resources>
-                            <Style TargetType="StackPanel" BasedOn="{StaticResource ResourceKey=StackPanelStyle}"/>
-                        </StackPanel.Resources>
-                        <Image Source="{Binding image, TargetNullValue={x:Null}}" VerticalAlignment="Center">
-                            <Image.Style>
-                                <Style TargetType="{x:Type Image}">
-                                    <Setter Property="Height" Value="15"/>
-                                    <Setter Property="Width" Value="15"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding image}" Value="{x:Null}">
-                                            <Setter Property="Height" Value="0"/>
-                                            <Setter Property="Width" Value="0"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Image.Style>
-                        </Image>
-                        <TextBlock Text="{Binding space, TargetNullValue={x:Null}}"/>
-                        <TextBlock Name="boldBlock" Text="{Binding name}" FontWeight="{Binding bold}"/>
-                    </StackPanel>
-                </HierarchicalDataTemplate>
-                <DataTemplate DataType="{x:Type local:AttributeField}">
-                    <StackPanel>
-                        <TextBlock Text="{Binding name}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </TreeView.Resources>
+        </Grid>
+        
+    </ScrollViewer>
 
-        </TreeView>
-
-        <!-- Viasualization/changing structure will be presented in Grid.Row = 3, since Row 2 is the gridsplitter -->
-
-        <Border Grid.Row="3"
-                Background="#F7F7F7"
-                BorderBrush="#00376b"
-                BorderThickness="5,5,5,5">
-            
-            <ListBox x:Name="FieldsListBox" Background="#F7F7F7" ItemsSource="{Binding Path=SelectedItem.fields, ElementName=AttributeGroups}">
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource NoSelectionListBoxItemStyle}" />
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type local:AttributeField}">
-                        <StackPanel Orientation="Vertical">
-                            <Label Content="{Binding label}" HorizontalAlignment="Left" Padding="0,5,5,5"/>
-                            <ComboBox Width="{Binding 
-                                               Converter={StaticResource PercentageConverter}, 
-                                               ElementName=FieldsListBox, 
-                                               Path=ActualWidth, 
-                                               ConverterParameter=0.9}" 
-                                      IsDropDownOpen="False" 
-                                      IsEditable="True" 
-                                      ItemsSource="{Binding dropdown}" 
-                                      Visibility="{Binding comboBoxControl, Converter={StaticResource BoolToVisConverter}}" 
-                                      IsTextSearchEnabled="True"
-                                      Height="{Binding height}"
-                                      Text="{Binding content}"/>
-                            <TextBox Width="{Binding 
-                                               Converter={StaticResource PercentageConverter}, 
-                                               ElementName=FieldsListBox, 
-                                               Path=ActualWidth, 
-                                               ConverterParameter=0.9}"  
-                                     Visibility="{Binding textBoxControl, Converter={StaticResource BoolToVisConverter}}"
-                                     Height="{Binding height}"
-                                     Text="{Binding content}"
-                                     VerticalContentAlignment="Center"/>
-                            <CheckBox Content="{Binding label}" 
-                                      Visibility="{Binding checkBoxControl, Converter={StaticResource BoolToVisConverter}}"
-                                      IsChecked="{Binding content}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-
-            </ListBox>
-            
-        </Border>
-
-    </Grid>
 </UserControl>

@@ -11,5 +11,6 @@ namespace HydroTaskpane2.Fabrication
     {
         void Assemble();
         UIElement GetControl();
+        void Clear();
     }
 }

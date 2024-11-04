@@ -22,7 +22,7 @@ namespace HydroTaskpane2.SWAttributeObserver
         public void Update(string name, object content)
         {
             generator = new AttributeValuePairGenerator(name, content);
-            generator.assemblePairDict();
+            generator.AssemblePairDict();
 
             // subscriber/observer
             SWObserver observer = new SWObserver(publisher);

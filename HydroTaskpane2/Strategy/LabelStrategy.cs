@@ -47,6 +47,11 @@ namespace HydroTaskpane2.Strategy
             control = (UIElement)label;
         }
 
+        public void Clear()
+        {
+            return;
+        }
+
         // get control from Singleton
 
         private ControlProductComponent getCollectionControl(string key)

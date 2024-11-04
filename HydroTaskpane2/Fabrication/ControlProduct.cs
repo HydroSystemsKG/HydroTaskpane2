@@ -24,5 +24,10 @@ namespace HydroTaskpane2.Fabrication
         {
             return strategy.control;
         }
+
+        public override void Clear()
+        {
+            strategy.Clear();
+        }
     }
 }
