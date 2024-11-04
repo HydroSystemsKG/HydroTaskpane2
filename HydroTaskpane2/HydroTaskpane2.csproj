@@ -95,6 +95,11 @@
     <Compile Include="References\ControlTypes.cs" />
     <Compile Include="References\FieldList.cs" />
     <Compile Include="References\PageNames.cs" />
+    <Compile Include="Strategy\CheckBoxStrategy.cs" />
+    <Compile Include="Strategy\ComboBoxStrategy.cs" />
+    <Compile Include="Strategy\IProductStrategy.cs" />
+    <Compile Include="Strategy\LabelStrategy.cs" />
+    <Compile Include="Strategy\TextBoxStrategy.cs" />
     <Compile Include="SWAttributeObserver\AttributeValuePairGenerator.cs" />
     <Compile Include="SWAttributeObserver\Observer\ISWObserver.cs" />
     <Compile Include="SWAttributeObserver\Observer\SWObserver.cs" />
