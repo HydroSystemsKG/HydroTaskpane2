@@ -47,6 +47,7 @@ namespace HydroTaskpane2.References
             // neue felder
             {(int)AttributeClass_e.yieldstrength, new List<string>{SldWorksConstants.sldworks_attr_yieldstrength}},
             {(int)AttributeClass_e.tensilestrength, new List<string>{SldWorksConstants.sldworks_attr_tensilestrength}},
+            {(int)AttributeClass_e.elongation, new List<string>{ SldWorksConstants.sldworks_attr_elongation}},
             {(int)AttributeClass_e.specialselection, new List<string>{ SldWorksConstants.sldworks_attr_specialselection_number, SldWorksConstants.sldworks_attr_specialselection_en, SldWorksConstants.sldworks_attr_specialselection_de} },
             // Angebotsblaetter
             {(int)AttributeClass_e.revisionstatus, new List<string>{SldWorksConstants.sldworks_attr_revisionstatus}},

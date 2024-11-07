@@ -36,6 +36,10 @@ namespace HydroTaskpane2.References
             new object[] { "part_yieldstrength_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
             new object[] { "part_tensilestrength_label", (int)ControlTypes.label, "Tensile Strength | Zugfestigkeit [MPa]", height, null, PageNames.standard, null},
             new object[] { "part_tensilestrength_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
+
+            new object[] { "part_elongationatbreak_label", (int)ControlTypes.label, "Elongation at break | Bruichdehnung [mm]", height, null, PageNames.standard, null},
+            new object[] { "part_elongationatbreak_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
+
             // #########
             new object[] { "part_materialalt_label", (int)ControlTypes.label, "Material Hydro Variant 2 | Werkstoff Hydro Variante 2", height, null, PageNames.standard, null},
             new object[] { "part_materialalt_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_part_material, PageNames.standard, (int)Decorator_e.standard},
@@ -92,9 +96,9 @@ namespace HydroTaskpane2.References
             new object[] { "assembly_surface_label", (int)ControlTypes.label, "Surface Finish | Oberflächenbehandlung", height, null, PageNames.standard, null},
             new object[] { "assembly_surface_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_surface, PageNames.standard, (int)Decorator_e.color},
             new object[] { "assembly_color_label", (int)ControlTypes.label, "Standard Color | Standardfarbe", height, null, PageNames.standard, null},
-            new object[] { "assembly_color_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_standardcolor, PageNames.standard, (int)Decorator_e.cv},
+            new object[] { "assembly_color_dropdown", (int)ControlTypes.comboBox, "not necessary | not necessary | nicht erforderlich", controlHeight, SldWorksConstants.filename_mix_standardcolor, PageNames.standard, (int)Decorator_e.cv},
             new object[] { "assembly_varnishing_label", (int)ControlTypes.label, "Lacquering | Lackierung", height, null, PageNames.standard, null},
-            new object[] { "assembly_varnishing_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_standardcolor, PageNames.standard, (int)Decorator_e.cv},
+            new object[] { "assembly_varnishing_dropdown", (int)ControlTypes.comboBox, "not necessary | not necessary | nicht erforderlich", controlHeight, SldWorksConstants.filename_mix_standardcolor, PageNames.standard, (int)Decorator_e.cv},
             new object[] { "assembly_additionalinfo_label", (int)ControlTypes.label, "Additional Information | Zusatzinformationen", height, null, PageNames.standard, null},
             new object[] { "assembly_additionalinfo_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_additionalinformation, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "assembly_basedon_label", (int)ControlTypes.label, "Based On | Basierend Auf", height, null, PageNames.standard, null},
@@ -349,6 +353,7 @@ namespace HydroTaskpane2.References
             { "part_material_dropdown" , (int)AttributeClass_e.materialhydro1},
             { "part_yieldstrength_textbox" , (int)AttributeClass_e.yieldstrength}, // Yield strength
             { "part_tensilestrength_textbox" , (int)AttributeClass_e.tensilestrength}, // Tensile strength
+            { "part_elongationatbreak_textbox", (int)AttributeClass_e.elongation}, // elongation at break
             { "part_materialalt_dropdown" , (int)AttributeClass_e.materialhydro2},
             { "part_materialadd_textbox" , (int)AttributeClass_e.materialhydroadd},
             { "part_materialorig_dropdown" , (int)AttributeClass_e.materialoriginal},
@@ -390,7 +395,7 @@ namespace HydroTaskpane2.References
             { "drawing_changedescription_textbox" , (int)AttributeClass_e.changeshortdescription},
             { "drawing_occurs_textbox" , (int)AttributeClass_e.occurs},
             { "drawing_additionalinfo_textbox" , (int)AttributeClass_e.addinformation},
-            { "drawing_specialselection_dropdown" , (int)AttributeClass_e.specialselection}, // add special selection
+            { "drawing_specialselection_textbox" , (int)AttributeClass_e.specialselection}, // add special selection
             { "drawing_heattreat_textbox" , (int)AttributeClass_e.heattreatment},
             { "drawing_preconditioning_textbox" , (int)AttributeClass_e.preconditioning},
             { "drawing_surface_textbox" , (int)AttributeClass_e.surfacefinish},

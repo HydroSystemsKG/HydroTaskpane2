@@ -34,6 +34,17 @@ namespace HydroTaskpane2.Decorators
             }
         }
 
+        public override void Dissassemble()
+        {
+            base.Dissassemble();
+
+            CheckBox element = (CheckBox)GetControl();
+
+            element.Checked -= new RoutedEventHandler(OnChecked);
+            element.Unchecked -= new RoutedEventHandler(OnUnchecked);
+
+        }
+
         public override UIElement GetControl()
         {
             return control.GetControl();
@@ -62,25 +73,23 @@ namespace HydroTaskpane2.Decorators
 
             if (check)
             {
-                dyeComboBox.IsEnabled = true;
                 dyeComboBox.Text = "not required  |  nicht erforderlich";
-
-                visualComboBox.IsEnabled = true;
                 visualComboBox.Text = "not required  |  nicht erforderlich";
-
-                qualityComboBox.IsEnabled = true;
                 qualityComboBox.Text = "DIN EN ISO 5817 -C-";
+
+                dyeComboBox.IsEnabled = true;
+                visualComboBox.IsEnabled = true;
+                qualityComboBox.IsEnabled = true;
             }
             else
             {
-                dyeComboBox.IsEnabled = false;
                 dyeComboBox.Text = "";
-
-                visualComboBox.IsEnabled = false;
                 visualComboBox.Text = "";
-
-                qualityComboBox.IsEnabled = false;
                 qualityComboBox.Text = "";
+
+                dyeComboBox.IsEnabled = false;
+                visualComboBox.IsEnabled = false;
+                qualityComboBox.IsEnabled = false;
             }
         }
 

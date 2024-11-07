@@ -14,6 +14,7 @@ namespace HydroTaskpane2.Custom_Controls
     {
         public double tensile;
         public double yield;
+        public double elongation;
 
         public SetStrength()
         {
@@ -29,7 +30,7 @@ namespace HydroTaskpane2.Custom_Controls
             }
             else
             {
-                if (Double.TryParse(tensileTextBox.Text, out tensile) && Double.TryParse(yieldTextBox.Text, out yield))
+                if (Double.TryParse(tensileTextBox.Text, out tensile) && Double.TryParse(yieldTextBox.Text, out yield) && Double.TryParse(elongationTextBox.Text, out elongation))
                 {
                     this.DialogResult = DialogResult.OK;
                     this.Close();
@@ -38,6 +39,7 @@ namespace HydroTaskpane2.Custom_Controls
                 {
                     bool tensileLetterInString = tensileTextBox.Text.Any(x => char.IsLetter(x));
                     bool yieldLetterInString = yieldTextBox.Text.Any(x => char.IsLetter(x));
+                    bool elongationLetterInString = elongationTextBox.Text.Any(x => char.IsLetter(x));
 
                     if (tensileLetterInString)
                     {
@@ -47,16 +49,21 @@ namespace HydroTaskpane2.Custom_Controls
                     {
                         yieldTextBox.Text = "";
                     }
+                    else if (elongationLetterInString)
+                    {
+                        elongationTextBox.Text = "";
+                    }
                 }
             }
         }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Aborting...Strengths are set to 0 N/mm². Strength computation might be wrong.");
+            MessageBox.Show("Aborting...Strengths are set to 0 N/mm² and elongation to 0 mm. Strength computation might be wrong.");
 
             tensile = 0;
             yield = 0;
+            elongation = 0;
 
             this.DialogResult = DialogResult.Cancel;
             this.Close();
@@ -77,6 +84,20 @@ namespace HydroTaskpane2.Custom_Controls
         }
 
         private void yieldTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ','))
+            {
+                e.Handled = true;
+            }
+
+            // allow one decimal point
+            if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void elongationTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != ','))
             {

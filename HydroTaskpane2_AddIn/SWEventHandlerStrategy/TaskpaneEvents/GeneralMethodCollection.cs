@@ -14,13 +14,13 @@ using System.Reflection;
 using System.IO;
 using HydroSolidworksLibrary;
 using HydroTaskpane2.Connectors;
+using HydroTaskpane2.References;
 using HydroTaskpane2_AddIn.SWEventHandlerStrategy.AttributeTemplates;
 
 namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 {
-    public class GeneralMethodCollection : SWAppConnector
+    public class GeneralMethodCollection
     {
-
         public GeneralMethodCollection() : base()
         {
 
@@ -30,7 +30,7 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
         public void setDescription()
         {
-            ModelDoc2 swModel = swApp.ActiveDoc();
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
 
             try
             {
@@ -62,6 +62,50 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
             catch (Exception e)
             {
                 Debug.Print(" :: Hydro Taskpane :: ERROR - " + e.ToString() + " :: ");
+            }
+        }
+
+        public void UpdateDrawing(HydroTaskpane2.HydroTaskpane2_UI taskpane)
+        {
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
+            SldWorks.SldWorks swApp = SWModelConnector.GetInstance().swApp;
+
+            DrawingDoc swDrawing = null;
+            ModelDoc2 swRefModel = null;
+
+            if (swModel.GetType() != (int)swDocumentTypes_e.swDocDRAWING || swModel == null) { return; }
+
+            try
+            {
+                swDrawing = (DrawingDoc)swModel;
+                swRefModel = (ModelDoc2)((View)swDrawing.GetFirstView()).GetNextView().ReferencedDocument;
+            }
+            catch(Exception e)
+            {
+                DebugBuilder.PrintError(e);
+                return;
+            }
+
+            DebugBuilder.Print($"Run methods to update drawing (swRefModel is null (({(swRefModel == null).ToString()}))");
+
+            if (swRefModel != null)
+            {
+                SldWorksStandards.CheckForOldAttributes(ref swModel, ref swRefModel);
+                SldWorksStandards.CopyAttributesFromReferenceModel(ref swModel, ref swRefModel);
+
+                // check drafter
+                SldWorksStandards.CheckDrafter(ref swApp, ref swModel, ref swRefModel);
+
+                string revision = SldWorksStandards.getAttribute(ref swApp, SldWorksConstants.sldworks_attr_revision);
+
+                try
+                {
+                    taskpane.fillControls();
+                }
+                catch(Exception e)
+                {
+                    DebugBuilder.PrintError(e);
+                }
             }
         }
 
@@ -131,7 +175,7 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
         private void setLoadAttributes(string attrSource, string attrTarget, Func<string, string> valFilter = null)
         {
-            ModelDoc2 swModel = swApp.ActiveDoc;
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
 
             string attrSourceValue = HydroSolidworksLibrary.SldWorksStandards.getConfigAttribute(ref swModel, attrSource);
 

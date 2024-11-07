@@ -28,11 +28,47 @@ namespace HydroTaskpane2.Decorators
 
             int type = (int)control.parameters.getParameter("controlType");
 
-            if (type != (int)ControlTypes.label && type != (int)ControlTypes.longLabel)
+            switch (type)
             {
-                UIElement element = GetControl();
+                case ((int)ControlTypes.comboBox):
+                    ComboBox comboBox = (ComboBox) GetControl();
+                    comboBox.AddHandler(System.Windows.Controls.Primitives.TextBoxBase.TextChangedEvent, new System.Windows.Controls.TextChangedEventHandler(OnTextChanged));
+                    break;
+                case ((int)ControlTypes.textBox):
+                    TextBox textBox = (TextBox)GetControl();
+                    textBox.AddHandler(System.Windows.Controls.Primitives.TextBoxBase.TextChangedEvent, new System.Windows.Controls.TextChangedEventHandler(OnTextChanged));
+                    break;
+                case ((int)ControlTypes.checkBox):
+                    CheckBox checkBox = (CheckBox)GetControl();
+                    checkBox.Checked += new RoutedEventHandler(OnCheckChange);
+                    checkBox.Unchecked += new RoutedEventHandler(OnCheckChange);
+                    break;
+            }
+            
 
-                element.LostFocus += new RoutedEventHandler(OnLostFocus);
+        }
+
+        public override void Dissassemble()
+        {
+            base.Dissassemble();
+
+            int type = (int)control.parameters.getParameter("controlType");
+
+            switch (type)
+            {
+                case ((int)ControlTypes.comboBox):
+                    ComboBox comboBox = (ComboBox)GetControl();
+                    comboBox.RemoveHandler(System.Windows.Controls.Primitives.TextBoxBase.TextChangedEvent, new System.Windows.Controls.TextChangedEventHandler(OnTextChanged));
+                    break;
+                case ((int)ControlTypes.textBox):
+                    TextBox textBox = (TextBox)GetControl();
+                    textBox.RemoveHandler(System.Windows.Controls.Primitives.TextBoxBase.TextChangedEvent, new System.Windows.Controls.TextChangedEventHandler(OnTextChanged));
+                    break;
+                case ((int)ControlTypes.checkBox):
+                    CheckBox checkBox = (CheckBox)GetControl();
+                    checkBox.Checked -= new RoutedEventHandler(OnCheckChange);
+                    checkBox.Unchecked -= new RoutedEventHandler(OnCheckChange);
+                    break;
             }
         }
 
@@ -41,8 +77,26 @@ namespace HydroTaskpane2.Decorators
             return control.GetControl();
         }
 
-        private void OnLostFocus(object sender, RoutedEventArgs e)
+        #region specific handlers
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
+            SetControlAttributes(sender, null);
+        }
+
+        private void OnCheckChange(object sender, RoutedEventArgs e)
+        {
+            SetControlAttributes(sender, null);
+        }
+
+        #endregion
+
+        private void SetControlAttributes(object sender, RoutedEventArgs e)
+        {
+            bool flag = HandlingFlag.GetInstance().flag;
+
+            if (!flag) { return; }
+
             string name = "";
             string content = "";
 
@@ -72,7 +126,7 @@ namespace HydroTaskpane2.Decorators
 
             if (!string.IsNullOrEmpty(content))
             {
-                Debug.Print($"CONTROL: |{name}|; CONTENT: |{content}|");
+                Debug.Print($"Standard Handler Decorator - CONTROL: |{name}|; CONTENT: |{content}|");
                 UpdatePublisher publisher = new UpdatePublisher();
                 publisher.Update(name, content);
 

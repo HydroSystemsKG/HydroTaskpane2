@@ -100,7 +100,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
             this.swTaskpaneView.DisplayWindowFromHandlex64(element.Handle.ToInt64());
 
-            this.taskpane.CustomTabInit();
+            //this.taskpane.CustomTabInit();
         }
 
         public void unloadTaskpane()

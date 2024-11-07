@@ -37,8 +37,16 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
         {
             DebugBuilder.Print("When New: Call hide() and then show()");
 
-            taskpane.hide();
-            taskpane.show(docType);
+            try
+            {
+                taskpane.RemoveItems();
+                taskpane.CustomTabInit();
+                taskpane.fillAttributes();
+            }
+            catch (Exception e)
+            {
+                Debug.Print(e.ToString());
+            }
 
             DebugBuilder.Print("End method");
 
@@ -47,53 +55,42 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
         public int swApp_FileOpenNotify2(string filename)
         {
-            DebugBuilder.Print("When Open: Call hide() and then show() based on extension...");
-
-            taskpane.hide();
-
-            string extension = Path.GetExtension(filename).ToLower();
-
-            if (extension.Contains("prt"))
-            {
-                DebugBuilder.Print("Extension contains (PRT)");
-                taskpane.show((int)swDocumentTypes_e.swDocPART);
-            }
-            else if (extension.Contains("asm"))
-            {
-                DebugBuilder.Print("Extension contains (ASM)");
-                taskpane.show((int)swDocumentTypes_e.swDocASSEMBLY);
-            }
-            else if (extension.Contains("drw"))
-            {
-                DebugBuilder.Print("Extension contains (DRW)");
-                taskpane.show((int)swDocumentTypes_e.swDocDRAWING);
-            }
-
             //generalMethodCollection.startAttribution();
             //generalMethodCollection.copyAttributeList();
 
-            DebugBuilder.Print("Fill controls");
-
-            taskpane.fillControls();
-
+            try
+            {
+                taskpane.RemoveItems();
+                taskpane.CustomTabInit();
+                taskpane.fillControls();
+            }
+            catch (Exception e)
+            {
+                Debug.Print(e.ToString());
+            }
             DebugBuilder.Print("End method");
 
             return 0;
         }
 
-        public int swApp_FileCloseNotify(string filename, int reason)
+        public int swApp_ActiveModelDocChangeNotify()
         {
             try
             {
-                DebugBuilder.Print("When closing: use hide()");
+                taskpane.RemoveItems();
+                taskpane.CustomTabInit();
 
-                taskpane.hide();
+                // turn flag off only when changing active model docs
+                HydroTaskpane2.References.HandlingFlag.GetInstance().flag = false;
+
+                taskpane.fillControls();
+
+                HydroTaskpane2.References.HandlingFlag.GetInstance().flag = true;
             }
             catch (Exception e)
             {
-                Debug.Print("ERROR - " + e.ToString());
+                Debug.Print(e.ToString());
             }
-
             DebugBuilder.Print("End method");
 
             return 0;
@@ -107,13 +104,9 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
         {
             try
             {
-                DebugBuilder.Print("When destroyed: Use hide()");
+                DebugBuilder.Print("When destroyed: Use RemoveItems()");
 
-                // remove content and selection from treeView and hide all content
-
-                taskpane.hide();
-
-                //taskpane.hideTypeControls(docType, true);
+                //taskpane.RemoveItems();
             }
             catch (Exception e)
             {
@@ -125,67 +118,79 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
             return 0;
         }
 
+        public int swDrawing_AddItemNotify(int entityType, string itemName)
+        {
+            if (entityType == (int)swNotifyEntityType_e.swNotifyDrawingSheet)
+            {
+                taskpane.RemoveItems();
+                taskpane.CustomTabInit();
+                taskpane.fillControls();
+            }
+
+            return 0;
+        }
+
         #endregion
 
         #region taskpane event handlers
 
         public int swTaskPane_TaskPaneActivateNotify()
         {
-            ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
+            Debug.Print("ACTIVATED TASKPANE");
 
-            DebugBuilder.Print("Check if model is null...");
-
-            if (swModel == null)
+            try
             {
-                DebugBuilder.Print("... model is null: Use hide()");
-                try
+                ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
+
+                DebugBuilder.Print("Check if model is null...");
+
+                if (swModel == null)
                 {
-                    taskpane.hide();
+                    DebugBuilder.Print("... model is null: Use hide()");
+                    taskpane.RemoveItems();
 
                     return 1;
                 }
-                catch (Exception e)
+                else
                 {
-                    DebugBuilder.PrintError(e);
+                    DebugBuilder.Print("Update Drawing");
+                    
+                    generalMethodCollection.UpdateDrawing(taskpane);
+
+                    DebugBuilder.Print("Update Drawing ...done");
                 }
+
             }
-            else
+            catch(Exception e)
             {
-                DebugBuilder.Print("... model is not null: setDescription() + fillControls()");
-                try
-                {
-                    // set description and copy attributes
-                    DebugBuilder.Print("... setDescription() ...");
-
-                    generalMethodCollection.setDescription();
-                }
-                catch (Exception e)
-                {
-                    DebugBuilder.PrintError(e);
-                    DebugBuilder.Print(e.ToString());
-                }
-
-                //Debug.Print("############## FILL CONTROLS ##############");
-                DebugBuilder.Print("... fillControls() ...");
-
-                taskpane.fillControls();
+                DebugBuilder.PrintError(e);
             }
-
-            DebugBuilder.Print("End method");
 
             return 0;
         }
 
         public int swTaskPane_TaskPaneDeactivateNotify()
         {
-            ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            DebugBuilder.Print("Fill attributes");
+            try
+            {
+                DebugBuilder.Print("Fill attributes");
 
-            taskpane.fillAttributes();
+                //taskpane.fillAttributes();
 
-            DebugBuilder.Print("End method");
+                DebugBuilder.Print("End method");
+            }
+            catch(Exception e)
+            {
+                DebugBuilder.PrintError(e);
+            }
 
+            stopwatch.Stop();
+
+            DebugBuilder.Print($"ELAPSED TIME: {(stopwatch.ElapsedMilliseconds / 1e3).ToString("0.00s")}");
+            
             return 1;
         }
 

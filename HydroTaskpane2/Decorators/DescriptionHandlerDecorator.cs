@@ -30,10 +30,20 @@ namespace HydroTaskpane2.Decorators
 
             if (type != (int)ControlTypes.label && type != (int)ControlTypes.longLabel)
             {
-                UIElement element = GetControl();
+                ComboBox comboBox = (ComboBox)GetControl();
 
-                element.LostFocus += new RoutedEventHandler(OnLostFocus);
+                comboBox.AddHandler(System.Windows.Controls.Primitives.TextBoxBase.TextChangedEvent, new System.Windows.Controls.TextChangedEventHandler(OnTextChanged));
             }
+        }
+
+        public override void Dissassemble()
+        {
+            base.Dissassemble();
+
+            ComboBox comboBox = (ComboBox)GetControl();
+
+            comboBox.RemoveHandler(System.Windows.Controls.Primitives.TextBoxBase.TextChangedEvent, new System.Windows.Controls.TextChangedEventHandler(OnTextChanged));
+
         }
 
         public override UIElement GetControl()
@@ -41,8 +51,12 @@ namespace HydroTaskpane2.Decorators
             return control.GetControl();
         }
 
-        private void OnLostFocus(object sender, RoutedEventArgs e)
+        private void OnTextChanged(object sender, RoutedEventArgs e)
         {
+            bool flag = HandlingFlag.GetInstance().flag;
+
+            if (!flag) { return; }
+
             controls = collectionSingleton.controlCollection;
 
             SldWorks.SldWorks swApp = SWModelConnector.GetInstance().swApp;

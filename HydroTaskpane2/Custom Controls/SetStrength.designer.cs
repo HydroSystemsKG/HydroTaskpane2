@@ -37,8 +37,12 @@
             this.CancelButton = new System.Windows.Forms.Button();
             this.tensileGroup = new System.Windows.Forms.GroupBox();
             this.yieldGroup = new System.Windows.Forms.GroupBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.elongationTextBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.tensileGroup.SuspendLayout();
             this.yieldGroup.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tensileTextBox
@@ -92,7 +96,7 @@
             this.OkButton.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.Info;
             this.OkButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.OkButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.OkButton.Location = new System.Drawing.Point(27, 213);
+            this.OkButton.Location = new System.Drawing.Point(33, 270);
             this.OkButton.Name = "OkButton";
             this.OkButton.Size = new System.Drawing.Size(112, 23);
             this.OkButton.TabIndex = 7;
@@ -106,7 +110,7 @@
             this.CancelButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.CancelButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.CancelButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.CancelButton.Location = new System.Drawing.Point(147, 213);
+            this.CancelButton.Location = new System.Drawing.Point(153, 270);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(112, 23);
             this.CancelButton.TabIndex = 8;
@@ -136,13 +140,43 @@
             this.yieldGroup.TabStop = false;
             this.yieldGroup.Text = "Yield strength";
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.elongationTextBox);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Location = new System.Drawing.Point(27, 196);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(306, 56);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Elongation at break";
+            // 
+            // elongationTextBox
+            // 
+            this.elongationTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.elongationTextBox.Location = new System.Drawing.Point(6, 19);
+            this.elongationTextBox.Name = "elongationTextBox";
+            this.elongationTextBox.Size = new System.Drawing.Size(232, 20);
+            this.elongationTextBox.TabIndex = 0;
+            this.elongationTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.elongationTextBox_KeyPress);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(256, 25);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(23, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "mm";
+            // 
             // SetStrength
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(365, 272);
+            this.ClientSize = new System.Drawing.Size(365, 323);
             this.ControlBox = false;
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.yieldGroup);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.OkButton);
@@ -159,6 +193,8 @@
             this.tensileGroup.PerformLayout();
             this.yieldGroup.ResumeLayout(false);
             this.yieldGroup.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,5 +211,8 @@
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.GroupBox tensileGroup;
         private System.Windows.Forms.GroupBox yieldGroup;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox elongationTextBox;
+        private System.Windows.Forms.Label label3;
     }
 }

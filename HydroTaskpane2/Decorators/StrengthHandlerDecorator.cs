@@ -37,6 +37,17 @@ namespace HydroTaskpane2.Decorators
             }
         }
 
+        public override void Dissassemble()
+        {
+            base.Dissassemble();
+
+            TextBox element = (TextBox)GetControl();
+
+            element.LostFocus -= new RoutedEventHandler(OnLostFocus);
+            element.TextChanged -= new TextChangedEventHandler(OnTextChanged);
+
+        }
+
         public override UIElement GetControl()
         {
             return control.GetControl();
@@ -62,6 +73,10 @@ namespace HydroTaskpane2.Decorators
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
+            bool flag = HandlingFlag.GetInstance().flag;
+
+            if (!flag) { return; }
+
             TextBox senderControl = (TextBox)sender;
 
             string name = senderControl.Name;

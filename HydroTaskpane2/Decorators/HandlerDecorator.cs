@@ -24,6 +24,11 @@ namespace HydroTaskpane2.Decorators
             this.parameters = control.parameters;
         }
 
+        public override void Dissassemble()
+        {
+            this.control.Dissassemble();
+        }
+
         // get controls from Singleton
 
         public ControlProductComponent getCollectionControl(string key)

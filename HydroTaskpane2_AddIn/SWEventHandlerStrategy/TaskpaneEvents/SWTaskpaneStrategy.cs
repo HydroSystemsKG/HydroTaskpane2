@@ -34,12 +34,13 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
             // attach handlers to the app instance
             swApp.FileNewNotify2 += methodCollection.swApp_FileNewNotify2;
             swApp.FileOpenNotify2 += methodCollection.swApp_FileOpenNotify2;
-            swApp.FileCloseNotify += methodCollection.swApp_FileCloseNotify;
+            swApp.ActiveModelDocChangeNotify += methodCollection.swApp_ActiveModelDocChangeNotify;
 
             // taskpane events
             swTaskpaneView.TaskPaneActivateNotify += methodCollection.swTaskPane_TaskPaneActivateNotify;
             swTaskpaneView.TaskPaneDeactivateNotify += methodCollection.swTaskPane_TaskPaneDeactivateNotify;
             swTaskpaneView.TaskPaneDestroyNotify += methodCollection.swTaskPane_TaskPaneDestroyNotify;
+
         }
 
         public void DetachEventHandlers()
@@ -49,7 +50,7 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
             // detach handlers to the app instance
             swApp.FileNewNotify2 -= methodCollection.swApp_FileNewNotify2;
             swApp.FileOpenNotify2 -= methodCollection.swApp_FileOpenNotify2;
-            swApp.FileCloseNotify -= methodCollection.swApp_FileCloseNotify;
+            swApp.ActiveModelDocChangeNotify -= methodCollection.swApp_ActiveModelDocChangeNotify;
 
             // taskpane events
             swTaskpaneView.TaskPaneActivateNotify -= methodCollection.swTaskPane_TaskPaneActivateNotify;
@@ -71,6 +72,7 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 {
                     case swDocumentTypes_e.swDocDRAWING:
                         (swModel as DrawingDoc).DestroyNotify2 += methodCollection.swModel_DestroyNotify2;
+                        //(swModel as DrawingDoc).AddItemNotify += methodCollection.swDrawing_AddItemNotify;
                         break;
                     case swDocumentTypes_e.swDocASSEMBLY:
                         (swModel as AssemblyDoc).DestroyNotify2 += methodCollection.swModel_DestroyNotify2;
@@ -92,6 +94,7 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 {
                     case swDocumentTypes_e.swDocDRAWING:
                         (swModel as DrawingDoc).DestroyNotify2 -= methodCollection.swModel_DestroyNotify2;
+                        //(swModel as DrawingDoc).AddItemNotify -= methodCollection.swDrawing_AddItemNotify;
                         break;
                     case swDocumentTypes_e.swDocASSEMBLY:
                         (swModel as AssemblyDoc).DestroyNotify2 -= methodCollection.swModel_DestroyNotify2;

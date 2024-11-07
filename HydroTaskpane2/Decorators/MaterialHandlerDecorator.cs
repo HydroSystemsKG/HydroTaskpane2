@@ -38,6 +38,16 @@ namespace HydroTaskpane2.Decorators
             }
         }
 
+        public override void Dissassemble()
+        {
+            base.Dissassemble();
+
+            ComboBox element = (ComboBox)GetControl();
+
+            element.LostFocus -= new RoutedEventHandler(OnLostFocus);
+            element.GotFocus -= new RoutedEventHandler(OnGotFocus);
+        }
+
         public override UIElement GetControl()
         {
             return control.GetControl();
@@ -57,17 +67,20 @@ namespace HydroTaskpane2.Decorators
             {
                 TextBox tensileStrengthBox = (TextBox)(controls[controls.Keys.Where(k => new string[] { "tensile", "textbox" }.All(k.ToLower().Contains)).ToArray()[0]]).GetControl();
                 TextBox yieldStrengthBox = (TextBox)(controls[controls.Keys.Where(k => new string[] { "yield", "textbox" }.All(k.ToLower().Contains)).ToArray()[0]]).GetControl();
+                TextBox elongationBox = (TextBox)(controls[controls.Keys.Where(k => new string[] { "elongation", "textbox" }.All(k.ToLower().Contains)).ToArray()[0]]).GetControl();
 
                 if (string.IsNullOrWhiteSpace(senderControl.Text))
                 {
                     tensileStrengthBox.Text = "";
                     yieldStrengthBox.Text = "";
+                    elongationBox.Text = "";
 
                     return;
                 }
 
                 double tensile = 0;
                 double yield = 0;
+                double elongation = 0;
 
                 SetStrength window = new SetStrength();
                 var result = window.ShowDialog();
@@ -76,6 +89,7 @@ namespace HydroTaskpane2.Decorators
                 {
                     tensile = window.tensile;
                     yield = window.yield;
+                    elongation = window.elongation;
                 }
 
                 if (tensile != 0)
@@ -90,6 +104,11 @@ namespace HydroTaskpane2.Decorators
                     // enable and set - Yield strength
                     //yieldStrengthBox.IsEnabled = true;
                     yieldStrengthBox.Text = yield.ToString();
+                }
+
+                if (elongation != 0)
+                {
+                    elongationBox.Text = elongation.ToString();
                 }
 
                 text = senderControl.Text;

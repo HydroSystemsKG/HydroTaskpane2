@@ -33,7 +33,11 @@ namespace HydroTaskpane2.SWAttributeObserver
                 foreach (string attribute in generator.attributeValuePairs.Keys)
                 {
                     Tuple<string, string> tuple = new Tuple<string, string>(attribute, generator.attributeValuePairs[attribute]);
-                    publisher.attributeValuePair = tuple;
+                    // addition (only make changes when values are different)
+                    if (!tuple.Equals(publisher.attributeValuePair))
+                    {
+                        publisher.attributeValuePair = tuple;
+                    }
                 }
             }
 

@@ -94,6 +94,7 @@
     <Compile Include="References\ControlCollectionSingleton.cs" />
     <Compile Include="References\ControlTypes.cs" />
     <Compile Include="References\FieldList.cs" />
+    <Compile Include="References\HandlingFlag.cs" />
     <Compile Include="References\PageNames.cs" />
     <Compile Include="Strategy\CheckBoxStrategy.cs" />
     <Compile Include="Strategy\ComboBoxStrategy.cs" />

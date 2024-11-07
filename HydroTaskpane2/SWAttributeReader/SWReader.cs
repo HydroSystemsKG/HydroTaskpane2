@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using HydroTaskpane2.Connectors;
 using HydroTaskpane2.SWAttributeReader.ReaderStrategy;

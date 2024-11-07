@@ -28,21 +28,19 @@ namespace HydroTaskpane2.Decorators
             {
                 ComboBox element = (ComboBox)GetControl();
 
-                element.Initialized += new EventHandler(OnInitialize);
+                element.IsEnabled = false;
 
             }
+        }
+
+        public override void Dissassemble()
+        {
+            base.Dissassemble();
         }
 
         public override UIElement GetControl()
         {
             return control.GetControl();
-        }
-
-        public void OnInitialize(object sender, EventArgs e)
-        {
-            ComboBox senderControl = (ComboBox)sender;
-
-            senderControl.IsEnabled = false;
         }
     }
 }

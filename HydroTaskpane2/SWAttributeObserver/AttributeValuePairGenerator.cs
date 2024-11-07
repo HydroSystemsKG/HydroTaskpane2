@@ -29,7 +29,12 @@ namespace HydroTaskpane2.SWAttributeObserver
 
             if (!content.Contains(" | "))
             {
-                attributeValuePairs.Add(attributes[0], content);
+                //attributeValuePairs.Add(attributes[0], content);
+                // test
+                for (int i = 0; i < attributes.Count; i++)
+                {
+                    attributeValuePairs.Add(attributes[i], content.Trim()); // added Trim to remove spaces 
+                }
             }
             else
             {
@@ -37,7 +42,7 @@ namespace HydroTaskpane2.SWAttributeObserver
 
                 for (int i = 0; i < attributes.Count; i++)
                 {
-                    attributeValuePairs.Add(attributes[i], attributeValues[i]);
+                    attributeValuePairs.Add(attributes[i], attributeValues[i].Trim()); // added Trim to remove spaces 
                 }
             }
         }

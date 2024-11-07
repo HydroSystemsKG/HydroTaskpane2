@@ -39,13 +39,10 @@ namespace HydroTaskpane2
     public partial class HydroTaskpane2_UI : UserControl
     {
         private const string intProgID = "HydroTaskpane2.Taskpane.UI";
-        private double startingHeight;
 
         public HydroTaskpane2_UI()
         {
             InitializeComponent();
-
-            this.startingHeight = 458.75;
         }
 
         #region custom init
@@ -86,42 +83,54 @@ namespace HydroTaskpane2
                 else
                 {
 
-                    if (((string)parameters.getParameter("name")).ToLower().Contains("part") && type == (int)swDocumentTypes_e.swDocPART)
+                    try
                     {
-                        product = factory.CreateProduct(parameters);
+                        if (((string)parameters.getParameter("name")).ToLower().Contains("part") && type == (int)swDocumentTypes_e.swDocPART)
+                        {
+                            product = factory.CreateProduct(parameters);
 
-                        product.Assemble();
+                            product.Assemble();
 
-                        controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
-                        element = product.GetControl();
+                            controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                            element = product.GetControl();
+                        }
+                        else if (((string)parameters.getParameter("name")).ToLower().Contains("assembly") && type == (int)swDocumentTypes_e.swDocASSEMBLY)
+                        {
+                            product = factory.CreateProduct(parameters);
+
+                            product.Assemble();
+
+                            controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                            element = product.GetControl();
+                        }
+                        else if (((string)parameters.getParameter("name")).ToLower().Contains("drawing") && !((string)parameters.getParameter("name")).ToLower().Contains("_ang") && type == (int)swDocumentTypes_e.swDocDRAWING)
+                        {
+                            product = factory.CreateProduct(parameters);
+
+                            product.Assemble();
+
+                            controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                            element = product.GetControl();
+                        }
+                        else if (((string)parameters.getParameter("name")).ToLower().Contains("drawing") && ((string)parameters.getParameter("name")).ToLower().Contains("_ang") && type == (int)swDocumentTypes_e.swDocDRAWING)
+                        {
+                            product = factory.CreateProduct(parameters);
+
+                            product.Assemble();
+
+                            controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                            element = product.GetControl();
+                        }
                     }
-                    else if (((string)parameters.getParameter("name")).ToLower().Contains("assembly") && type == (int)swDocumentTypes_e.swDocASSEMBLY)
+                    catch(Exception e)
                     {
-                        product = factory.CreateProduct(parameters);
-
-                        product.Assemble();
-
-                        controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
-                        element = product.GetControl();
+                        Debug.Print($"Assembly ERROR: {e.ToString()}");
                     }
-                    else if (((string)parameters.getParameter("name")).ToLower().Contains("drawing") && type == (int)swDocumentTypes_e.swDocDRAWING)
-                    {
-                        product = factory.CreateProduct(parameters);
-
-                        product.Assemble();
-
-                        controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
-                        element = product.GetControl();
-                    }
-
-                    Debug.Print($"Adding element...{element == null}");
 
                     if (element != null)
                     {
                         var children = stackPanel.Children.Cast<UIElement>();
-                        Debug.Print($"Add element - {children.Count()}");
                         stackPanel.Children.Add(element);
-                        Debug.Print("...Element added");
                     }
                 }
 
@@ -136,7 +145,7 @@ namespace HydroTaskpane2
             {
                 string tab = property;
 
-                Debug.Print(tab + $" {Properties.Count().ToString()}");
+                //Debug.Print(tab + $" {Properties.Count().ToString()}");
 
                 TabItem tabItem = new TabItem
                 {
@@ -159,7 +168,32 @@ namespace HydroTaskpane2
                     tbCtrl.Items.Add(tabItem);
                 }
 
+                ((TabItem)tbCtrl.Items[0]).IsSelected = true;
+
             }
+
+            HandlingFlag.GetInstance().flag = true;
+        }
+
+        public void RemoveItems()
+        {
+            HandlingFlag.GetInstance().flag = false;
+
+            ControlCollectionSingleton controlCollection = ControlCollectionSingleton.GetInstance();
+
+            foreach (string key in controlCollection.controlCollection.Keys)
+            {
+                ControlProductComponent component = (ControlProductComponent) controlCollection.controlCollection[key];
+                component.Dissassemble();
+            }
+
+            controlCollection.controlCollection = null;
+            controlCollection.controlCollection = new Dictionary<string, IControlProduct>();
+
+            tbCtrl.Items.Clear();
+
+            Debug.Print($"KEY COUNT: {controlCollection.controlCollection.Keys.Count()}");
+            
         }
 
         private bool checkTab(string tab)
@@ -202,112 +236,6 @@ namespace HydroTaskpane2
 
         #endregion
 
-        #region hide content
-        
-        public void hide() // IT WORKS
-        {
-            /*
-            // remove all selections + collapse treeview
-            try
-            {
-                foreach (AttributeGroup group in AttributeGroups.Items)
-                {
-                    var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
-                    treeViewItem.IsExpanded = false;
-                }
-
-                foreach (AttributeGroup group in AttributeGroups.Items)
-                {
-                    var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
-                    treeViewItem.IsSelected = false;
-                }
-
-            }
-            catch (Exception e)
-            {
-                Debug.Print(e.ToString());
-            }
-            */
-
-            /*
-            // clear all controls
-
-            List<Field> fieldList = new List<Field>();
-
-            foreach (AttributeGroup group in AttributeGroups.Items)
-            {
-                fieldList.AddRange(group.fields.ToList());
-
-                var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
-                treeViewItem.IsEnabled = false;
-
-                FocusManager.SetFocusedElement(FocusManager.GetFocusScope(treeViewItem), null);
-                Keyboard.ClearFocus();
-            }
-
-            foreach (Field field in fieldList)
-            {
-                field.content = null;
-            }
-            */
-
-            // clear all controls
-            ControlCollectionSingleton controlCollection = ControlCollectionSingleton.GetInstance();
-
-            foreach (string controlName in controlCollection.controlCollection.Keys)
-            {
-                if (!controlName.ToLower().Contains("label") && !controlName.ToLower().Contains("separator"))
-                {
-                    ControlProductComponent product = (ControlProductComponent)controlCollection.controlCollection[controlName];
-                    product.Clear();
-                }
-            }
-
-            // change control visibility
-            /*
-            foreach (var item in FieldsListBox.Items)
-            {
-                var listBoxItem = FieldsListBox.ItemContainerGenerator.ContainerFromItem(item) as ListBoxItem;
-                listBoxItem.Visibility = System.Windows.Visibility.Hidden;
-            }
-            */
-
-            // change control visibility
-            TaskpaneGrid.Visibility = Visibility.Hidden;
-
-            // adjust height parameter OK
-            try
-            {
-                TaskpaneGrid.RowDefinitions[1].Height = new GridLength(startingHeight + 1, GridUnitType.Pixel);
-            }
-            catch { }
-        }
-
-        public void show(int type) // IT WORKS
-        {
-            /*
-            // enable type treeViewItem
-            foreach (AttributeGroup group in AttributeGroups.Items)
-            {
-                string groupName = group.name;
-                int groupType = sortType(groupName.ToLower());
-
-                var treeViewItem = AttributeGroups.ItemContainerGenerator.ContainerFromItem(group) as TreeViewItem;
-
-                if (groupType == type)
-                {
-                    treeViewItem.IsEnabled = true;
-                }
-            }
-            */
-
-            TaskpaneGrid.Visibility = Visibility.Visible;
-        }
-        
-        #endregion
-
-        #region get control values
-
         #region load control values
 
         public void fillControls()
@@ -323,11 +251,13 @@ namespace HydroTaskpane2
                 {
                     if (!controlName.ToLower().Contains("label") && !controlName.ToLower().Contains("separator"))
                     {
+                        Debug.Print($"Fill control |{controlName}|");
+
                         ControlProductComponent product = (ControlProductComponent)controlCollection.controlCollection[controlName];
 
                         string value = attrAssembler.controlValuePairs[FieldList.controlAttributeClassesPairs[controlName]];
 
-                        Debug.Print($"Setting |{product.parameters.getParameter("name")}| to |{value}|");
+                        //Debug.Print($"Setting |{product.parameters.getParameter("name")}| to |{value}|");
 
                         SetControlValue(product, value);
                     }
@@ -369,13 +299,21 @@ namespace HydroTaskpane2
         {
             Dictionary<string, IControlProduct> controls = ControlCollectionSingleton.GetInstance().controlCollection;
 
+            Debug.Print(":: fillAttributes() :: Begin... ::");
+
             foreach (string key in controls.Keys)
             {
-                ControlProduct product = (ControlProduct)controls[key];
-                object control = product.GetControl();
+                if (!key.ToLower().Contains("label") && !key.ToLower().Contains("separator"))
+                {
+                    Debug.Print($":: fillAttributes() :: Update attribute for control |{key}|... ::");
 
-                updateAttributes(control);
+                    ControlProductComponent product = (ControlProductComponent)controls[key];
+                    object control = product.GetControl();
 
+                    updateAttributes(control);
+
+                    Debug.Print($":: fillAttributes() :: |{key}| is done... ::");
+                }
             }
         }
 
@@ -385,6 +323,8 @@ namespace HydroTaskpane2
             string content = "";
 
             // if sender is different than checkbox
+
+            Debug.Print($":: fillAttributes() :: updateAttributes() :: get name and get content... ::");
 
             if (sender is CheckBox)
             {
@@ -408,7 +348,9 @@ namespace HydroTaskpane2
                 content = senderControl.Text;
             }
 
-            if (!string.IsNullOrEmpty(content))
+            Debug.Print($":: fillAttributes() :: updateAttributes() :: name: {name}; content: {content}... ::");
+
+            if (!string.IsNullOrEmpty(content) && !string.IsNullOrWhiteSpace(content))
             {
                 Debug.Print($"CONTROL: |{name}|; CONTENT: |{content}|");
                 UpdatePublisher publisher = new UpdatePublisher();
@@ -426,75 +368,6 @@ namespace HydroTaskpane2
 
             SWModelConnector.GetInstance().swModel.ForceRebuild3(true);
         }
-
-        #endregion
-
-        /*
-        public void fillControls() // IT WORKS
-        {
-            try
-            {
-                SWAttributeAssembler assembler = new SWAttributeAssembler();
-                assembler.assembleAttributes();
-
-                List<Field> fieldList = new List<Field>();
-
-                foreach (AttributeGroup group in AttributeGroups.Items)
-                {
-                    fieldList.AddRange(group.fields.ToList());
-                }
-
-                foreach (Field field in fieldList)
-                {
-                    field.content = assembler.ControlValuePairs[field.label];
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Print(e.ToString());
-            }
-
-        }
-
-        public void fillAttributes(ModelDoc2 swModel) // IT WORKS
-        {
-            try
-            {
-                List<Field> fieldList = new List<Field>();
-
-                foreach (var item in FieldsListBox.Items)
-                {
-                    var listBoxItem = (ListBoxItem)FieldsListBox.ItemContainerGenerator.ContainerFromItem(item);
-
-                    FocusManager.SetFocusedElement(FocusManager.GetFocusScope(listBoxItem), null);
-                    Keyboard.ClearFocus();
-
-                    Field field = (Field)item;
-
-                    if (field.dataType == swModel.GetType())
-                    {
-                        if (field.content != null)
-                        {
-                            string content = field.content.ToString();
-                            string label = field.label;
-
-                            Debug.Print($"LABEL: {label}; CONTENT: {content}");
-
-                            UpdatePublisher publisher = new UpdatePublisher();
-                            publisher.Update(label, content);
-
-                            publisher = null;
-                        }
-                    }
-                   
-                }
-            }
-            catch(Exception e)
-            {
-                Debug.Print(e.ToString());
-            }
-        }
-        */
 
         #endregion
 

@@ -19,6 +19,7 @@ namespace HydroTaskpane2.Strategy
         private string[] dropdown;
 
         public UIElement control { get; private set; }
+        private string standardValue;
 
         public ComboBoxStrategy()
         {

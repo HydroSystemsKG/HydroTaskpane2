@@ -35,6 +35,17 @@ namespace HydroTaskpane2.Decorators
             }
         }
 
+        public override void Dissassemble()
+        {
+            base.Dissassemble();
+
+            ComboBox element = (ComboBox)GetControl();
+
+            element.SelectionChanged += new SelectionChangedEventHandler(OnSelectionChanged);
+            element.AddHandler(System.Windows.Controls.Primitives.TextBoxBase.TextChangedEvent, new System.Windows.Controls.TextChangedEventHandler(OnTextChanged));
+
+        }
+
         public override UIElement GetControl()
         {
             return control.GetControl();
@@ -93,6 +104,10 @@ namespace HydroTaskpane2.Decorators
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
+            bool flag = HandlingFlag.GetInstance().flag;
+
+            if (!flag) { return; }
+
             controls = collectionSingleton.controlCollection;
 
             try

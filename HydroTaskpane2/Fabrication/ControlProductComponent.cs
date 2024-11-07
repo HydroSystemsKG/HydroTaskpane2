@@ -18,6 +18,11 @@ namespace HydroTaskpane2.Fabrication
 
         }
 
+        public virtual void Dissassemble()
+        {
+
+        }
+
         public abstract UIElement GetControl();
 
         public virtual void Clear()

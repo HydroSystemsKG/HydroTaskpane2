@@ -46,6 +46,7 @@ namespace HydroTaskpane2.References
         specialselection,
         yieldstrength,
         tensilestrength,
+        elongation,
         // Angebotsbläatter
         revisionstatus,
         capacity_t,

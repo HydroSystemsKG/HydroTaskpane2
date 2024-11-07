@@ -16,6 +16,7 @@ namespace HydroTaskpane2.Strategy
         private Dictionary<string, IControlProduct> controls;
 
         public UIElement control { get; private set; }
+        private string standardValue;
 
         public TextBoxStrategy()
         {
