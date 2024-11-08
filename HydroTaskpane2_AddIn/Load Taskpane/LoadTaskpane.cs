@@ -25,7 +25,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
         public SldWorks.SldWorks swApp { get; set; }
 
         // event handler strategy (options)
-        private SWEventHandlerStrategy.SWContext swContextOptions;
+        //private SWEventHandlerStrategy.SWContext swContextOptions; // set Options
         private SWEventHandlerStrategy.SWContext swContextAttributes;
         private SWEventHandlerStrategy.SWContext swContextTaskpane;
 
@@ -37,10 +37,10 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             this.swApp = swApp;
 
             // add options event handler (attach all)
-            swContextOptions = new SWEventHandlerStrategy.SWContext(swApp, new SWOptionStrategy());
+            //swContextOptions = new SWEventHandlerStrategy.SWContext(swApp, new SWOptionStrategy());
             swContextAttributes = new SWEventHandlerStrategy.SWContext(swApp, new SWAttributeTemplateStrategy());
 
-            swContextOptions.AttachEventHandlers();
+            //swContextOptions.AttachEventHandlers();
             swContextAttributes.AttachEventHandlers();
 
             try
@@ -106,7 +106,7 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
         public void unloadTaskpane()
         {
             // detach event handlers
-            swContextOptions.DetachEventHandlers();
+            //swContextOptions.DetachEventHandlers();
             swContextAttributes.DetachEventHandlers();
             swContextTaskpane.DetachEventHandlers();
 

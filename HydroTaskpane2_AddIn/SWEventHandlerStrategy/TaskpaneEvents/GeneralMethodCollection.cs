@@ -263,5 +263,146 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
         #endregion
 
+        #region BOM methods
+
+
+        public void ProcessBOM()
+        {
+            Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: Start...");
+
+            SldWorks.SldWorks swApp = SWModelConnector.GetInstance().swApp;
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
+
+            if (swModel.GetType() != (int)swDocumentTypes_e.swDocASSEMBLY) { return; }
+
+            string[] configNames = swModel.GetConfigurationNames();
+            string activeConfig = ((Configuration)swModel.GetActiveConfiguration()).Name;
+
+            foreach (string config in configNames)
+            {
+                Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: Check component references for configuration " + config + "...");
+                // Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: Set component references...");
+                SldWorksStandards.SetComponentReferences(ref swApp);
+            }
+
+            Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: reload active configurate " + activeConfig + "...");
+
+            swModel.ShowConfiguration2(activeConfig);
+
+            Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: create or update BOM...");
+            UpdateBOM();
+
+            Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: ...done.");
+        }
+
+        public void UpdateBOM()
+        {
+            Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: Search for existing BOM...");
+
+            // loop through features and check for BOMfeature
+            SldWorks.SldWorks swApp = SWModelConnector.GetInstance().swApp;
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
+
+            Feature swFeature = swModel.FirstFeature();
+            bool createnew = true;
+
+            while (swFeature != null)
+            {
+                Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: swFeature = " + swFeature.Name + " " + swFeature.Description + " " + swFeature.GetTypeName().ToString() + " " + swFeature.GetTypeName2().ToString());
+
+                if (swFeature.GetTypeName2() == "TableFolder")
+                {
+                    // Debug.Print(" :: Hydro Taskpane :: CheckCreateBOM :: TableFolder found...");
+
+                    Feature subFeature = swFeature.GetFirstSubFeature();
+
+                    while (subFeature != null)
+                    {
+                        Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: subFeature = " + subFeature.Name + " " + subFeature.Description + " " + subFeature.GetTypeName().ToString() + " " + subFeature.GetTypeName2().ToString());
+
+                        if (subFeature.GetTypeName2() == "BomFeat")
+                        {
+                            // BOM exists, do not create new one
+                            Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: BOM found...");
+                            createnew = false;
+                            // exit while loops
+                            subFeature = null;
+                            swFeature = null;
+                        }
+
+                        if (subFeature != null)
+                            subFeature = swFeature.GetNextSubFeature();
+                    }
+                }
+
+                if (swFeature != null)
+                    swFeature = swFeature.GetNextFeature();
+            }
+
+            // if no BOM found, create new one
+            if (createnew)
+            {
+                Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: no BOM found...create new...");
+                // try to get vName attribute, whenever the 3DX PLM Add-In is present - 10.01.2024
+
+                string title = "";
+                try
+                {
+                    bool AddIn = SldWorksStandards.AddInIsLoaded();
+
+                    if (AddIn)
+                    {
+                        title = SldWorksStandards.getConfigAttribute(ref swModel, "V_Name");
+                    }
+                }
+                catch { }
+
+                // #########################
+
+                // create BOM
+
+                string[] configNames = (string[])swModel.GetConfigurationNames();
+                int index = 0;
+                for (int i = 0; i < configNames.Length; i++)
+                {
+                    if (configNames[i].Contains(SldWorksConstants.defaultconfiguration) || configNames[i].Contains(title))
+                    {
+                        Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: default config found: " + configNames[i] + "...");
+                        break;
+                    }
+                    index++;
+                }
+
+                if (index < configNames.Length)
+                {
+                    Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: zoom to fit...");
+                    swModel.ViewZoomtofit2();
+                    Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: create BOM table with new component references...");
+                    BomTableAnnotation swBOMTable = swModel.Extension.InsertBomTable3(SldWorksConstants.filename_bom_template, 200, 100, (int)swBomType_e.swBomType_TopLevelOnly, configNames[index], false, (int)swNumberingType_e.swIndentedBOMNotSet, false);
+                    Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: create BOM feature...");
+                    BomFeature swBomFeature = (BomFeature)swBOMTable.BomFeature;
+                    Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: set assembly order...");
+                    swBomFeature.FollowAssemblyOrder2 = true;
+                }
+                else
+                {
+                    Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: no config " + SldWorksConstants.defaultconfiguration + " or " + title + " found...");
+                    swApp.SendMsgToUser2("BOM Warning: " + System.Environment.NewLine + "No configuration " + SldWorksConstants.defaultconfiguration + " or " + title + " found!" + System.Environment.NewLine + "Please create BOM manually...", (int)swMessageBoxIcon_e.swMbStop, (int)swMessageBoxBtn_e.swMbOk);
+                }
+            }
+            // if BOM found update
+            else
+            {
+                Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: BOM found...update only...");
+            }
+
+            Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: Rebuild...");
+            swModel.ForceRebuild3(true);
+        }
+
+
+
+        #endregion
+
     }
 }

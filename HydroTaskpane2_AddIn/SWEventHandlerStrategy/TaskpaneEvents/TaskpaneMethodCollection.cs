@@ -63,12 +63,17 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 taskpane.RemoveItems();
                 taskpane.CustomTabInit();
                 taskpane.fillControls();
+
+                if (Path.GetExtension(filename).ToLower().Contains("sldasm"))
+                {
+                    generalMethodCollection.ProcessBOM();
+                }
+
             }
             catch (Exception e)
             {
                 Debug.Print(e.ToString());
             }
-            DebugBuilder.Print("End method");
 
             return 0;
         }
@@ -187,6 +192,9 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                     generalMethodCollection.UpdateDrawing(taskpane);
 
                     DebugBuilder.Print("Update Drawing ...done");
+
+                    generalMethodCollection.setDescription();
+                    generalMethodCollection.ProcessBOM();
                 }
 
             }
