@@ -72,6 +72,9 @@
       <DependentUpon>SetStrength.cs</DependentUpon>
     </Compile>
     <Compile Include="Custom Controls\TabContent.cs" />
+    <Compile Include="Decorators\Angebotsblatt\ImperialHandlerDecorator.cs" />
+    <Compile Include="Decorators\Angebotsblatt\MetricHandlerDecorator.cs" />
+    <Compile Include="Decorators\Angebotsblatt\ModeSwitchHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\ColorHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\CVHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\DescriptionHandlerDecorator.cs" />
@@ -199,8 +202,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Decorators\Angebotsblatt\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
