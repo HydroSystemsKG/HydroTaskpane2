@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using HydroTaskpane2.Decorators.Main;
+using HydroTaskpane2.Decorators.Angebotsblatt;
 
 namespace HydroTaskpane2.Decorators.Reference
 {
@@ -19,7 +20,10 @@ namespace HydroTaskpane2.Decorators.Reference
             {(int)Decorator_e.cv, typeof(CVHandlerDecorator)},
             {(int)Decorator_e.weldment, typeof(WeldmentHandlerDecorator)},
             {(int)Decorator_e.weld_init, typeof(WeldInitHandlerDecorator)},
-            {(int)Decorator_e.drawing_standard, typeof(DrawingStandardHandlerDecorator)}
+            {(int)Decorator_e.drawing_standard, typeof(DrawingStandardHandlerDecorator)},
+            {(int)Decorator_e.metric, typeof(MetricHandlerDecorator)},
+            {(int)Decorator_e.imperial, typeof(ImperialHandlerDecorator)},
+            {(int)Decorator_e.mode_switch, typeof(ModeSwitchHandlerDecorator)}
         };
     }
 }

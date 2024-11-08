@@ -16,6 +16,9 @@ namespace HydroTaskpane2.Decorators.Reference
         cv,
         weldment,
         weld_init,
-        drawing_standard
+        drawing_standard,
+        metric,
+        imperial,
+        mode_switch
     }
 }

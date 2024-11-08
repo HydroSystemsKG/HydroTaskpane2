@@ -132,7 +132,13 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
                 taskpane.RemoveItems();
                 taskpane.CustomTabInit();
+
+                // turn flag off only when changing active model docs
+                HydroTaskpane2.References.HandlingFlag.GetInstance().flag = false;
+
                 taskpane.fillControls();
+
+                HydroTaskpane2.References.HandlingFlag.GetInstance().flag = true;
 
                 DebugBuilder.Print("...done");
             }
