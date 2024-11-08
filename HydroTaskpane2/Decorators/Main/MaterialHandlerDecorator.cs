@@ -11,7 +11,7 @@ using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
 using HydroTaskpane2.Custom_Controls;
 
-namespace HydroTaskpane2.Decorators
+namespace HydroTaskpane2.Decorators.Main
 {
     public class MaterialHandlerDecorator : HandlerDecorator, IControlProduct
     {

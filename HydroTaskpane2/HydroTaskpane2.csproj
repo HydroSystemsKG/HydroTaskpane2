@@ -72,18 +72,18 @@
       <DependentUpon>SetStrength.cs</DependentUpon>
     </Compile>
     <Compile Include="Custom Controls\TabContent.cs" />
-    <Compile Include="Decorators\ColorHandlerDecorator.cs" />
-    <Compile Include="Decorators\CVHandlerDecorator.cs" />
-    <Compile Include="Decorators\DescriptionHandlerDecorator.cs" />
-    <Compile Include="Decorators\DrawingStandardHandlerDecorator.cs" />
-    <Compile Include="Decorators\HandlerDecorator.cs" />
-    <Compile Include="Decorators\MaterialHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\ColorHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\CVHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DescriptionHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DrawingStandardHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\HandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\MaterialHandlerDecorator.cs" />
     <Compile Include="Decorators\Reference\DecoratorDict.cs" />
     <Compile Include="Decorators\Reference\Decorator_e.cs" />
-    <Compile Include="Decorators\StandardHandlerDecorator.cs" />
-    <Compile Include="Decorators\StrengthHandlerDecorator.cs" />
-    <Compile Include="Decorators\WeldInitHandlerDecorator.cs" />
-    <Compile Include="Decorators\WeldmentHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\StandardHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\StrengthHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\WeldInitHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\WeldmentHandlerDecorator.cs" />
     <Compile Include="Fabrication\ControlProduct.cs" />
     <Compile Include="Fabrication\ControlProductComponent.cs" />
     <Compile Include="Fabrication\ControlProductFactory.cs" />
@@ -199,6 +199,8 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Decorators\Angebotsblatt\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

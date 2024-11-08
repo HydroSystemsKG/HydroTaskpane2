@@ -9,11 +9,12 @@ using HydroTaskpane2.Connectors;
 using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
 
-namespace HydroTaskpane2.Decorators
+namespace HydroTaskpane2.Decorators.Main
 {
-    public class WeldInitHandlerDecorator : HandlerDecorator, IControlProduct
+    public class CVHandlerDecorator : HandlerDecorator, IControlProduct
     {
-        public WeldInitHandlerDecorator(ControlProductComponent control) : base(control)
+
+        public CVHandlerDecorator(ControlProductComponent control) : base(control)
         {
             this.control = new StandardHandlerDecorator(this.control);
         }
@@ -29,7 +30,7 @@ namespace HydroTaskpane2.Decorators
                 ComboBox element = (ComboBox)GetControl();
 
                 element.IsEnabled = false;
-
+                
             }
         }
 
@@ -42,5 +43,6 @@ namespace HydroTaskpane2.Decorators
         {
             return control.GetControl();
         }
+        
     }
 }

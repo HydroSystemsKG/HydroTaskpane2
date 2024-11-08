@@ -13,7 +13,7 @@ using HydroTaskpane2.SWAttributeObserver;
 using HydroSolidworksLibrary;
 using SldWorks;
 
-namespace HydroTaskpane2.Decorators
+namespace HydroTaskpane2.Decorators.Main
 {
     public class StandardHandlerDecorator : HandlerDecorator, IControlProduct
     {

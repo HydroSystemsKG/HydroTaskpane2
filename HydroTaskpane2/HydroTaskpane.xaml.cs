@@ -20,7 +20,7 @@ using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.Connectors;
 using HydroTaskpane2.SWAttributeObserver;
 using HydroTaskpane2.Custom_Controls;
-using HydroTaskpane2.Decorators;
+using HydroTaskpane2.Decorators.Main;
 using HydroTaskpane2.SWAttributeReader;
 using SldWorks;
 using SwConst;
@@ -103,23 +103,26 @@ namespace HydroTaskpane2
                             controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
                             element = product.GetControl();
                         }
-                        else if (((string)parameters.getParameter("name")).ToLower().Contains("drawing") && !((string)parameters.getParameter("name")).ToLower().Contains("_ang") && type == (int)swDocumentTypes_e.swDocDRAWING)
+                        else if (type == (int)swDocumentTypes_e.swDocDRAWING)
                         {
-                            product = factory.CreateProduct(parameters);
+                            if (((string)parameters.getParameter("name")).ToLower().Contains("drawing") && !((string)parameters.getParameter("name")).ToLower().Contains("drawing_ang"))
+                            {
+                                product = factory.CreateProduct(parameters);
 
-                            product.Assemble();
+                                product.Assemble();
 
-                            controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
-                            element = product.GetControl();
-                        }
-                        else if (((string)parameters.getParameter("name")).ToLower().Contains("drawing") && ((string)parameters.getParameter("name")).ToLower().Contains("_ang") && type == (int)swDocumentTypes_e.swDocDRAWING)
-                        {
-                            product = factory.CreateProduct(parameters);
+                                controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                                element = product.GetControl();
+                            }
+                            else if (((string)parameters.getParameter("name")).ToLower().Contains("drawing_ang"))
+                            {
+                                product = factory.CreateProduct(parameters);
 
-                            product.Assemble();
+                                product.Assemble();
 
-                            controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
-                            element = product.GetControl();
+                                controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                                element = product.GetControl();
+                            }
                         }
                     }
                     catch(Exception e)
@@ -158,15 +161,23 @@ namespace HydroTaskpane2
                 Style style = FindResource("NoSelectionListBoxItemStyle") as Style;
                 content.CustomListBoxInit(tabItem.Name, style);
 
-                CustomInit(content.stackPanel, tab);
-
-                tabItem.Content = content.listBox;
-                Debug.Print(checkTab(tab).ToString());
+                //CustomInit(content.stackPanel, tab);
 
                 if (checkTab(tab))
                 {
+                    CustomInit(content.stackPanel, tab);
+                    tabItem.Content = content.listBox;
+
                     tbCtrl.Items.Add(tabItem);
                 }
+
+                //tabItem.Content = content.listBox;
+                //Debug.Print(checkTab(tab).ToString());
+
+                //if (checkTab(tab))
+                //{
+                //    tbCtrl.Items.Add(tabItem);
+                //}
 
                 ((TabItem)tbCtrl.Items[0]).IsSelected = true;
 
@@ -220,18 +231,88 @@ namespace HydroTaskpane2
                 {
                     DrawingDoc swDrawing = (DrawingDoc)swModel;
 
-                    string templateName = ((Sheet)swDrawing.GetCurrentSheet()).GetTemplateName();
-                    templateName = System.IO.Path.GetFileNameWithoutExtension(templateName);
+                    //string templateName = ((Sheet)swDrawing.GetCurrentSheet()).GetTemplateName();
 
-                    if (templateName.ToLower().Split('_').All(s => tab.ToLower().Contains(s)))
+                    string[] sheetNames = swDrawing.GetSheetNames();
+
+                    foreach (string sheet in sheetNames)
                     {
-                        return true;
+                        string templateName = (swDrawing.Sheet[sheet]).GetTemplateName();
+
+                        templateName = System.IO.Path.GetFileNameWithoutExtension(templateName);
+
+                        if (templateName.ToLower().Split('_').All(s => tab.ToLower().Contains(s)))
+                        {
+                            return true;
+                        }
                     }
                 }
 
             }
 
             return false;
+        }
+
+        public bool getTabStatus()
+        {
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
+            bool status = true;
+
+            if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
+            {
+                int tabCount = tbCtrl.Items.Count;
+
+                Debug.Print($"Tab count is {tabCount.ToString()}");
+
+                List<string> templateNames = new List<string>();
+
+                DrawingDoc swDrawing = (DrawingDoc)swModel;
+
+                var Properties = typeof(PageNames).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.GetValue(typeof(PageNames))).ToList();
+                List<string> pages = new List<string>();
+
+                foreach (string property in Properties)
+                {
+                    Debug.Print($"Add pages to pool... {property.Replace(" ", "_")}");
+
+                    pages.Add(property.Replace(" ", "_"));
+                }
+
+                string[] sheetNames = swDrawing.GetSheetNames();
+
+                foreach (string sheet in sheetNames)
+                {
+                    string templateName = (swDrawing.Sheet[sheet]).GetTemplateName();
+
+                    templateName = System.IO.Path.GetFileNameWithoutExtension(templateName);
+
+                    Debug.Print($"Check template name: {templateName} - passes condition 1? {(!templateNames.Contains(templateName) && pages.Contains(templateName)).ToString()}; passes condition 2? {(!templateNames.Contains(templateName)).ToString()}");
+
+                    if (templateName.ToLower().Contains("angebotsblatt"))
+                    {
+                        if (!templateNames.Contains(templateName) && pages.Contains(templateName))
+                        {
+                            templateNames.Add(templateName);
+                        }
+                    }
+                    else
+                    {
+                        if (!templateNames.Contains(templateName))
+                        {
+                            templateNames.Add(templateName);
+                        }
+                    }
+                }
+
+                Debug.Print($"tabCount: {tabCount}; templateNames: {templateNames.Count}");
+
+                if (tabCount != templateNames.Count)
+                {
+                    status = false;
+                }
+            }
+
+            return status;
         }
 
         #endregion

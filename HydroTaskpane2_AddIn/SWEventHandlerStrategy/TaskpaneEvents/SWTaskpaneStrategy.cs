@@ -72,7 +72,8 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 {
                     case swDocumentTypes_e.swDocDRAWING:
                         (swModel as DrawingDoc).DestroyNotify2 += methodCollection.swModel_DestroyNotify2;
-                        //(swModel as DrawingDoc).AddItemNotify += methodCollection.swDrawing_AddItemNotify;
+                        (swModel as DrawingDoc).AddItemNotify += methodCollection.swDrawing_AddItemNotify;
+                        (swModel as DrawingDoc).ActivateSheetPreNotify += methodCollection.swDrawing_ActivateSheetPreNotify;
                         break;
                     case swDocumentTypes_e.swDocASSEMBLY:
                         (swModel as AssemblyDoc).DestroyNotify2 += methodCollection.swModel_DestroyNotify2;
@@ -94,7 +95,8 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 {
                     case swDocumentTypes_e.swDocDRAWING:
                         (swModel as DrawingDoc).DestroyNotify2 -= methodCollection.swModel_DestroyNotify2;
-                        //(swModel as DrawingDoc).AddItemNotify -= methodCollection.swDrawing_AddItemNotify;
+                        (swModel as DrawingDoc).AddItemNotify -= methodCollection.swDrawing_AddItemNotify;
+                        (swModel as DrawingDoc).ActivateSheetPreNotify -= methodCollection.swDrawing_ActivateSheetPreNotify;
                         break;
                     case swDocumentTypes_e.swDocASSEMBLY:
                         (swModel as AssemblyDoc).DestroyNotify2 -= methodCollection.swModel_DestroyNotify2;

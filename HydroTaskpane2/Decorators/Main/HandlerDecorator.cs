@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
 
-namespace HydroTaskpane2.Decorators
+namespace HydroTaskpane2.Decorators.Main
 {
     public abstract class HandlerDecorator : ControlProductComponent
     {

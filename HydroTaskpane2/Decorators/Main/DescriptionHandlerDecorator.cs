@@ -13,7 +13,7 @@ using System.Diagnostics;
 using SldWorks;
 using SwConst;
 
-namespace HydroTaskpane2.Decorators
+namespace HydroTaskpane2.Decorators.Main
 {
     public class DescriptionHandlerDecorator : HandlerDecorator, IControlProduct
     {

@@ -37,7 +37,7 @@ namespace HydroTaskpane2.References
             new object[] { "part_tensilestrength_label", (int)ControlTypes.label, "Tensile Strength | Zugfestigkeit [MPa]", height, null, PageNames.standard, null},
             new object[] { "part_tensilestrength_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
 
-            new object[] { "part_elongationatbreak_label", (int)ControlTypes.label, "Elongation at break | Bruichdehnung [mm]", height, null, PageNames.standard, null},
+            new object[] { "part_elongationatbreak_label", (int)ControlTypes.label, "Elongation at break | Bruchdehnung [mm]", height, null, PageNames.standard, null},
             new object[] { "part_elongationatbreak_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
 
             // #########
@@ -213,6 +213,32 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_angDHeber_separator_mode", (int)ControlTypes.label, "", height, null, PageNames.angDHeber, null},
             new object[] { "drawing_angDHeber_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angDHeber, null}, // ADD NEW DECORATOR!
             new object[] { "drawing_angDHeber_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angDHeber , null}, // ADD NEW DECORATOR!
+            // drawing - Angebotsblatt_A4_D-Heber_Zweizeilig
+            new object[] { "drawing_angDHeberZwei_capacity_t_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [t]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_capacity_t_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_capacity_ton_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [ton]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_capacity_ton_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_closedheight_mm_label", (int)ControlTypes.label, "Closed Height | Bauhöhe Min. | Hauteur Fermee [mm]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_closedheight_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_closedheight_inch_label", (int)ControlTypes.label, "Closed Height | Bauhöhe Min. | Hauteur Fermee [inch]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_closedheight_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_hydrauliclift_mm_label", (int)ControlTypes.label, "Hydraulic Lift | Hydraulische Hub | Course Hydraulique [mm]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_hydrauliclift_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_hydrauliclift_inch_label", (int)ControlTypes.label, "Hydraulic Lift | Hydraulische Hub | Course Hydraulique [inch]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_hydrauliclift_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_screwextension_mm_label", (int)ControlTypes.label, "Screw Extension | Spindelhub | Course d'Appr. [mm]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_screwextension_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_screwextension_inch_label", (int)ControlTypes.label, "Screw Extension | Spindelhub | Course d'Appr. [inch]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_screwextension_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_extendedheight_mm_label", (int)ControlTypes.label, "Extended Height | Bauhöhe Max. | Hauteur Totale [mm]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_extendedheight_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_extendedheight_inch_label", (int)ControlTypes.label, "Extended Height | Bauhöhe Max. | Hauteur Totale [inch]", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_extendedheight_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
+            new object[] { "drawing_angDHeberZwei_separator_mode", (int)ControlTypes.label, "", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angDHeberZwei, null}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angDHeberZwei_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angDHeberZwei, null}, // ADD NEW DECORATOR!
             // drawing - Angebotsblatt_A4_Hydr_Stuetze
             new object[] { "drawing_angHydrStuetze_capacity_t_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [t]", height, null, PageNames.angHydrStuetze, null},
             new object[] { "drawing_angHydrStuetze_capacity_t_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angHydrStuetze, (int)Decorator_e.standard},
@@ -436,6 +462,19 @@ namespace HydroTaskpane2.References
             { "drawing_angDHeber_model_textbox" , (int)AttributeClass_e.Model},
             { "drawing_angDHeber_mode_metric_checkbox" , (int)AttributeClass_e.NONE},
             { "drawing_angDHeber_mode_imperial_checkbox" , (int)AttributeClass_e.NONE},
+            { "drawing_angDHeberZwei_capacity_t_textbox" , (int)AttributeClass_e.capacity_t},
+            { "drawing_angDHeberZwei_capacity_ton_textbox" , (int)AttributeClass_e.capacity_ton},
+            { "drawing_angDHeberZwei_closedheight_mm_textbox" , (int)AttributeClass_e.closedheight_mm},
+            { "drawing_angDHeberZwei_closedheight_inch_textbox" , (int)AttributeClass_e.closedheight_inch},
+            { "drawing_angDHeberZwei_hydrauliclift_mm_textbox" , (int)AttributeClass_e.hydrauliclift_mm},
+            { "drawing_angDHeberZwei_hydrauliclift_inch_textbox" , (int)AttributeClass_e.hydrauliclift_inch},
+            { "drawing_angDHeberZwei_screwextension_mm_textbox" , (int)AttributeClass_e.screwextension_mm},
+            { "drawing_angDHeberZwei_screwextension_inch_textbox" , (int)AttributeClass_e.screwextension_inch},
+            { "drawing_angDHeberZwei_extendedheight_mm_textbox" , (int)AttributeClass_e.extendedheight_mm},
+            { "drawing_angDHeberZwei_extendedheight_inch_textbox" , (int)AttributeClass_e.extendedheight_inch},
+            { "drawing_angDHeberZwei_model_textbox" , (int)AttributeClass_e.Model},
+            { "drawing_angDHeberZwei_mode_metric_checkbox" , (int)AttributeClass_e.NONE},
+            { "drawing_angDHeberZwei_mode_imperial_checkbox" , (int)AttributeClass_e.NONE},
             { "drawing_angHydrStuetze_capacity_t_textbox" , (int)AttributeClass_e.capacity_t},
             { "drawing_angHydrStuetze_capacity_ton_textbox" , (int)AttributeClass_e.capacity_ton},
             { "drawing_angHydrStuetze_closedheight_mm_textbox" , (int)AttributeClass_e.closedheight_mm},

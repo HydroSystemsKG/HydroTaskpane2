@@ -4,14 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using HydroTaskpane2.Connectors;
 using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
 
-namespace HydroTaskpane2.Decorators
+namespace HydroTaskpane2.Decorators.Main
 {
-    public class DrawingStandardHandlerDecorator : HandlerDecorator, IControlProduct
+    public class WeldInitHandlerDecorator : HandlerDecorator, IControlProduct
     {
-        public DrawingStandardHandlerDecorator(ControlProductComponent control) : base(control)
+        public WeldInitHandlerDecorator(ControlProductComponent control) : base(control)
         {
             this.control = new StandardHandlerDecorator(this.control);
         }
@@ -24,20 +26,21 @@ namespace HydroTaskpane2.Decorators
 
             if (type != (int)ControlTypes.label && type != (int)ControlTypes.longLabel)
             {
-                UIElement element = (UIElement)GetControl();
-                string name = (string)control.parameters.getParameter("name");
+                ComboBox element = (ComboBox)GetControl();
 
-                if (!name.ToLower().Contains("occurs") && !name.ToLower().Contains("changedescription"))
-                {
-                    element.IsEnabled = false;
-                }
+                element.IsEnabled = false;
+
             }
+        }
+
+        public override void Dissassemble()
+        {
+            base.Dissassemble();
         }
 
         public override UIElement GetControl()
         {
             return control.GetControl();
         }
-
     }
 }

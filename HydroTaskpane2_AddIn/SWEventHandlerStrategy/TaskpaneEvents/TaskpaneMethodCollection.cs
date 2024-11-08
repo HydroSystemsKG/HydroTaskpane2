@@ -118,13 +118,36 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
             return 0;
         }
 
+        public int swDrawing_ActivateSheetPreNotify(string sheetName)
+        {
+            // check if tabs and sheets match
+
+            // if so: do nothing
+
+            // if not: add corresponding tab to new sheet
+
+            if (!taskpane.getTabStatus())
+            {
+                DebugBuilder.Print($"Activating sheet {sheetName}");
+
+                taskpane.RemoveItems();
+                taskpane.CustomTabInit();
+                taskpane.fillControls();
+
+                DebugBuilder.Print("...done");
+            }
+
+            return 0;
+        }
+
         public int swDrawing_AddItemNotify(int entityType, string itemName)
         {
             if (entityType == (int)swNotifyEntityType_e.swNotifyDrawingSheet)
             {
-                taskpane.RemoveItems();
-                taskpane.CustomTabInit();
-                taskpane.fillControls();
+                DebugBuilder.Print($"{itemName} was added");
+                DrawingDoc swDrawing = (DrawingDoc) SWModelConnector.GetInstance().swModel;
+
+                swDrawing.ActivateSheet(itemName);
             }
 
             return 0;

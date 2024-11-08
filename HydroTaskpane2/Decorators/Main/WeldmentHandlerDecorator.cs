@@ -9,7 +9,7 @@ using HydroTaskpane2.Connectors;
 using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
 
-namespace HydroTaskpane2.Decorators
+namespace HydroTaskpane2.Decorators.Main
 {
     public class WeldmentHandlerDecorator : HandlerDecorator, IControlProduct
     {

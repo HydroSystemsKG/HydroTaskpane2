@@ -11,7 +11,7 @@ using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
 using SldWorks;
 
-namespace HydroTaskpane2.Decorators
+namespace HydroTaskpane2.Decorators.Main
 {
     public class ColorHandlerDecorator : HandlerDecorator, IControlProduct
     {
