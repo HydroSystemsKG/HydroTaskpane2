@@ -66,20 +66,20 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(256, 25);
+            this.label1.Location = new System.Drawing.Point(256, 21);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 13);
+            this.label1.Size = new System.Drawing.Size(29, 13);
             this.label1.TabIndex = 2;
-            this.label1.Text = "N/mm²";
+            this.label1.Text = "MPa";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(256, 26);
+            this.label2.Location = new System.Drawing.Point(256, 21);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 13);
+            this.label2.Size = new System.Drawing.Size(29, 13);
             this.label2.TabIndex = 3;
-            this.label2.Text = "N/mm²";
+            this.label2.Text = "MPa";
             // 
             // label5
             // 
@@ -163,11 +163,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(256, 25);
+            this.label3.Location = new System.Drawing.Point(256, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(23, 13);
+            this.label3.Size = new System.Drawing.Size(15, 13);
             this.label3.TabIndex = 2;
-            this.label3.Text = "mm";
+            this.label3.Text = "%";
             // 
             // SetStrength
             // 

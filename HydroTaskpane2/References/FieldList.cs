@@ -23,34 +23,52 @@ namespace HydroTaskpane2.References
         public static List<object[]> controlArrays = new List<object[]>
         {
             // part
+            // description
+            new object[] { "part_description_separator", (int)ControlTypes.separator, "Descriptions | Beschreibungen", height, null, PageNames.standard, null},
             new object[] { "part_description_label", (int)ControlTypes.label, "Description | Beschreibung", height, null, PageNames.standard, null},
             new object[] { "part_description_dropdown", (int)ControlTypes.comboBox, "Please select  |  Bitte auswählen", controlHeight, SldWorksConstants.filename_mix_description,  PageNames.standard, (int)Decorator_e.description_change},
             new object[] { "part_additionaltext_label", (int)ControlTypes.label, "Additional Description | Zusatztext", height, null,  PageNames.standard, null},
             new object[] { "part_additionaltext_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_part_additionaltext, PageNames.standard, (int)Decorator_e.description_change},
             new object[] { "part_caddescription_label", (int)ControlTypes.label, "CAD Description | CAD Beschreibung", height, null, PageNames.standard, null},
             new object[] { "part_caddescription_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.standard},
-            new object[] { "part_material_label", (int)ControlTypes.label, "Material Hydro Variant 1 | Werkstoff Hydro Variante 1", height, null, PageNames.standard, null},
-            new object[] { "part_material_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_part_material, PageNames.standard, (int)Decorator_e.material}, // modified
-            // strength
-            new object[] { "part_yieldstrength_label", (int)ControlTypes.label, "Yield Strength | Streckgrenze [MPa]", height, null, PageNames.standard, null},
-            new object[] { "part_yieldstrength_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
-            new object[] { "part_tensilestrength_label", (int)ControlTypes.label, "Tensile Strength | Zugfestigkeit [MPa]", height, null, PageNames.standard, null},
-            new object[] { "part_tensilestrength_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
+            new object[] { "part_basedon_label", (int)ControlTypes.label, "Based On | Basierend Auf", height, null, PageNames.standard, null},
+            new object[] { "part_basedon_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.standard},
+            new object[] { "part_description_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+            //new object[] { "part_description_spacer", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
 
-            new object[] { "part_elongationatbreak_label", (int)ControlTypes.label, "Elongation at break | Bruchdehnung [mm]", height, null, PageNames.standard, null},
-            new object[] { "part_elongationatbreak_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
+            // material original
 
-            // #########
-            new object[] { "part_materialalt_label", (int)ControlTypes.label, "Material Hydro Variant 2 | Werkstoff Hydro Variante 2", height, null, PageNames.standard, null},
-            new object[] { "part_materialalt_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_part_material, PageNames.standard, (int)Decorator_e.standard},
-            new object[] { "part_materialadd_label", (int)ControlTypes.label, "Material Hydro Additional Text | Werkstoff Hydro Zusatzmerkmal", height, null, PageNames.standard, null},
-            new object[] { "part_materialadd_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.standard},
+            new object[] { "part_materialorig_separator", (int)ControlTypes.separator, "Original Material | Originalwerkstoff", height, null, PageNames.standard, null},
             new object[] { "part_materialorig_label", (int)ControlTypes.label, "Material Original | Original Werkstoff", height, null, PageNames.standard, null},
             new object[] { "part_materialorig_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_part_material, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "part_materialorigadd_label", (int)ControlTypes.label, "Material Original Additional Text | Original Werkstoff Zusatzmerkmal", height, null, PageNames.standard, null},
             new object[] { "part_materialorigadd_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.standard},
+            new object[] { "part_materialorig_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+            //new object[] { "part_materialorig_spacer", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+
+            // material + strength
+
+            new object[] { "part_material_separator", (int)ControlTypes.separator, "Material | Werkstoff", height, null, PageNames.standard, null},
+            new object[] { "part_material_label", (int)ControlTypes.label, "Material Hydro Variant 1 | Werkstoff Hydro Variante 1", height, null, PageNames.standard, null},
+            new object[] { "part_material_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_part_material, PageNames.standard, (int)Decorator_e.material}, // modified
+            new object[] { "part_yieldstrength_label", (int)ControlTypes.label, "Yield Strength | Streckgrenze [MPa]", height, null, PageNames.standard, null},
+            new object[] { "part_yieldstrength_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
+            new object[] { "part_tensilestrength_label", (int)ControlTypes.label, "Tensile Strength | Zugfestigkeit [MPa]", height, null, PageNames.standard, null},
+            new object[] { "part_tensilestrength_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
+            new object[] { "part_elongationatbreak_label", (int)ControlTypes.label, "Elongation at break | Bruchdehnung [%]", height, null, PageNames.standard, null},
+            new object[] { "part_elongationatbreak_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.strength},
+            new object[] { "part_materialalt_label", (int)ControlTypes.label, "Material Hydro Variant 2 | Werkstoff Hydro Variante 2", height, null, PageNames.standard, null},
+            new object[] { "part_materialalt_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_part_material, PageNames.standard, (int)Decorator_e.standard},
+            new object[] { "part_materialadd_label", (int)ControlTypes.label, "Material Hydro Additional Text | Werkstoff Hydro Zusatzmerkmal", height, null, PageNames.standard, null},
+            new object[] { "part_materialadd_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "part_specialselection_label", (int)ControlTypes.label, "Special Selection | Sonderauswahl", height, null, PageNames.standard, null}, // sonderauswahl
             new object[] { "part_specialselection_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_specialselection, PageNames.standard, (int)Decorator_e.standard}, // sonderauswahl
+            new object[] { "part_material_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+            //new object[] { "part_material_spacer", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+
+            // treatments
+
+            new object[] { "part_treatments_separator", (int)ControlTypes.separator, "Treatments | Behandlungen", height, null, PageNames.standard, null},
             new object[] { "part_heattreat_label", (int)ControlTypes.label, "Heat Treatment | Wärmebehandlung", height, null, PageNames.standard, null},
             new object[] { "part_heattreat_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_heattreat, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "part_preconditioning_label", (int)ControlTypes.label, "Preconditioning | Vorbehandlung", height, null, PageNames.standard, null},
@@ -63,15 +81,24 @@ namespace HydroTaskpane2.References
             new object[] { "part_varnishing_dropdown", (int)ControlTypes.comboBox, "not necessary | not necessary | nicht erforderlich", controlHeight, SldWorksConstants.filename_mix_standardcolor, PageNames.standard, (int)Decorator_e.cv},
             new object[] { "part_additionalinfo_label", (int)ControlTypes.label, "Additional Information | Zusatzinformationen", height, null, PageNames.standard, null},
             new object[] { "part_additionalinfo_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_additionalinformation, PageNames.standard, (int)Decorator_e.standard},
-            new object[] { "part_basedon_label", (int)ControlTypes.label, "Based On | Basierend Auf", height, null, PageNames.standard, null},
-            new object[] { "part_basedon_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.standard},
+            new object[] { "part_treatments_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+            //new object[] { "part_treatments_spacer", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+
+            // norms
+
+            new object[] { "part_norms_separator", (int)ControlTypes.separator, "Norms | Normen", height, null, PageNames.standard, null},
             new object[] { "part_generaltolerance_label", (int)ControlTypes.label, "DIN ISO 2768 | General Tolerances | Allgemeintoleranzen", height, null, PageNames.standard, null},
             new object[] { "part_generaltolerance_dropdown", (int)ControlTypes.comboBox, "DIN ISO 2768-mK", controlHeight, SldWorksConstants.filename_part_generaltolerance, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "part_thermalcut_label", (int)ControlTypes.label, "ISO 9013 | Separation Methods Precision | Trennverfahren Toleranz", height, null, PageNames.standard, null},
             new object[] { "part_thermalcut_dropdown", (int)ControlTypes.comboBox, "n/a", controlHeight, SldWorksConstants.filename_mix_thermalcut, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "part_semifinished_label" , (int)ControlTypes.label, "Semifinished Standard | Halbzeug Norm", height, null, PageNames.standard, null},
             new object[] { "part_semifinished_dropdown", (int)ControlTypes.comboBox, "n/a", controlHeight, SldWorksConstants.filename_mix_semifinished, PageNames.standard, (int)Decorator_e.standard},
-            new object[] { "part_separator_welding", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+            new object[] { "part_norms_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+            //new object[] { "part_norms_spacer", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+            
+            // welding
+
+            new object[] { "part_welding_separator", (int)ControlTypes.separator, "Welding | Schweißteil", height, null, PageNames.standard, null},
             new object[] { "part_welding_checkbox", (int)ControlTypes.checkBox, "Weldment | Schweißteil", controlHeight, null, PageNames.standard, (int)Decorator_e.weldment}, // part welding checkbox
             new object[] { "part_dyepenetration_label", (int)ControlTypes.label, "Dye Penetration Inspection acc. ISO 3452-1 | Farbeindringprüfung n. ISO 3452-1", height, null, PageNames.standard, null},
             new object[] { "part_dyepenetration_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_assembly_dyepentrationinspection, PageNames.standard, (int)Decorator_e.weld_init},
@@ -79,16 +106,31 @@ namespace HydroTaskpane2.References
             new object[] { "part_visualinspection_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_visualinspection, PageNames.standard, (int)Decorator_e.weld_init},
             new object[] { "part_qualityimperfections_label", (int)ControlTypes.label, "DIN EN ISO 5817 | Quality Level for Imperfection | Qualitätsanforderung für Unregelmäßigkeiten", height, null, PageNames.standard, null},
             new object[] { "part_qualityimperfections_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_assembly_qualityimperfections, PageNames.standard, (int)Decorator_e.weld_init},
-            new object[] { "part_separator_ending", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+            new object[] { "part_welding_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+            //new object[] { "part_welding_spacer", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+            
+            // ################
+
             // assembly
+
+            // description
+
+            new object[] { "assembly_description_separator", (int)ControlTypes.separator, "Descriptions | Beschreibungen", height, null, PageNames.standard, null},
             new object[] { "assembly_description_label", (int)ControlTypes.label, "Description | Beschreibung", height, null, PageNames.standard, null},
             new object[] { "assembly_description_dropdown", (int)ControlTypes.comboBox, "Please select | Bitte auswählen", controlHeight, SldWorksConstants.filename_mix_description, PageNames.standard, (int)Decorator_e.description_change},
             new object[] { "assembly_additionaltext_label", (int)ControlTypes.label, "Additional Text | Zusatztext", height, null, PageNames.standard, null},
             new object[] { "assembly_additionaltext_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_assembly_additionaltext, PageNames.standard, (int)Decorator_e.description_change},
             new object[] { "assembly_caddescription_label", (int)ControlTypes.label, "CAD Description | CAD Beschreibung", height, null, PageNames.standard, null},
             new object[] { "assembly_caddescription_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.standard},
-            new object[] { "assembly_specialselection_label", (int)ControlTypes.label, "Special Selection | Sonderauswahl", height, null, PageNames.standard, null}, // sonderauswahl
-            new object[] { "assembly_specialselection_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_specialselection, PageNames.standard, (int)Decorator_e.standard}, // sonderauswahl
+            new object[] { "assembly_basedon_label", (int)ControlTypes.label, "Based On | Basierend Auf", height, null, PageNames.standard, null},
+            new object[] { "assembly_basedon_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.standard},
+            new object[] { "assembly_description_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+
+            // treatments
+
+            //new object[] { "assembly_specialselection_label", (int)ControlTypes.label, "Special Selection | Sonderauswahl", height, null, PageNames.standard, null}, // sonderauswahl
+            //new object[] { "assembly_specialselection_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_specialselection, PageNames.standard, (int)Decorator_e.standard}, // sonderauswahl
+            new object[] { "assembly_treatments_separator", (int)ControlTypes.separator, "Treatments | Behandlungen", height, null, PageNames.standard, null},
             new object[] { "assembly_heattreat_label", (int)ControlTypes.label, "Heat Treatment | Wärmebehandlung", height, null, PageNames.standard, null},
             new object[] { "assembly_heattreat_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_heattreat, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "assembly_preconditioning_label", (int)ControlTypes.label, "Preconditioning | Vorbehandlung", height, null, PageNames.standard, null},
@@ -101,15 +143,22 @@ namespace HydroTaskpane2.References
             new object[] { "assembly_varnishing_dropdown", (int)ControlTypes.comboBox, "not necessary | not necessary | nicht erforderlich", controlHeight, SldWorksConstants.filename_mix_standardcolor, PageNames.standard, (int)Decorator_e.cv},
             new object[] { "assembly_additionalinfo_label", (int)ControlTypes.label, "Additional Information | Zusatzinformationen", height, null, PageNames.standard, null},
             new object[] { "assembly_additionalinfo_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_additionalinformation, PageNames.standard, (int)Decorator_e.standard},
-            new object[] { "assembly_basedon_label", (int)ControlTypes.label, "Based On | Basierend Auf", height, null, PageNames.standard, null},
-            new object[] { "assembly_basedon_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.standard},
+            new object[] { "assembly_treatments_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+
+            // norms
+
+            new object[] { "assembly_norms_separator", (int)ControlTypes.separator, "Norms | Normen", height, null, PageNames.standard, null},
             new object[] { "assembly_generaltolerance_label", (int)ControlTypes.label, "DIN ISO 2768 | General Tolerances | Allgemeintoleranzen", height, null, PageNames.standard, null},
             new object[] { "assembly_generaltolerance_dropdown", (int)ControlTypes.comboBox, "DIN ISO 2768-mK", controlHeight, SldWorksConstants.filename_assembly_generaltolerance, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "assembly_thermalcut_label", (int)ControlTypes.label, "ISO 9013 | Separation Methods Precision | Trennverfahren Toleranz", height, null, PageNames.standard, null},
             new object[] { "assembly_thermalcut_dropdown", (int)ControlTypes.comboBox, "n/a", controlHeight, SldWorksConstants.filename_mix_thermalcut, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "assembly_semifinished_label", (int)ControlTypes.label, "Semifinished Standard | Halbzeug Norm", height, null, PageNames.standard, null},
             new object[] { "assembly_semifinished_dropdown", (int)ControlTypes.comboBox, "n/a", controlHeight, SldWorksConstants.filename_mix_semifinished, PageNames.standard, (int)Decorator_e.standard},
-            new object[] { "assembly_separator_welding", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+            new object[] { "assembly_norms_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+
+            // welding
+
+            new object[] { "assembly_welding_separator", (int)ControlTypes.separator, "Welding | Schweißbaugruppe", height, null, PageNames.standard, null},
             new object[] { "assembly_welding_checkbox", (int)ControlTypes.checkBox, "Welding Assembly | Schweißbaugruppe", controlHeight, null, PageNames.standard, (int)Decorator_e.weldment}, // assembly welding checkbox
             new object[] { "assembly_dyepenetration_label", (int)ControlTypes.label, "Dye Penentration Inspection acc. ISO 3452-1 | Farbeindringprüfung n. ISO 3452-1", height, null, PageNames.standard, null},
             new object[] { "assembly_dyepenetration_dropdown", (int)ControlTypes.comboBox, "",  controlHeight, SldWorksConstants.filename_assembly_dyepentrationinspection, PageNames.standard, (int)Decorator_e.standard},
@@ -117,8 +166,15 @@ namespace HydroTaskpane2.References
             new object[] { "assembly_visualinspection_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_mix_visualinspection, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "assembly_qualityimperfections_label", (int)ControlTypes.label, "DIN EN ISO 5817 | Quality Level for Imperfection | Qualitätsanforderung für Uneregelmäßigkeiten", height, null, PageNames.standard, null},
             new object[] { "assembly_qualityimperfections_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_assembly_qualityimperfections, PageNames.standard, (int)Decorator_e.standard},
-            new object[] { "assembly_separator_ending", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+            new object[] { "assembly_welding_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+            
+            // ################
+
             // drawing
+
+            // header 
+
+            new object[] { "drawing_header_separator", (int)ControlTypes.separator, "Header | Zeichnungskopf", height, null, PageNames.standard, null},
             new object[] { "drawing_changeno_label", (int)ControlTypes.label, "Change-No. | Änderungsnummer", height, null, PageNames.standard, null},
             new object[] { "drawing_changeno_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
             new object[] { "drawing_changedescription_label", (int)ControlTypes.label, "Change Short Description | Änderungskurztext", height, null, PageNames.standard, null},
@@ -127,8 +183,16 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_occurs_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
             new object[] { "drawing_additionalinfo_label", (int)ControlTypes.label, "Additional Information | Zusatzinformationen", height, null, PageNames.standard, null},
             new object[] { "drawing_additionalinfo_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
-            new object[] { "drawing_specialselection_label", (int)ControlTypes.label, "Special Selection | Sonderauswahl", height, null, PageNames.standard, null}, // sonderauswahl
-            new object[] { "drawing_specialselection_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard}, // sonderauswahl
+            new object[] { "drawing_basedon_label", (int)ControlTypes.label, "Based On | Basierend Auf", height, null, PageNames.standard, null},
+            new object[] { "drawing_basedon_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
+            new object[] { "drawing_header_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+
+            //new object[] { "drawing_specialselection_label", (int)ControlTypes.label, "Special Selection | Sonderauswahl", height, null, PageNames.standard, null}, // sonderauswahl
+            //new object[] { "drawing_specialselection_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard}, // sonderauswahl
+
+            // treatments
+
+            new object[] { "drawing_treatments_separator", (int)ControlTypes.separator, "Treatments | Behandlungen", height, null, PageNames.standard, null},
             new object[] { "drawing_heattreat_label", (int)ControlTypes.label, "Heat Treatment | Wärmebehandlung", height, null, PageNames.standard, null},
             new object[] { "drawing_heattreat_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
             new object[] { "drawing_preconditioning_label", (int)ControlTypes.label, "Preconditioning | Vorbehandlung", height, null, PageNames.standard, null},
@@ -139,15 +203,22 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_color_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
             new object[] { "drawing_varnishing_label", (int)ControlTypes.label, "Lacquering | Lackierung", height, null, PageNames.standard, null},
             new object[] { "drawing_varnishing_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
-            new object[] { "drawing_basedon_label", (int)ControlTypes.label, "Based On | Basierend Auf", height, null, PageNames.standard, null},
-            new object[] { "drawing_basedon_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
+            new object[] { "drawing_treatments_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+
+            // norms
+
+            new object[] { "drawing_norms_separator", (int)ControlTypes.separator, "Norms | Normen", height, null, PageNames.standard, null},
             new object[] { "drawing_generaltolerance_label", (int)ControlTypes.label, "DIN ISO 2768 | General Tolerances | Allgemeintoleranzen", height, null, PageNames.standard, null},
             new object[] { "drawing_generaltolerance_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
             new object[] { "drawing_thermalcut_label", (int)ControlTypes.label, "ISO 9013 | Separation Methods Precision | Trennverfahren Toleranz", height, null, PageNames.standard, null},
             new object[] { "drawing_thermalcut_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
             new object[] { "drawing_semifinished_label", (int)ControlTypes.label, "Semifinished Standard | Halbzeug Norm", height, null, PageNames.standard, null},
             new object[] { "drawing_semifinished_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
-            new object[] { "drawing_separator_welding", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+            new object[] { "drawing_norms_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+
+            // welding
+
+            new object[] { "drawing_welding_separator", (int)ControlTypes.separator, "Welding | Schweißbaugruppe", height, null, PageNames.standard, null},
             new object[] { "drawing_welding_checkbox", (int)ControlTypes.checkBox, "Welding Assembly | Schweißbaugruppe", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard}, // assembly welding checkbox
             new object[] { "drawing_dyepenetration_label", (int)ControlTypes.label, "ISO 3452-1 | Dye Penetration Inspection | Farbeindringprüfung", height, null, PageNames.standard, null},
             new object[] { "drawing_dyepenetration_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
@@ -155,11 +226,18 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_visualinspection_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_standard},
             new object[] { "drawing_qualityimperfections_label", (int)ControlTypes.label, "DIN EN ISO 5817 | Quality Level for Imperfection | Qualitätsanforderung für Unregelmäßigkeiten", height, null, PageNames.standard, null},
             new object[] { "drawing_qualityimperfections_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard , (int)Decorator_e.drawing_standard},
-            new object[] { "drawing_separator_ending", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
+            new object[] { "drawing_welding_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
 
             // Additions (must be controlled throughout the whole project)
 
             // drawing - Angebotsblatt_A4_Cobra
+
+            new object[] { "drawing_angCobra_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angCobra, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angCobra_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angCobra, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angCobra_mode_separator", (int)ControlTypes.separator, "", height, null, PageNames.angCobra, null},
+
+            new object[] { "drawing_angCobra_Model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angCobra, null},
+            new object[] { "drawing_angCobra_Model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angCobra, (int)Decorator_e.standard},
             new object[] { "drawing_angCobra_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angCobra, null},
             new object[] { "drawing_angCobra_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angCobra, (int)Decorator_e.standard},
             new object[] { "drawing_angCobra_capacity_t_label", (int)ControlTypes.label, "Capacity | Hubkraft | Carge Nom. [t]", height, null, PageNames.angCobra, null},
@@ -182,12 +260,15 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_angCobra_liftstrokeD_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angCobra, (int)Decorator_e.metric},
             new object[] { "drawing_angCobra_liftstrokeD_inch_label", (int)ControlTypes.label, "Lift Stroke D | Hub D | Course D [inch]", height, null, PageNames.angCobra, null},
             new object[] { "drawing_angCobra_liftstrokeD_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angCobra, (int)Decorator_e.imperial},
-            new object[] { "drawing_angCobra_Model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angCobra, null},
-            new object[] { "drawing_angCobra_Model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angCobra, (int)Decorator_e.standard},
-            new object[] { "drawing_angCobra_separator_mode", (int)ControlTypes.label, "", height, null, PageNames.angCobra, null},
-            new object[] { "drawing_angCobra_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angCobra, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
-            new object[] { "drawing_angCobra_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angCobra, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+
             // drawing - Angebotsblatt_A4_D-Heber
+            
+            new object[] { "drawing_angDHeber_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angDHeber, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angDHeber_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angDHeber , (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angDHeber_mode_separator", (int)ControlTypes.separator, "", height, null, PageNames.angDHeber, null},
+
+            new object[] { "drawing_angDHeber_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angDHeber, null},
+            new object[] { "drawing_angDHeber_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeber, (int)Decorator_e.standard},
             new object[] { "drawing_angDHeber_capacity_t_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [t]", height, null, PageNames.angDHeber, null},
             new object[] { "drawing_angDHeber_capacity_t_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeber, (int)Decorator_e.metric},
             new object[] { "drawing_angDHeber_capacity_ton_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [ton]", height, null, PageNames.angDHeber, null},
@@ -208,12 +289,15 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_angDHeber_extendedheight_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeber, (int)Decorator_e.metric},
             new object[] { "drawing_angDHeber_extendedheight_inch_label", (int)ControlTypes.label, "Extended Height | Bauhöhe Max. | Hauteur Totale [inch]", height, null, PageNames.angDHeber, null},
             new object[] { "drawing_angDHeber_extendedheight_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeber, (int)Decorator_e.imperial},
-            new object[] { "drawing_angDHeber_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angDHeber, null},
-            new object[] { "drawing_angDHeber_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeber, (int)Decorator_e.standard},
-            new object[] { "drawing_angDHeber_separator_mode", (int)ControlTypes.label, "", height, null, PageNames.angDHeber, null},
-            new object[] { "drawing_angDHeber_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angDHeber, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
-            new object[] { "drawing_angDHeber_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angDHeber , (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+
             // drawing - Angebotsblatt_A4_D-Heber_Zweizeilig
+            
+            new object[] { "drawing_angDHeberZwei_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angDHeberZwei_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angDHeberZwei_mode_separator", (int)ControlTypes.separator, "", height, null, PageNames.angDHeberZwei, null},
+
+            new object[] { "drawing_angDHeberZwei_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angDHeberZwei, null},
+            new object[] { "drawing_angDHeberZwei_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
             new object[] { "drawing_angDHeberZwei_capacity_t_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [t]", height, null, PageNames.angDHeberZwei, null},
             new object[] { "drawing_angDHeberZwei_capacity_t_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.metric},
             new object[] { "drawing_angDHeberZwei_capacity_ton_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [ton]", height, null, PageNames.angDHeberZwei, null},
@@ -234,12 +318,15 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_angDHeberZwei_extendedheight_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.metric},
             new object[] { "drawing_angDHeberZwei_extendedheight_inch_label", (int)ControlTypes.label, "Extended Height | Bauhöhe Max. | Hauteur Totale [inch]", height, null, PageNames.angDHeberZwei, null},
             new object[] { "drawing_angDHeberZwei_extendedheight_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.imperial},
-            new object[] { "drawing_angDHeberZwei_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angDHeberZwei, null},
-            new object[] { "drawing_angDHeberZwei_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.standard},
-            new object[] { "drawing_angDHeberZwei_separator_mode", (int)ControlTypes.label, "", height, null, PageNames.angDHeberZwei, null},
-            new object[] { "drawing_angDHeberZwei_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
-            new object[] { "drawing_angDHeberZwei_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angDHeberZwei, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            
             // drawing - Angebotsblatt_A4_Hydr_Stuetze
+
+            new object[] { "drawing_angHydrStuetze_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angHydrStuetze, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angHydrStuetze_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angHydrStuetze , (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angHydrStuetze_mode_separator", (int)ControlTypes.separator, "", height, null, PageNames.angHydrStuetze, null},
+
+            new object[] { "drawing_angHydrStuetze_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angHydrStuetze, null},
+            new object[] { "drawing_angHydrStuetze_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angHydrStuetze, (int)Decorator_e.standard},
             new object[] { "drawing_angHydrStuetze_capacity_t_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [t]", height, null, PageNames.angHydrStuetze, null},
             new object[] { "drawing_angHydrStuetze_capacity_t_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angHydrStuetze, (int)Decorator_e.metric},
             new object[] { "drawing_angHydrStuetze_capacity_ton_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [ton]", height, null, PageNames.angHydrStuetze, null},
@@ -260,12 +347,15 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_angHydrStuetze_extendedheight_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angHydrStuetze, (int)Decorator_e.metric},
             new object[] { "drawing_angHydrStuetze_extendedheight_inch_label", (int)ControlTypes.label, "Extended Height | Bauhöhe Max. | Hauteur Totale [inch]", height, null, PageNames.angHydrStuetze, null},
             new object[] { "drawing_angHydrStuetze_extendedheight_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angHydrStuetze, (int)Decorator_e.imperial},
-            new object[] { "drawing_angHydrStuetze_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angHydrStuetze, null},
-            new object[] { "drawing_angHydrStuetze_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angHydrStuetze, (int)Decorator_e.standard},
-            new object[] { "drawing_angHydrStuetze_separator_mode", (int)ControlTypes.label, "", height, null, PageNames.angHydrStuetze, null},
-            new object[] { "drawing_angHydrStuetze_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angHydrStuetze, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
-            new object[] { "drawing_angHydrStuetze_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angHydrStuetze , (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+
             // drawing - Angebotsblatt_A4_IDGR
+
+            new object[] { "drawing_angIDGR_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angIDGR, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angIDGR_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angIDGR , (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angIDGR_mode_separator", (int)ControlTypes.separator, "", height, null, PageNames.angIDGR, null},
+
+            new object[] { "drawing_angIDGR_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angIDGR, null},
+            new object[] { "drawing_angIDGR_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angIDGR, (int)Decorator_e.standard},
             new object[] { "drawing_angIDGR_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angIDGR, null},
             new object[] { "drawing_angIDGR_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angIDGR, (int)Decorator_e.standard},
             new object[] { "drawing_angIDGR_capacity_kg_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [kg]", height, null, PageNames.angIDGR, null},
@@ -288,12 +378,15 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_angIDGR_ac_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angIDGR, (int)Decorator_e.standard},
             new object[] { "drawing_angIDGR_typeofengine_label", (int)ControlTypes.label, "Type of Engine", height, null, PageNames.angIDGR, null},
             new object[] { "drawing_angIDGR_typeofengine_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angIDGR, (int)Decorator_e.standard},
-            new object[] { "drawing_angIDGR_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angIDGR, null},
-            new object[] { "drawing_angIDGR_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angIDGR, (int)Decorator_e.standard},
-            new object[] { "drawing_angIDGR_separator_mode", (int)ControlTypes.label, "", height, null, PageNames.angIDGR, null},
-            new object[] { "drawing_angIDGR_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angIDGR, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
-            new object[] { "drawing_angIDGR_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angIDGR , (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+
             // drawing - Angebotsblatt_A4_Mech_Stuetze
+
+            new object[] { "drawing_angMechStuetze_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angMechStuetze, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angMechStuetze_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angMechStuetze , (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angMechStuetze_mode_separator", (int)ControlTypes.separator, "", height, null, PageNames.angMechStuetze, null},
+
+            new object[] { "drawing_angMechStuetze_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angMechStuetze, null},
+            new object[] { "drawing_angMechStuetze_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angMechStuetze, (int)Decorator_e.standard},
             new object[] { "drawing_angMechStuetze_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angMechStuetze, null},
             new object[] { "drawing_angMechStuetze_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angMechStuetze, (int)Decorator_e.standard},
             new object[] { "drawing_angMechStuetze_capacity_t_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [t]", height, null, PageNames.angMechStuetze, null},
@@ -312,17 +405,22 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_angMechStuetze_extendedheight_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angMechStuetze, (int)Decorator_e.metric},
             new object[] { "drawing_angMechStuetze_extendedheight_inch_label", (int)ControlTypes.label, "Extended Height | Bauhöhe Max. | Hauteur Totale [inch]", height, null, PageNames.angMechStuetze, null},
             new object[] { "drawing_angMechStuetze_extendedheight_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angMechStuetze, (int)Decorator_e.imperial},
-            new object[] { "drawing_angMechStuetze_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angMechStuetze, null},
-            new object[] { "drawing_angMechStuetze_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angMechStuetze, (int)Decorator_e.standard},
-            new object[] { "drawing_angMechStuetze_separator_mode", (int)ControlTypes.label, "", height, null, PageNames.angMechStuetze, null},
-            new object[] { "drawing_angMechStuetze_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angMechStuetze, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
-            new object[] { "drawing_angMechStuetze_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angMechStuetze , (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+
             // drawing -  Angebotsblatt_A4_Pruefvorrichtung
-            new object[] { "drawing_angPruefvorr_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angPruefvorr, null},
-            new object[] { "drawing_angPruefvorr_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angPruefvorr, (int)Decorator_e.standard},
+
             new object[] { "drawing_angPruefvorr_model_label", (int)ControlTypes.label, "Model | Modell", height, null, PageNames.angPruefvorr, null},
             new object[] { "drawing_angPruefvorr_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angPruefvorr, (int)Decorator_e.standard},
+            new object[] { "drawing_angPruefvorr_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angPruefvorr, null},
+            new object[] { "drawing_angPruefvorr_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angPruefvorr, (int)Decorator_e.standard},
+
             // drawing - Angebotsblatt_A4_R-Heber
+
+            new object[] { "drawing_angRHeber_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angRHeber, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angRHeber_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angRHeber, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angRHeber_mode_separator", (int)ControlTypes.separator, "", height, null, PageNames.angRHeber, null},
+
+            new object[] { "drawing_angRHeber_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angRHeber, null},
+            new object[] { "drawing_angRHeber_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angRHeber, (int)Decorator_e.standard},
             new object[] { "drawing_angRHeber_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angRHeber, null},
             new object[] { "drawing_angRHeber_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angRHeber, (int)Decorator_e.standard},
             new object[] { "drawing_angRHeber_capacity_t_label", (int)ControlTypes.label, "Capacity | Hubkraft | Charge Nom. [t]", height, null, PageNames.angRHeber, null},
@@ -345,30 +443,32 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_angRHeber_usableheight_mm_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angRHeber, (int)Decorator_e.metric},
             new object[] { "drawing_angRHeber_usableheight_inch_label", (int)ControlTypes.label, "Usable Height | Nutzbare Höhe | Hauteur Utilisable [inch]", height, null, PageNames.angRHeber, null},
             new object[] { "drawing_angRHeber_usableheight_inch_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angRHeber, (int)Decorator_e.imperial},
-            new object[] { "drawing_angRHeber_model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angRHeber, null},
-            new object[] { "drawing_angRHeber_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angRHeber, (int)Decorator_e.standard},
-            new object[] { "drawing_angRHeber_separator_mode", (int)ControlTypes.label, "", height, null, PageNames.angRHeber, null},
-            new object[] { "drawing_angRHeber_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angRHeber, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
-            new object[] { "drawing_angRHeber_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angRHeber, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+
             // drawing - Angebotsblatt_A4_Steuerpult
-            new object[] { "drawing_angSteuerp_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angSteuerp, null},
-            new object[] { "drawing_angSteuerp_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angSteuerp, (int)Decorator_e.standard},
+
             new object[] { "drawing_angSteuerp_model_label", (int)ControlTypes.label, "Model | Modell", height, null, PageNames.angSteuerp, null},
             new object[] { "drawing_angSteuerp_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angSteuerp, (int)Decorator_e.standard},
+            new object[] { "drawing_angSteuerp_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angSteuerp, null},
+            new object[] { "drawing_angSteuerp_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angSteuerp, (int)Decorator_e.standard},
+
             // drawing - Angebotsblatt_A4_TOW
+
+            new object[] { "drawing_angTOW_model_label", (int)ControlTypes.label, "Model | Modell", height, null, PageNames.angTOW, null},
+            new object[] { "drawing_angTOW_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angTOW, (int)Decorator_e.standard},
             new object[] { "drawing_angTOW_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angTOW, null},
             new object[] { "drawing_angTOW_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angTOW, (int)Decorator_e.standard},
             new object[] { "drawing_angTOW_ac_label", (int)ControlTypes.label, "Aircraft (AC)", height, null, PageNames.angTOW, null},
             new object[] { "drawing_angTOW_ac_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angTOW, (int)Decorator_e.standard},
-            new object[] { "drawing_angTOW_model_label", (int)ControlTypes.label, "Model | Modell", height, null, PageNames.angTOW, null},
-            new object[] { "drawing_angTOW_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angTOW, (int)Decorator_e.standard},
+
             // drawing - Angebotsblatt_A4_Wiegeeinrichtung
+
+            new object[] { "drawing_angWiegeeinr_model_label", (int)ControlTypes.label, "Model | Modell", height, null, PageNames.angWiegeeinr, null},
+            new object[] { "drawing_angWiegeeinr_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angWiegeeinr, (int)Decorator_e.standard},
             new object[] { "drawing_angWiegeeinr_revision_label", (int)ControlTypes.label, "Revision Status | Revision Stand", height, null, PageNames.angWiegeeinr, null},
             new object[] { "drawing_angWiegeeinr_revision_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angWiegeeinr, (int)Decorator_e.standard},
             new object[] { "drawing_angWiegeeinr_capacity_KN_label", (int)ControlTypes.label, "Capacity [KN]", height, null, PageNames.angWiegeeinr, null},
-            new object[] { "drawing_angWiegeeinr_capacity_KN_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angWiegeeinr, (int)Decorator_e.standard},
-            new object[] { "drawing_angWiegeeinr_model_label", (int)ControlTypes.label, "Model | Modell", height, null, PageNames.angWiegeeinr, null},
-            new object[] { "drawing_angWiegeeinr_model_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angWiegeeinr, (int)Decorator_e.standard}
+            new object[] { "drawing_angWiegeeinr_capacity_KN_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.angWiegeeinr, (int)Decorator_e.standard}
+
         };
 
         public static Dictionary<string, int> controlAttributeClassesPairs = new Dictionary<string, int>

@@ -12,6 +12,7 @@ namespace HydroTaskpane2.References
         comboBox,
         checkBox,
         label,
-        longLabel
+        longLabel,
+        separator
     }
 }

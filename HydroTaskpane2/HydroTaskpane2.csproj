@@ -103,6 +103,7 @@
     <Compile Include="Strategy\ComboBoxStrategy.cs" />
     <Compile Include="Strategy\IProductStrategy.cs" />
     <Compile Include="Strategy\LabelStrategy.cs" />
+    <Compile Include="Strategy\SeparatorStrategy.cs" />
     <Compile Include="Strategy\TextBoxStrategy.cs" />
     <Compile Include="SWAttributeObserver\AttributeValuePairGenerator.cs" />
     <Compile Include="SWAttributeObserver\Observer\ISWObserver.cs" />

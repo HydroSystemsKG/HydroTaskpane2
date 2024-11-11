@@ -46,6 +46,9 @@ namespace HydroTaskpane2.Fabrication
                 case ((int)ControlTypes.checkBox):
                     strategy = new CheckBoxStrategy();
                     break;
+                case ((int)ControlTypes.separator):
+                    strategy = new SeparatorStrategy();
+                    break;
             }
 
             this.strategy = strategy;
