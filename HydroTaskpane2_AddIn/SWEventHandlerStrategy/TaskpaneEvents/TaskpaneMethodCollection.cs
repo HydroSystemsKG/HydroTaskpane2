@@ -42,6 +42,9 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 taskpane.RemoveItems();
                 taskpane.CustomTabInit();
                 taskpane.fillAttributes();
+
+                // replace "PTC_WM_REVISION" with new revision attribute
+                generalMethodCollection.SetRevisionAttribute();
             }
             catch (Exception e)
             {
@@ -69,6 +72,11 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                     generalMethodCollection.ProcessBOM();
                 }
 
+                // replace "PTC_WM_REVISION" with new revision attribute
+                generalMethodCollection.SetRevisionAttribute();
+
+                // synch drawing to model (2D to 3D)
+                generalMethodCollection.SynchDrawingToModel();
             }
             catch (Exception e)
             {
@@ -215,7 +223,7 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
             {
                 DebugBuilder.Print("Fill attributes");
 
-                //taskpane.fillAttributes();
+                
 
                 DebugBuilder.Print("End method");
             }

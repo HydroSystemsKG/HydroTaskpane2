@@ -109,6 +109,86 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
             }
         }
 
+        public void SynchDrawingToModel()
+        {
+            if (SWModelConnector.GetInstance().swModel.GetType() != (int)swDocumentTypes_e.swDocDRAWING) { return; }
+
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
+            DrawingDoc swDrawing = (DrawingDoc)swModel;
+            ModelDoc2 swRefModel = (ModelDoc2)((View)swDrawing.GetFirstView()).GetNextView().ReferencedDocument;
+
+            // get custom property manager
+
+            CustomPropertyManager swCustPropMgr = swModel.Extension.get_CustomPropertyManager("");
+
+            string[] attributes = swCustPropMgr.GetNames();
+            
+            foreach (string attribute in attributes)
+            {
+                string value = swCustPropMgr.Get(attribute);
+
+                try
+                {
+                    Debug.Print($"Set attribute to reference: ({attribute}, {value})");
+
+                    SldWorksStandards.setAttribute(ref swRefModel, attribute, value);
+                }
+                catch(Exception e)
+                {
+                    Debug.Print($"Error setting attribute to Reference: {e.ToString()}");
+                }
+            }
+        }
+
+        public void SetRevisionAttribute()
+        {
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
+            string oldRevisionAttribute = "PTC_WM_REVISION";
+            List<string> attrTables;
+
+            if (swModel.GetType() != (int)swDocumentTypes_e.swDocDRAWING)
+            {
+                attrTables = new List<string>(swModel.GetConfigurationNames());
+                attrTables.Add("");
+            }
+            else
+            {
+                attrTables = new List<string>();
+                attrTables.Add("");
+            }
+
+            foreach (string table in attrTables)
+            {
+                CustomPropertyManager swCustPropMgr = swModel.Extension.get_CustomPropertyManager(table);
+                string[] attributes = swCustPropMgr.GetNames();
+
+                if (attributes.Contains(oldRevisionAttribute))
+                {
+                    string value = swCustPropMgr.Get(oldRevisionAttribute);
+
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        swCustPropMgr.Add3(SldWorksConstants.sldworks_attr_revision, (int)swCustomInfoType_e.swCustomInfoText, value, (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
+                        swCustPropMgr.Delete2(oldRevisionAttribute);
+
+                        string mainRevision = value.Substring(0, 1);
+                        string intRevision = value.Substring(1, 1);
+
+                        swCustPropMgr.Add3(SldWorksConstants.sldworks_attr_mainrevision, (int)swCustomInfoType_e.swCustomInfoText, mainRevision, (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
+                        swCustPropMgr.Add3(SldWorksConstants.sldworks_attr_intrevision, (int)swCustomInfoType_e.swCustomInfoText, intRevision, (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
+                    }
+                    else
+                    {
+                        swCustPropMgr.Add3(SldWorksConstants.sldworks_attr_revision, (int)swCustomInfoType_e.swCustomInfoText, "", (int)swCustomPropertyAddOption_e.swCustomPropertyDeleteAndAdd);
+
+                        swCustPropMgr.Delete2(oldRevisionAttribute);
+                    }
+                    
+                }
+            }
+            
+        }
+
         #endregion
 
         /*
@@ -265,7 +345,6 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
         #region BOM methods
 
-
         public void ProcessBOM()
         {
             Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: Start...");
@@ -399,8 +478,6 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
             Debug.Print(" :: Hydro Taskpane :: ProcessBOM :: UpdateBOM :: Rebuild...");
             swModel.ForceRebuild3(true);
         }
-
-
 
         #endregion
 

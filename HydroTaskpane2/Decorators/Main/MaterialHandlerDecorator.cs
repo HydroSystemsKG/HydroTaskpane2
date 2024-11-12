@@ -82,6 +82,8 @@ namespace HydroTaskpane2.Decorators.Main
                 double yield = 0;
                 double elongation = 0;
 
+                if (!senderControl.Text.ToLower().Contains("verguetungsstahl")) { return; }
+
                 SetStrength window = new SetStrength();
                 var result = window.ShowDialog();
 
