@@ -15,6 +15,7 @@ using System.IO;
 using HydroSolidworksLibrary;
 using HydroTaskpane2.Connectors;
 using HydroTaskpane2.References;
+using HydroTaskpane2.References.Flags;
 using HydroTaskpane2_AddIn.SWEventHandlerStrategy.AttributeTemplates;
 
 namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents

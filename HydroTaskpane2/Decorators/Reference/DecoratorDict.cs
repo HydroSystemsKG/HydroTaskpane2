@@ -27,6 +27,10 @@ namespace HydroTaskpane2.Decorators.Reference
             {(int)Decorator_e.dimensions, typeof(DimensionHandlerDecorator)},
             {(int)Decorator_e.weight, typeof(WeightHandlerDecorator)},
             {(int)Decorator_e.unit_mode, typeof(UnitModeHandlerDecorator)},
+            {(int)Decorator_e.component, typeof(ComponentsHandlerDecorator)},
+            {(int)Decorator_e.drafter, typeof(DrafterHandlerDecorator)},
+            {(int)Decorator_e.date, typeof(DateHandlerDecorator)},
+            {(int)Decorator_e.drawing_mat, typeof(DrawingMatHandlerDecorator)},
         };
     }
 }

@@ -22,6 +22,10 @@ namespace HydroTaskpane2.Decorators.Reference
         mode_switch,
         dimensions,
         weight,
-        unit_mode
+        unit_mode,
+        component,
+        drafter,
+        date,
+        drawing_mat
     }
 }

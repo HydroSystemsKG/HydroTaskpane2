@@ -88,9 +88,13 @@
     <Compile Include="Decorators\Angebotsblatt\MetricHandlerDecorator.cs" />
     <Compile Include="Decorators\Angebotsblatt\ModeSwitchHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\ColorHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\ComponentsHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\CVHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DateHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\DescriptionHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\DimensionHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DrafterHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DrawingMatHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\DrawingStandardHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\HandlerDecorator.cs" />
     <Compile Include="Decorators\Main\MaterialHandlerDecorator.cs" />
@@ -113,6 +117,10 @@
     <Compile Include="References\ControlCollectionSingleton.cs" />
     <Compile Include="References\ControlTypes.cs" />
     <Compile Include="References\FieldList.cs" />
+    <Compile Include="References\Flags\ComponentUpdateFlag.cs" />
+    <Compile Include="References\Flags\DateUpdateFlag.cs" />
+    <Compile Include="References\Flags\DrafterUpdateFlag.cs" />
+    <Compile Include="References\Flags\DrawingMatFlag.cs" />
     <Compile Include="References\Flags\HandlingFlag.cs" />
     <Compile Include="References\Flags\WeightUpdateFlag.cs" />
     <Compile Include="References\PageNames.cs" />

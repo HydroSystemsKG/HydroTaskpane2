@@ -202,7 +202,7 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 else
                 {
                     DebugBuilder.Print("Update Drawing");
-                    
+
                     generalMethodCollection.UpdateDrawing(taskpane);
 
                     DebugBuilder.Print("Update Drawing ...done");
@@ -210,8 +210,23 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                     generalMethodCollection.setDescription();
                     generalMethodCollection.ProcessBOM();
 
+                    // activate specific flags
+
                     ActivationFlag.GetInstance().flag = true;
                     WeightUpdateFlag.GetInstance().flag = true;
+
+                    if (swModel.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
+                    {
+                        ComponentUpdateFlag.GetInstance().flag = true;
+                    }
+                    else if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
+                    {
+                        DrafterUpdateFlag.GetInstance().flag = true;
+                        DateUpdateFlag.GetInstance().flag = true;
+                        DrawingMatFlag.GetInstance().flag = true;
+                    }
+                    
+                    // ########
                 }
 
             }

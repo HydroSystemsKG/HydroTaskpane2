@@ -179,6 +179,18 @@ namespace HydroTaskpane2.References
             new object[] { "assembly_qualityimperfections_dropdown", (int)ControlTypes.comboBox, "", controlHeight, SldWorksConstants.filename_assembly_qualityimperfections, PageNames.standard, (int)Decorator_e.standard},
             new object[] { "assembly_welding_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
             
+            // inch/metric mode + dimensions + weight
+
+            new object[] { "assembly_dimensionsweight_separator", (int)ControlTypes.separator, "Dimensions & Weight | Dimensionen & Gewicht", height, null, PageNames.standard, null},
+            new object[] { "assembly_metricmode_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.standard, (int)Decorator_e.unit_mode},
+            new object[] { "assembly_imperialmode_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.standard, (int)Decorator_e.unit_mode},
+            new object[] { "assembly_dimensions_stack", (int)ControlTypes.stack, "Dimensions | Abmessungen [mm]", controlHeight, null, PageNames.standard, (int)Decorator_e.dimensions},
+            new object[] { "assembly_imperialdimensions_stack", (int)ControlTypes.stack, "Dimensions | Abmessungen [inch]", controlHeight, null, PageNames.standard, (int)Decorator_e.dimensions},
+            new object[] { "assembly_weight_stack", (int)ControlTypes.stack, "Weight | Gewicht [kg]", height, null, PageNames.standard, (int)Decorator_e.weight},
+            new object[] { "assembly_imperialweight_stack", (int)ControlTypes.stack, "Weight | Gewicht [lbs]", controlHeight, null, PageNames.standard, (int)Decorator_e.weight},
+            new object[] { "assembly_components_stack", (int)ControlTypes.stack, "Components | Komponenten", controlHeight, null, PageNames.standard, (int)Decorator_e.component},
+            new object[] { "assembly_dimensionsweight_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+
             // ################
 
             // drawing
@@ -239,12 +251,24 @@ namespace HydroTaskpane2.References
             new object[] { "drawing_qualityimperfections_textbox", (int)ControlTypes.textBox, "", controlHeight, null, PageNames.standard , (int)Decorator_e.drawing_standard},
             new object[] { "drawing_welding_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
 
+            // inch/metric mode + dimensions + weight
+
+            new object[] { "drawing_info_separator", (int)ControlTypes.separator, "Dimensions & Weight | Dimensionen & Gewicht", height, null, PageNames.standard, null},
+            new object[] { "drawing_metricmode_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.standard, (int)Decorator_e.unit_mode},
+            new object[] { "drawing_imperialmode_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.standard, (int)Decorator_e.unit_mode},
+            new object[] { "drawing_drafter_stack", (int)ControlTypes.stack, "Drafter | Zeichner", controlHeight, null, PageNames.standard, (int)Decorator_e.drafter}, // add decorator
+            new object[] { "drawing_date_stack", (int)ControlTypes.stack, "Date | Datum", controlHeight, null, PageNames.standard, (int)Decorator_e.date}, // add decorator
+            new object[] { "drawing_weight_stack", (int)ControlTypes.stack, "Weight | Gewicht [kg]", height, null, PageNames.standard, (int)Decorator_e.weight},
+            new object[] { "drawing_imperialweight_stack", (int)ControlTypes.stack, "Weight | Gewicht [lbs]", controlHeight, null, PageNames.standard, (int)Decorator_e.weight},
+            new object[] { "drawing_drawingmat_stack", (int)ControlTypes.stack, "Material | Werkstoff", controlHeight, null, PageNames.standard, (int)Decorator_e.drawing_mat}, // add decorator
+            new object[] { "drawing_info_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+
             // Additions (must be controlled throughout the whole project)
 
             // drawing - Angebotsblatt_A4_Cobra
 
-            new object[] { "drawing_angCobra_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angCobra, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
-            new object[] { "drawing_angCobra_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angCobra, (int)Decorator_e.mode_switch}, // ADD NEW DECORATOR!
+            new object[] { "drawing_angCobra_mode_metric_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.angCobra, (int)Decorator_e.mode_switch},
+            new object[] { "drawing_angCobra_mode_imperial_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.angCobra, (int)Decorator_e.mode_switch},
             new object[] { "drawing_angCobra_mode_separator", (int)ControlTypes.separator, "", height, null, PageNames.angCobra, null},
 
             new object[] { "drawing_angCobra_Model_label", (int)ControlTypes.label, "Model | Modell | Reference", height, null, PageNames.angCobra, null},
@@ -536,6 +560,13 @@ namespace HydroTaskpane2.References
             { "assembly_dyepenetration_dropdown" , (int)AttributeClass_e.dyepenetrationinsp},
             { "assembly_visualinspection_dropdown" , (int)AttributeClass_e.visualinsp},
             { "assembly_qualityimperfections_dropdown" , (int)AttributeClass_e.qualitylevelimp},
+            // measurements + weight + components (assembly)
+            { "assembly_dimensions_stack", (int)AttributeClass_e.measurements},
+            { "assembly_imperialdimensions_stack", (int)AttributeClass_e.measurements_inch},
+            { "assembly_weight_stack", (int)AttributeClass_e.weight_kg},
+            { "assembly_imperialweight_stack", (int)AttributeClass_e.weight_lbs},
+            { "assembly_components_stack", (int)AttributeClass_e.components},
+            // ###########
             { "drawing_changeno_textbox" , (int)AttributeClass_e.changeno},
             { "drawing_changedescription_textbox" , (int)AttributeClass_e.changeshortdescription},
             { "drawing_occurs_textbox" , (int)AttributeClass_e.occurs},
@@ -554,6 +585,13 @@ namespace HydroTaskpane2.References
             { "drawing_dyepenetration_textbox" , (int)AttributeClass_e.dyepenetrationinsp},
             { "drawing_visualinspection_textbox" , (int)AttributeClass_e.visualinsp},
             { "drawing_qualityimperfections_textbox" , (int)AttributeClass_e.qualitylevelimp},
+            // drafter + date + weight + material (drawing)
+            { "drawing_drafter_stack", (int)AttributeClass_e.drafter},
+            { "drawing_date_stack", (int)AttributeClass_e.date},
+            { "drawing_weight_stack", (int)AttributeClass_e.weight_kg},
+            { "drawing_imperialweight_stack", (int)AttributeClass_e.weight_lbs},
+            { "drawing_drawingmat_stack", (int)AttributeClass_e.material},
+            // ###########
             { "drawing_angCobra_revision_textbox" , (int)AttributeClass_e.revisionstatus},
             { "drawing_angCobra_capacity_t_textbox" , (int)AttributeClass_e.capacity_t},
             { "drawing_angCobra_capacity_lbs_textbox" , (int)AttributeClass_e.capacity_lbs},
