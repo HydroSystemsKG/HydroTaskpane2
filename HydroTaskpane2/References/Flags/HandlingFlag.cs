@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HydroTaskpane2.References
+namespace HydroTaskpane2.References.Flags
 {
     public sealed class HandlingFlag
     {

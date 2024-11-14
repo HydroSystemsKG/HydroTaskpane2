@@ -109,6 +109,17 @@ namespace HydroTaskpane2.References
             new object[] { "part_welding_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
             //new object[] { "part_welding_spacer", (int)ControlTypes.label, "", height, null, PageNames.standard, null}, // SPACER
             
+            // inch/metric mode + dimensions + weight
+
+            new object[] { "part_dimensionsweight_separator", (int)ControlTypes.separator, "Dimensions & Weight | Dimensionen & Gewicht", height, null, PageNames.standard, null},
+            new object[] { "part_metricmode_checkbox", (int)ControlTypes.checkBox, "Metric", controlHeight, null, PageNames.standard, (int)Decorator_e.unit_mode},
+            new object[] { "part_imperialmode_checkbox", (int)ControlTypes.checkBox, "Imperial", controlHeight, null, PageNames.standard, (int)Decorator_e.unit_mode},
+            new object[] { "part_dimensions_stack", (int)ControlTypes.stack, "Dimensions | Abmessungen [mm]", controlHeight, null, PageNames.standard, (int)Decorator_e.dimensions},
+            new object[] { "part_imperialdimensions_stack", (int)ControlTypes.stack, "Dimensions | Abmessungen [inch]", controlHeight, null, PageNames.standard, (int)Decorator_e.dimensions},
+            new object[] { "part_weight_stack", (int)ControlTypes.stack, "Weight | Gewicht [kg]", height, null, PageNames.standard, (int)Decorator_e.weight},
+            new object[] { "part_imperialweight_stack", (int)ControlTypes.stack, "Weight | Gewicht [lbs]", controlHeight, null, PageNames.standard, (int)Decorator_e.weight},
+            new object[] { "part_dimensionsweight_separatorend", (int)ControlTypes.separator, "", height, null, PageNames.standard, null},
+
             // ################
 
             // assembly
@@ -499,6 +510,14 @@ namespace HydroTaskpane2.References
             { "part_dyepenetration_dropdown" , (int)AttributeClass_e.dyepenetrationinsp},
             { "part_visualinspection_dropdown" , (int)AttributeClass_e.visualinsp},
             { "part_qualityimperfections_dropdown" , (int)AttributeClass_e.qualitylevelimp},
+            // add measurements + weight
+            { "part_metricmode_checkbox", (int)AttributeClass_e.NONE},
+            { "part_imperialmode_checkbox", (int)AttributeClass_e.NONE},
+            { "part_dimensions_stack", (int)AttributeClass_e.measurements},
+            { "part_imperialdimensions_stack", (int)AttributeClass_e.measurements_inch},
+            { "part_weight_stack", (int)AttributeClass_e.weight_kg},
+            { "part_imperialweight_stack", (int)AttributeClass_e.weight_lbs},
+            // ############
             { "assembly_description_dropdown" , (int)AttributeClass_e.description},
             { "assembly_additionaltext_dropdown" , (int)AttributeClass_e.addtext},
             { "assembly_caddescription_textbox" , (int)AttributeClass_e.caddescription},

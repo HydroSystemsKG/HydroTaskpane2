@@ -24,7 +24,7 @@ namespace HydroTaskpane2.Decorators.Main
 
             int type = (int)control.parameters.getParameter("controlType");
 
-            if (type != (int)ControlTypes.label && type != (int)ControlTypes.longLabel)
+            if (type != (int)ControlTypes.label)
             {
                 ComboBox element = (ComboBox)GetControl();
 

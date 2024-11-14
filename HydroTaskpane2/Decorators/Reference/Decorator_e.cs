@@ -19,6 +19,9 @@ namespace HydroTaskpane2.Decorators.Reference
         drawing_standard,
         metric,
         imperial,
-        mode_switch
+        mode_switch,
+        dimensions,
+        weight,
+        unit_mode
     }
 }

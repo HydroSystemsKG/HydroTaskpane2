@@ -9,6 +9,8 @@ using SwConst;
 using SwCommands;
 using HydroTaskpane2;
 using HydroTaskpane2.Connectors;
+using HydroTaskpane2.References.Flags;
+using HydroTaskpane2.References;
 using System.IO;
 
 namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
@@ -73,7 +75,11 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 }
 
                 // replace "PTC_WM_REVISION" with new revision attribute
+                DebugBuilder.Print("Replace PTC_WM_REVISION...");
+
                 generalMethodCollection.SetRevisionAttribute();
+
+                DebugBuilder.Print("Replace PTC_WM_REVISION...Done");
 
                 // synch drawing to model (2D to 3D)
                 generalMethodCollection.SynchDrawingToModel();
@@ -94,11 +100,11 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 taskpane.CustomTabInit();
 
                 // turn flag off only when changing active model docs
-                HydroTaskpane2.References.HandlingFlag.GetInstance().flag = false;
+                HandlingFlag.GetInstance().flag = false;
 
                 taskpane.fillControls();
 
-                HydroTaskpane2.References.HandlingFlag.GetInstance().flag = true;
+                HandlingFlag.GetInstance().flag = true;
             }
             catch (Exception e)
             {
@@ -147,11 +153,11 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
                 taskpane.CustomTabInit();
 
                 // turn flag off only when changing active model docs
-                HydroTaskpane2.References.HandlingFlag.GetInstance().flag = false;
+                HandlingFlag.GetInstance().flag = false;
 
                 taskpane.fillControls();
 
-                HydroTaskpane2.References.HandlingFlag.GetInstance().flag = true;
+                HandlingFlag.GetInstance().flag = true;
 
                 DebugBuilder.Print("...done");
             }
@@ -203,6 +209,9 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
                     generalMethodCollection.setDescription();
                     generalMethodCollection.ProcessBOM();
+
+                    ActivationFlag.GetInstance().flag = true;
+                    WeightUpdateFlag.GetInstance().flag = true;
                 }
 
             }

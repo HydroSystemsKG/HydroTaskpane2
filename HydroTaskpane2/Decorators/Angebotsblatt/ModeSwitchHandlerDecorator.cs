@@ -25,7 +25,7 @@ namespace HydroTaskpane2.Decorators.Angebotsblatt
 
             int type = (int)control.parameters.getParameter("controlType");
 
-            if (type != (int)ControlTypes.label && type != (int)ControlTypes.longLabel)
+            if (type != (int)ControlTypes.label && type != (int)ControlTypes.stack)
             {
                 CheckBox element = (CheckBox)GetControl();
 

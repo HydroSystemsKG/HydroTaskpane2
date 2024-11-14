@@ -164,6 +164,7 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
                 if (attributes.Contains(oldRevisionAttribute))
                 {
+                    DebugBuilder.Print("Model contains \"PTC_WM_REVISION\"");
                     string value = swCustPropMgr.Get(oldRevisionAttribute);
 
                     if (!string.IsNullOrWhiteSpace(value))
@@ -183,7 +184,11 @@ namespace HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents
 
                         swCustPropMgr.Delete2(oldRevisionAttribute);
                     }
-                    
+
+                }
+                else
+                {
+                    DebugBuilder.Print("Model does NOT contain \"PTC_WM_REVISION\"");
                 }
             }
             

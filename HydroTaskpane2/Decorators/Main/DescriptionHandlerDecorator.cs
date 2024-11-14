@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using HydroTaskpane2.Connectors;
 using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
+using HydroTaskpane2.References.Flags;
 using HydroSolidworksLibrary;
 using System.Diagnostics;
 using SldWorks;
@@ -28,7 +29,7 @@ namespace HydroTaskpane2.Decorators.Main
 
             int type = (int)control.parameters.getParameter("controlType");
 
-            if (type != (int)ControlTypes.label && type != (int)ControlTypes.longLabel)
+            if (type != (int)ControlTypes.label)
             {
                 ComboBox comboBox = (ComboBox)GetControl();
 

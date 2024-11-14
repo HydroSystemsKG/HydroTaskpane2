@@ -5,19 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using HydroTaskpane2.Connectors;
 using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
 
 namespace HydroTaskpane2.Strategy
 {
-    public class TextBoxStrategy : IProductStrategy
+    public class StackStrategy : IProductStrategy
     {
         private readonly ControlCollectionSingleton collectionSingleton;
         private Dictionary<string, IControlProduct> controls;
 
         public UIElement control { get; private set; }
 
-        public TextBoxStrategy()
+        public StackStrategy()
         {
             this.collectionSingleton = ControlCollectionSingleton.GetInstance();
         }
@@ -29,27 +30,48 @@ namespace HydroTaskpane2.Strategy
 
             AssembleUIElement(parameters);
 
-            TextBox textBox = (TextBox)control;
+            DockPanel stackPanel = (DockPanel)control;
 
             // add handlers (if necessary)
         }
 
         public void AssembleUIElement(FactoryParameters parameters)
         {
-            TextBox textBox = new TextBox();
-            textBox.VerticalContentAlignment = VerticalAlignment.Center;
+            DockPanel stackPanel = new DockPanel();
+            stackPanel.Name = (string)parameters.getParameter("name");
+            stackPanel.Height = (int)parameters.getParameter("height") + 5;
 
-            textBox.Name = (string)parameters.getParameter("name");
-            textBox.Text = (string)parameters.getParameter("standardValue");
-            textBox.Height = (int)parameters.getParameter("height");
+            //stackPanel.Orientation = Orientation.Horizontal;
 
-            control = (UIElement)textBox;
+            // title label
+            Label titleLabel = new Label();
+            titleLabel.Content = (string)parameters.getParameter("standardValue");
+            titleLabel.Height = (int)parameters.getParameter("height");
+
+            titleLabel.HorizontalContentAlignment = HorizontalAlignment.Left;
+
+            stackPanel.Children.Add(titleLabel);
+
+            // value label
+            Label valueLabel = new Label();
+            valueLabel.Content = "";
+            valueLabel.Height = (int)parameters.getParameter("height");
+            
+            valueLabel.HorizontalContentAlignment = HorizontalAlignment.Right;
+
+            stackPanel.Children.Add(valueLabel);
+            stackPanel.UpdateLayout();
+
+            control = (UIElement)stackPanel;
         }
 
         public void Clear()
         {
-            TextBox textBox = (TextBox)control;
-            textBox.Text = string.Empty;
+            DockPanel stackPanel = (DockPanel)control;
+            stackPanel.Children.Clear();
+            stackPanel.UpdateLayout();
+
+            return;
         }
 
         // get control from Singleton
@@ -65,6 +87,5 @@ namespace HydroTaskpane2.Strategy
 
             return product;
         }
-
     }
 }

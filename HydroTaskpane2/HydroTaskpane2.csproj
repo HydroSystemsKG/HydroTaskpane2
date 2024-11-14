@@ -65,6 +65,18 @@
   <ItemGroup>
     <Compile Include="Constants\IDClass.cs" />
     <Compile Include="Converters\ConverterClasses.cs" />
+    <Compile Include="Custom Controls\SetMaterialDensity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Custom Controls\SetMaterialDensity.Designer.cs">
+      <DependentUpon>SetMaterialDensity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\SetMaterialWeight.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Custom Controls\SetMaterialWeight.Designer.cs">
+      <DependentUpon>SetMaterialWeight.cs</DependentUpon>
+    </Compile>
     <Compile Include="Custom Controls\SetStrength.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,9 +90,12 @@
     <Compile Include="Decorators\Main\ColorHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\CVHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\DescriptionHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DimensionHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\DrawingStandardHandlerDecorator.cs" />
     <Compile Include="Decorators\Main\HandlerDecorator.cs" />
     <Compile Include="Decorators\Main\MaterialHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\UnitModeHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\WeightHandlerDecorator.cs" />
     <Compile Include="Decorators\Reference\DecoratorDict.cs" />
     <Compile Include="Decorators\Reference\Decorator_e.cs" />
     <Compile Include="Decorators\Main\StandardHandlerDecorator.cs" />
@@ -93,16 +108,19 @@
     <Compile Include="Fabrication\Factory.cs" />
     <Compile Include="Fabrication\FactoryParameters.cs" />
     <Compile Include="Fabrication\IControlProduct.cs" />
+    <Compile Include="References\Flags\ActivationFlag.cs" />
     <Compile Include="References\AttributeClass_e.cs" />
     <Compile Include="References\ControlCollectionSingleton.cs" />
     <Compile Include="References\ControlTypes.cs" />
     <Compile Include="References\FieldList.cs" />
-    <Compile Include="References\HandlingFlag.cs" />
+    <Compile Include="References\Flags\HandlingFlag.cs" />
+    <Compile Include="References\Flags\WeightUpdateFlag.cs" />
     <Compile Include="References\PageNames.cs" />
     <Compile Include="Strategy\CheckBoxStrategy.cs" />
     <Compile Include="Strategy\ComboBoxStrategy.cs" />
     <Compile Include="Strategy\IProductStrategy.cs" />
     <Compile Include="Strategy\LabelStrategy.cs" />
+    <Compile Include="Strategy\StackStrategy.cs" />
     <Compile Include="Strategy\SeparatorStrategy.cs" />
     <Compile Include="Strategy\TextBoxStrategy.cs" />
     <Compile Include="SWAttributeObserver\AttributeValuePairGenerator.cs" />
@@ -143,6 +161,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Custom Controls\SetMaterialDensity.resx">
+      <DependentUpon>SetMaterialDensity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custom Controls\SetMaterialWeight.resx">
+      <DependentUpon>SetMaterialWeight.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Custom Controls\SetStrength.resx">
       <DependentUpon>SetStrength.cs</DependentUpon>
     </EmbeddedResource>

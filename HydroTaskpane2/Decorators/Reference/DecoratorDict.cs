@@ -23,7 +23,10 @@ namespace HydroTaskpane2.Decorators.Reference
             {(int)Decorator_e.drawing_standard, typeof(DrawingStandardHandlerDecorator)},
             {(int)Decorator_e.metric, typeof(MetricHandlerDecorator)},
             {(int)Decorator_e.imperial, typeof(ImperialHandlerDecorator)},
-            {(int)Decorator_e.mode_switch, typeof(ModeSwitchHandlerDecorator)}
+            {(int)Decorator_e.mode_switch, typeof(ModeSwitchHandlerDecorator)},
+            {(int)Decorator_e.dimensions, typeof(DimensionHandlerDecorator)},
+            {(int)Decorator_e.weight, typeof(WeightHandlerDecorator)},
+            {(int)Decorator_e.unit_mode, typeof(UnitModeHandlerDecorator)},
         };
     }
 }

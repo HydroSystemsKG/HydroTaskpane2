@@ -9,6 +9,7 @@ using System.Diagnostics;
 using HydroTaskpane2.Connectors;
 using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
+using HydroTaskpane2.References.Flags;
 using HydroTaskpane2.Decorators.Main;
 
 namespace HydroTaskpane2.Decorators.Angebotsblatt
@@ -31,7 +32,7 @@ namespace HydroTaskpane2.Decorators.Angebotsblatt
 
             int type = (int)control.parameters.getParameter("controlType");
 
-            if (type != (int)ControlTypes.label && type != (int)ControlTypes.longLabel)
+            if (type != (int)ControlTypes.label && type != (int)ControlTypes.stack)
             {
                 TextBox element = (TextBox)GetControl();
 

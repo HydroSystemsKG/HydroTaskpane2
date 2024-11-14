@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
 using HydroTaskpane2.References;
+using HydroTaskpane2.References.Flags;
 using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.Connectors;
 using HydroTaskpane2.SWAttributeObserver;

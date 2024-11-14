@@ -49,6 +49,9 @@ namespace HydroTaskpane2.Fabrication
                 case ((int)ControlTypes.separator):
                     strategy = new SeparatorStrategy();
                     break;
+                case ((int)ControlTypes.stack):
+                    strategy = new StackStrategy();
+                    break;
             }
 
             this.strategy = strategy;
