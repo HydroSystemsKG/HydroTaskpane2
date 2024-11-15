@@ -11,7 +11,6 @@ using SolidWorksTools;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
-using _3DExperienceHydroFixPack;
 using HydroTaskpane2_AddIn.Load_Taskpane;
 
 namespace HydroTaskpane2_AddIn
@@ -22,7 +21,6 @@ namespace HydroTaskpane2_AddIn
     public class HydroTaskpane2_AddIn : ISwAddin
     {
         SldWorks.SldWorks swApp;
-        public SldWorksOptionsEventHandler optionSet;
         public LoadTaskpane load { get; set; }
 
         #region COM Registration
@@ -67,7 +65,6 @@ namespace HydroTaskpane2_AddIn
 
             swApp = (SldWorks.SldWorks)ThisSW;
             swApp.SetAddinCallbackInfo(0, this, Cookie);
-            //optionSet = new SldWorksOptionsEventHandler(swApp, OptionsFixPackClass.mainMethod, null);
 
             //Load Taskpane
             this.load = new LoadTaskpane(swApp);
@@ -83,8 +80,6 @@ namespace HydroTaskpane2_AddIn
             this.load.unloadTaskpane();
 
             // remove option setting
-            //optionSet.FinishByDetach();
-            //optionSet = null;
 
             swApp = null;
             GC.Collect();

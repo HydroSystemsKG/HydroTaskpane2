@@ -12,7 +12,10 @@ using System.Diagnostics;
 using HydroTaskpane2;
 using HydroTaskpane2.Constants;
 using System.Runtime.InteropServices;
-using HydroTaskpane2_AddIn.Host;
+using HydroTaskpane2_AddIn.SWEventHandlerStrategy.Options;
+using HydroTaskpane2_AddIn.SWEventHandlerStrategy.AttributeTemplates;
+using HydroTaskpane2_AddIn.SWEventHandlerStrategy.TaskpaneEvents;
+using System.IO;
 
 namespace HydroTaskpane2_AddIn.Load_Taskpane
 {
@@ -21,12 +24,24 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
     {
         public SldWorks.SldWorks swApp { get; set; }
 
+        // event handler strategy (options)
+        //private SWEventHandlerStrategy.SWContext swContextOptions; // set Options
+        private SWEventHandlerStrategy.SWContext swContextAttributes;
+        private SWEventHandlerStrategy.SWContext swContextTaskpane;
+
         private TaskpaneView swTaskpaneView { get; set; }
         private HydroTaskpane2_UI taskpane { get; set; }
 
         public LoadTaskpane(SldWorks.SldWorks swApp)
         {
             this.swApp = swApp;
+
+            // add options event handler (attach all)
+            //swContextOptions = new SWEventHandlerStrategy.SWContext(swApp, new SWOptionStrategy());
+            swContextAttributes = new SWEventHandlerStrategy.SWContext(swApp, new SWAttributeTemplateStrategy());
+
+            //swContextOptions.AttachEventHandlers();
+            swContextAttributes.AttachEventHandlers();
 
             try
             {
@@ -36,14 +51,16 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             {
                 Debug.Print($" :: Hydro Taskpane 2.0 :: Failed to create taskpaneview... Exception Type[{e.GetType().ToString()}]; {e.ToString()}");
             }
-            
-            //AttachEventHandlers();
+
+            // Set up events
+            Debug.Print(" :: Hydro Taskpane 2.0 :: Add Events...");
+            swContextTaskpane = new SWEventHandlerStrategy.SWContext(swApp, new SWTaskpaneStrategy(swTaskpaneView, taskpane));
+            swContextTaskpane.AttachEventHandlers();
         }
 
         private void createTaskpane()
         {
             // Create taskpane
-
             Debug.Print(" :: Hydro Taskpane 2.0 :: Load taskpane...");
 
             string[] iconpaths = new string[3];
@@ -64,10 +81,6 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
             // add taskpane host control to view
             addHost(iconpaths, title);
-
-            // Set up events
-            Debug.Print(" :: Hydro Taskpane 2.0 :: Add Events...");
-            AttachEventHandlers();
         }
 
         private void addHost(string[] iconpaths, string title)
@@ -76,9 +89,9 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             swTaskpaneView = (TaskpaneView)swApp.CreateTaskpaneView3(iconpaths, title);
 
             Debug.Print(" :: Hydro Taskpane 2.0 :: Add Controls...");
+
             this.taskpane = new HydroTaskpane2_UI();
-
-
+            
             ElementHost element = new CustomElementHost
             {
                 Child = this.taskpane,
@@ -87,13 +100,16 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
 
             this.swTaskpaneView.DisplayWindowFromHandlex64(element.Handle.ToInt64());
 
-            this.taskpane.CustomInit();
+            //this.taskpane.CustomTabInit();
         }
 
         public void unloadTaskpane()
         {
             // detach event handlers
-            DetachEventHandlers();
+            //swContextOptions.DetachEventHandlers();
+            swContextAttributes.DetachEventHandlers();
+            swContextTaskpane.DetachEventHandlers();
+
             taskpane = null;
 
             // delete taskpaneview...
@@ -106,65 +122,5 @@ namespace HydroTaskpane2_AddIn.Load_Taskpane
             swTaskpaneView = null;
         }
 
-        #region attach + detach Handlers
-
-        private void AttachEventHandlers()
-        {
-            this.swTaskpaneView.TaskPaneActivateNotify += swTaskPane_TaskPaneActivateNotify;
-            this.swTaskpaneView.TaskPaneDeactivateNotify += swTaskPane_TaskPaneDeactivateNotify;
-            this.swTaskpaneView.TaskPaneDestroyNotify += swTaskPane_TaskPaneDestroyNotify;
-        }
-
-        public void DetachEventHandlers()
-        {
-            this.swTaskpaneView.TaskPaneActivateNotify -= swTaskPane_TaskPaneActivateNotify;
-            this.swTaskpaneView.TaskPaneDeactivateNotify -= swTaskPane_TaskPaneDeactivateNotify;
-            this.swTaskpaneView.TaskPaneDestroyNotify -= swTaskPane_TaskPaneDestroyNotify;
-        }
-
-        #endregion
-
-        #region Load taskpane event handlers
-
-        private int swTaskPane_TaskPaneActivateNotify()
-        {
-            ModelDoc2 swModel = (ModelDoc2)swApp.ActiveDoc;
-
-            if (swModel == null)
-            {
-                taskpane.hideTreeView(true);
-            }
-            else if (swModel.GetType() == (int)swDocumentTypes_e.swDocPART)
-            {
-                taskpane.disableTreeViewItem("assembly", false);
-                taskpane.disableTreeViewItem("drawing", false);
-            }
-            else if (swModel.GetType() == (int)swDocumentTypes_e.swDocASSEMBLY)
-            {
-                taskpane.disableTreeViewItem("part", false);
-                taskpane.disableTreeViewItem("drawing", false);
-            }
-            else if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
-            {
-                taskpane.disableTreeViewItem("part", false);
-                taskpane.disableTreeViewItem("assembly", false);
-            }
-
-            return 0;
-        }
-
-        private int swTaskPane_TaskPaneDeactivateNotify()
-        {
-            Debug.Print(" :: Hydro Taskpane 2.0 :: TaskPaneDeactivateNotify...");
-            return 1;
-        }
-
-        private int swTaskPane_TaskPaneDestroyNotify()
-        {
-            Debug.Print(" :: Hydro Taskpane 2.0 :: TaskPaneDestroyNotify...");
-            return 1;
-        }
-        
-        #endregion
     }
 }

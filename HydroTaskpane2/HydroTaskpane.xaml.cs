@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -14,10 +15,20 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Diagnostics;
-using HydroTaskpane2.Constants;
+using HydroTaskpane2.References;
+using HydroTaskpane2.References.Flags;
+using HydroTaskpane2.Fabrication;
+using HydroTaskpane2.Connectors;
+using HydroTaskpane2.SWAttributeObserver;
+using HydroTaskpane2.Custom_Controls;
+using HydroTaskpane2.Decorators.Main;
+using HydroTaskpane2.SWAttributeReader;
+using SldWorks;
+using SwConst;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
+using SwCommands;
 using Newtonsoft.Json;
 
 namespace HydroTaskpane2
@@ -28,7 +39,6 @@ namespace HydroTaskpane2
     [ProgId(intProgID)]
     public partial class HydroTaskpane2_UI : UserControl
     {
-        public static Dictionary<Tuple<string, int>, string> controlAttributeValues;
         private const string intProgID = "HydroTaskpane2.Taskpane.UI";
 
         public HydroTaskpane2_UI()
@@ -36,303 +46,413 @@ namespace HydroTaskpane2
             InitializeComponent();
         }
 
-        public void CustomInit()
-        {
-            // populate treeview + populate fields
-            populateTree();
-        }
+        #region custom init
 
-        public void hideTreeView(bool hide)
+        private void CustomInit(StackPanel stackPanel, string tabName)
         {
-            AttributeGroups.IsEnabled = hide;
-        }
+            // build all products
+            ControlProductFactory factory = new ControlProductFactory();
 
-        
-        public void disableTreeViewItem(string name, bool enabled)
-        {
-            foreach (AttributeGroup group in AttributeGroups.ItemsSource)
+            ControlCollectionSingleton controlCollection = ControlCollectionSingleton.GetInstance();
+            int type = -1;
+
+            try
             {
-                if (group.name.ToLower() == name.ToLower())
+                SWModelConnector connector = SWModelConnector.GetInstance();
+                if (connector.swModel != null)
                 {
-                    group.enabled = enabled;
+                    type = connector.swModel.GetType();
                 }
             }
-        }
-
-        public int sortType(string key)
-        {
-            int type = 0;
-
-            if (key.ToLower() == "assembly")
+            catch
             {
-                type = 1;
-            }
-            else if (key.ToLower() == "drawing")
-            {
-                type = 2;
+
             }
 
-            return type;
-        }
-
-        #region TreeView methods and classes
-        public void populateTree()
-        {
-            List<AttributeGroup> groups = new List<AttributeGroup>();
-            Dictionary<string, Dictionary<string, List<string>>> groupReference = new Dictionary<string, Dictionary<string, List<string>>>
+            foreach (object[] paramArray in FieldList.controlArrays)
             {
-                {"Part", AttributeConstants.partDict},
-                {"Assembly", AttributeConstants.assemblyDict},
-                {"Drawing", AttributeConstants.drawingDict}
-            };
+                FactoryParameters parameters = new FactoryParameters(paramArray);
+                IControlProduct product;
+                UIElement element = default(UIElement);
 
-            Dictionary<string, string> images = new Dictionary<string, string>
-            {
-                {"Part", @"\\CAD_DE_SW\D_sw-pool\Hydro\System-Optionen\Macros\HydroTaskpane2\HydroTaskpane2\Images\part_icon_sldworks.png"},
-                {"Assembly", @"\\CAD_DE_SW\D_sw-pool\Hydro\System-Optionen\Macros\HydroTaskpane2\HydroTaskpane2\Images\assembly_icon_sldworks.png"},
-                {"Drawing", @"\\CAD_DE_SW\D_sw-pool\Hydro\System-Optionen\Macros\HydroTaskpane2\HydroTaskpane2\Images\drawing_icon_sldworks.png"}
-            };
+                //Debug.Print($"PARAMETER NAME: {(string)parameters.getParameter("tab")}; TAB HEADER: {tabName}; COMPARE: {((string)parameters.getParameter("tab") != tabName).ToString()}");
 
-            foreach (string groupName in groupReference.Keys)
-            {
-                AttributeGroup refGroup = new AttributeGroup() { name = groupName };
-                refGroup.groups = new ObservableCollection<AttributeGroup>();
-
-                // add fields
-                refGroup.fields = new ObservableCollection<Field>();
-
-                foreach (string key in groupReference[groupName].Keys)
+                if ((string)parameters.getParameter("tab") != tabName)
                 {
-                    AttributeGroup currentGroup = new AttributeGroup() { name = key };
-                    List<string> attributeList = groupReference[groupName][key];
-                    
-
-                    foreach (string attr in attributeList)
-                    {
-                        int type = sortType(groupName);
-                        Field field = new Field(attr, type);
-
-                        ObservableCollection<Field> fields = new ObservableCollection<Field>();
-                        fields.Add(field);
-
-                        currentGroup.attributes.Add(new AttributeField() { name = attr, fields = fields }); // add attributes after list is concluded
-
-                        currentGroup.fields.Add(field);
-                        refGroup.fields.Add(field);
-
-                    }
-
-                    refGroup.groups.Add(currentGroup);
-                }
-                
-                refGroup.image = images[groupName];
-
-                groups.Add(refGroup);
-            }
-
-            AttributeGroups.ItemsSource = groups;
-        }
-        
-    }
-
-    public class AttributeGroup
-    {
-        public string name { get; set; }
-
-        public ObservableCollection<AttributeField> attributes { get; set; }
-        public ObservableCollection<AttributeGroup> groups { get; set; }
-        public ObservableCollection<Field> fields { get; set; }
-
-        public string image { get; set; }
-        public string space { get; set; }
-        public string bold { get; set; }
-        public bool enabled { get; set; }
-
-        public IList<object> Items
-        {
-            get
-            {
-                IList<object> childNodes = new List<object>();
-                if (this.groups == null)
-                {
-                    foreach (var attr in this.attributes)
-                        childNodes.Add(attr);
-                }
-                else if (this.attributes == null)
-                {
-                    foreach (var group in this.groups)
-                        childNodes.Add(group);
+                    continue;
                 }
                 else
                 {
-                    foreach (var group in this.groups)
-                        childNodes.Add(group);
-                    foreach (var attr in this.attributes)
-                        childNodes.Add(attr);
+
+                    try
+                    {
+                        if (((string)parameters.getParameter("name")).ToLower().Contains("part") && type == (int)swDocumentTypes_e.swDocPART)
+                        {
+                            product = factory.CreateProduct(parameters);
+
+                            product.Assemble();
+
+                            controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                            element = product.GetControl();
+                        }
+                        else if (((string)parameters.getParameter("name")).ToLower().Contains("assembly") && type == (int)swDocumentTypes_e.swDocASSEMBLY)
+                        {
+                            product = factory.CreateProduct(parameters);
+
+                            product.Assemble();
+
+                            controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                            element = product.GetControl();
+                        }
+                        else if (type == (int)swDocumentTypes_e.swDocDRAWING)
+                        {
+                            if (((string)parameters.getParameter("name")).ToLower().Contains("drawing") && !((string)parameters.getParameter("name")).ToLower().Contains("drawing_ang"))
+                            {
+                                product = factory.CreateProduct(parameters);
+
+                                product.Assemble();
+
+                                controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                                element = product.GetControl();
+                            }
+                            else if (((string)parameters.getParameter("name")).ToLower().Contains("drawing_ang"))
+                            {
+                                product = factory.CreateProduct(parameters);
+
+                                product.Assemble();
+
+                                controlCollection.controlCollection.Add((string)parameters.getParameter("name"), product);
+                                element = product.GetControl();
+                            }
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        Debug.Print($"Assembly ERROR: {e.ToString()}");
+                    }
+
+                    if (element != null)
+                    {
+                        var children = stackPanel.Children.Cast<UIElement>();
+                        stackPanel.Children.Add(element);
+                    }
                 }
 
-                if (this.image != null)
+            }
+        }
+
+        public void CustomTabInit()
+        {
+            var Properties = typeof(PageNames).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.GetValue(typeof(PageNames))).ToList();
+
+            foreach (string property in Properties)
+            {
+                string tab = property;
+
+                //Debug.Print(tab + $" {Properties.Count().ToString()}");
+
+                TabItem tabItem = new TabItem
                 {
-                    this.space = "   ";
-                    this.bold = "Bold";
+                    Header = tab,
+                    Name = tab.Replace(" ", "_").Replace("-", "_")
+                };
+
+                // add to tabItem content...
+                TabContent content = new TabContent(new ListBox());
+                Style style = FindResource("NoSelectionListBoxItemStyle") as Style;
+                content.CustomListBoxInit(tabItem.Name, style);
+
+                //CustomInit(content.stackPanel, tab);
+
+                if (checkTab(tab))
+                {
+                    CustomInit(content.stackPanel, tab);
+                    tabItem.Content = content.listBox;
+
+                    tbCtrl.Items.Add(tabItem);
                 }
 
-                return childNodes;
+                //tabItem.Content = content.listBox;
+                //Debug.Print(checkTab(tab).ToString());
+
+                //if (checkTab(tab))
+                //{
+                //    tbCtrl.Items.Add(tabItem);
+                //}
+
+                ((TabItem)tbCtrl.Items[0]).IsSelected = true;
+
             }
+
+            HandlingFlag.GetInstance().flag = true;
         }
 
-        public IList<object> fieldItems
+        public void RemoveItems()
         {
-            get
+            HandlingFlag.GetInstance().flag = false;
+
+            ControlCollectionSingleton controlCollection = ControlCollectionSingleton.GetInstance();
+
+            foreach (string key in controlCollection.controlCollection.Keys)
             {
-                IList<object> childNodes = new List<object>(fields);
-                return childNodes;
+                ControlProductComponent component = (ControlProductComponent) controlCollection.controlCollection[key];
+                component.Dissassemble();
             }
+
+            controlCollection.controlCollection = null;
+            controlCollection.controlCollection = new Dictionary<string, IControlProduct>();
+
+            tbCtrl.Items.Clear();
+
+            Debug.Print($"KEY COUNT: {controlCollection.controlCollection.Keys.Count()}");
+            
         }
 
-        public AttributeGroup()
+        private bool checkTab(string tab)
         {
-            this.attributes = new ObservableCollection<AttributeField>();
-            this.fields = new ObservableCollection<Field>();
-            this.enabled = true;
-        }
-    }
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
 
-    public class AttributeField
-    {
-        public string name { get; set; }
-        public string attribute { get; set; }
-        public ObservableCollection<Field> fields { get; set; }
-    }
-    #endregion
+            if (swModel == null) { return false; }
 
-    #region ComboBox methods and classes
-
-    public class Field
-    {
-        public string label { get; set; }
-        public string file { get; set; }
-        public string controlType { get; set; }
-        public int dataType { get; set; }
-
-        public bool comboBoxControl { get; set; }
-        public bool textBoxControl { get; set; }
-        public bool checkBoxControl { get; set; }
-        public bool labelControl { get; set; }
-
-        public List<string> dropdown { get; set; }
-
-        public object content { get; set; }
-
-        public string height { get; set; }
-
-        public Field(string label, int type)
-        {
-            this.label = label;
-            this.content = null;
-            this.dataType = type;
-            this.height = "20";
-
-            switch (type)
+            if (tab == PageNames.standard)
             {
-                case 0:
-                    this.file = AttributeValueLists.partControlPathDict[this.label];
-                    break;
-                case 1:
-                    this.file = AttributeValueLists.assemblyControlPathDict[this.label];
-                    break;
-                case 2:
-                    this.file = AttributeValueLists.drawingControlPathDict[this.label];
-                    break;
+                return true;
+            }
+            else
+            {
+                switch (swModel.GetType())
+                {
+                    case ((int)swDocumentTypes_e.swDocASSEMBLY):
+                        return false;
+                    case ((int)swDocumentTypes_e.swDocPART):
+                        return false;
+                }
+
+                if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
+                {
+                    DrawingDoc swDrawing = (DrawingDoc)swModel;
+
+                    //string templateName = ((Sheet)swDrawing.GetCurrentSheet()).GetTemplateName();
+
+                    string[] sheetNames = swDrawing.GetSheetNames();
+
+                    foreach (string sheet in sheetNames)
+                    {
+                        string templateName = (swDrawing.Sheet[sheet]).GetTemplateName();
+
+                        templateName = System.IO.Path.GetFileNameWithoutExtension(templateName);
+
+                        if (templateName.ToLower().Split('_').All(s => tab.ToLower().Contains(s)))
+                        {
+                            return true;
+                        }
+                    }
+                }
+
             }
 
-            Debug.Print($"::: Field ::: Label: |{label}|; Type: |{this.dataType.ToString()}|; Hash Code: |{this.GetHashCode().ToString()}| :::");
-            readDropdown();
+            return false;
         }
 
-        public void readDropdown()
+        public bool getTabStatus()
         {
-            this.comboBoxControl = false;
-            this.textBoxControl = false;
-            this.checkBoxControl = false;
-            this.labelControl = false;
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
+            bool status = true;
 
-            switch (this.file)
+            if (swModel.GetType() == (int)swDocumentTypes_e.swDocDRAWING)
             {
-                case "":
-                    this.controlType = "textBox";
-                    this.textBoxControl = true;
-                    break;
-                case "*":
-                    this.controlType = "checkBox";
-                    this.checkBoxControl = true;
-                    break;
-                case "-":
-                    this.controlType = "label";
-                    this.labelControl = true;
-                    break;
-                default:
-                    this.controlType = "comboBox";
-                    this.comboBoxControl = true;
-                    break;
+                int tabCount = tbCtrl.Items.Count;
+
+                Debug.Print($"Tab count is {tabCount.ToString()}");
+
+                List<string> templateNames = new List<string>();
+
+                DrawingDoc swDrawing = (DrawingDoc)swModel;
+
+                var Properties = typeof(PageNames).GetProperties(BindingFlags.Public | BindingFlags.Static).Select(x => x.GetValue(typeof(PageNames))).ToList();
+                List<string> pages = new List<string>();
+
+                foreach (string property in Properties)
+                {
+                    Debug.Print($"Add pages to pool... {property.Replace(" ", "_")}");
+
+                    pages.Add(property.Replace(" ", "_"));
+                }
+
+                string[] sheetNames = swDrawing.GetSheetNames();
+
+                foreach (string sheet in sheetNames)
+                {
+                    string templateName = (swDrawing.Sheet[sheet]).GetTemplateName();
+
+                    templateName = System.IO.Path.GetFileNameWithoutExtension(templateName);
+
+                    Debug.Print($"Check template name: {templateName} - passes condition 1? {(!templateNames.Contains(templateName) && pages.Contains(templateName)).ToString()}; passes condition 2? {(!templateNames.Contains(templateName)).ToString()}");
+
+                    if (templateName.ToLower().Contains("angebotsblatt"))
+                    {
+                        if (!templateNames.Contains(templateName) && pages.Contains(templateName))
+                        {
+                            templateNames.Add(templateName);
+                        }
+                    }
+                    else
+                    {
+                        if (!templateNames.Contains(templateName))
+                        {
+                            templateNames.Add(templateName);
+                        }
+                    }
+                }
+
+                Debug.Print($"tabCount: {tabCount}; templateNames: {templateNames.Count}");
+
+                if (tabCount != templateNames.Count)
+                {
+                    status = false;
+                }
             }
 
-            if (this.controlType == "comboBox")
+            return status;
+        }
+
+        #endregion
+
+        #region load control values
+
+        public void fillControls()
+        {
+            try
             {
-                string[] fileContent = File.ReadAllLines(this.file).Where(l => l.Contains(";")).Select(l => l.Replace(";"," | ")).ToArray();
-                this.dropdown = new List<string>(fileContent);
+                ControlCollectionSingleton controlCollection = ControlCollectionSingleton.GetInstance();
+
+                SWAttributeAssembler attrAssembler = new SWAttributeAssembler();
+                attrAssembler.assembleAttributes();
+
+                foreach (string controlName in controlCollection.controlCollection.Keys)
+                {
+                    if (!controlName.ToLower().Contains("label") && !controlName.ToLower().Contains("separator"))
+                    {
+                        Debug.Print($"Fill control |{controlName}|");
+
+                        ControlProductComponent product = (ControlProductComponent)controlCollection.controlCollection[controlName];
+
+                        string value = attrAssembler.controlValuePairs[FieldList.controlAttributeClassesPairs[controlName]];
+
+                        //Debug.Print($"Setting |{product.parameters.getParameter("name")}| to |{value}|");
+
+                        SetControlValue(product, value);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Print(e.ToString());
             }
         }
+
+        private void SetControlValue(ControlProductComponent product, string value)
+        {
+            object control = default(object);
+
+            switch ((int)product.parameters.getParameter("controlType"))
+            {
+                case ((int)ControlTypes.checkBox):
+                    control = (CheckBox)product.GetControl();
+                    bool.TryParse(value, out bool result);
+                    ((CheckBox)control).IsChecked = result;
+                    break;
+                case ((int)ControlTypes.comboBox):
+                    control = (ComboBox)product.GetControl();
+                    ((ComboBox)control).Text = value;
+                    break;
+                case ((int)ControlTypes.textBox):
+                    control = (TextBox)product.GetControl();
+                    ((TextBox)control).Text = value;
+                    break;
+            };
+        }
+
+        #endregion
+
+        #region fill attributes (after closing Taskpane session)
+
+        public void fillAttributes()
+        {
+            Dictionary<string, IControlProduct> controls = ControlCollectionSingleton.GetInstance().controlCollection;
+
+            Debug.Print(":: fillAttributes() :: Begin... ::");
+
+            foreach (string key in controls.Keys)
+            {
+                if (!key.ToLower().Contains("label") && !key.ToLower().Contains("separator"))
+                {
+                    Debug.Print($":: fillAttributes() :: Update attribute for control |{key}|... ::");
+
+                    ControlProductComponent product = (ControlProductComponent)controls[key];
+                    object control = product.GetControl();
+
+                    updateAttributes(control);
+
+                    Debug.Print($":: fillAttributes() :: |{key}| is done... ::");
+                }
+            }
+        }
+
+        private void updateAttributes(object sender)
+        {
+            string name = "";
+            string content = "";
+
+            // if sender is different than checkbox
+
+            Debug.Print($":: fillAttributes() :: updateAttributes() :: get name and get content... ::");
+
+            if (sender is CheckBox)
+            {
+                CheckBox senderControl = (CheckBox)sender;
+
+                name = senderControl.Name;
+                content = senderControl.IsChecked.ToString();
+            }
+            else if (sender is TextBox)
+            {
+                TextBox senderControl = (TextBox)sender;
+
+                name = senderControl.Name;
+                content = senderControl.Text;
+            }
+            else if (sender is ComboBox)
+            {
+                ComboBox senderControl = (ComboBox)sender;
+
+                name = senderControl.Name;
+                content = senderControl.Text;
+            }
+
+            Debug.Print($":: fillAttributes() :: updateAttributes() :: name: {name}; content: {content}... ::");
+
+            if (!string.IsNullOrEmpty(content) && !string.IsNullOrWhiteSpace(content))
+            {
+                Debug.Print($"CONTROL: |{name}|; CONTENT: |{content}|");
+                UpdatePublisher publisher = new UpdatePublisher();
+                publisher.Update(name, content);
+
+                publisher = null;
+            }
+            else
+            {
+                UpdatePublisher publisher = new UpdatePublisher();
+                publisher.Update(name, "");
+
+                publisher = null;
+            }
+
+            SWModelConnector.GetInstance().swModel.ForceRebuild3(true);
+        }
+
+        #endregion
 
     }
-
-    #region Converters
-
-    public class BooleanToVisibilityConverter : IValueConverter
-    {
-        private object GetVisibility(object value)
-        {
-            if (!(value is bool))
-                return Visibility.Collapsed;
-            bool objValue = (bool)value;
-            if (objValue)
-            {
-                return Visibility.Visible;
-            }
-            return Visibility.Collapsed;
-        }
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)
-        {
-            return GetVisibility(value);
-        }
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo language)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class PercentageConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (parameter == null)
-                return 0.7 * System.Convert.ToDouble(value);
-           
-
-            string[] split = parameter.ToString().Split('.');
-            double parameterDouble = System.Convert.ToDouble(split[0]) + System.Convert.ToDouble(split[1]) / (Math.Pow(10, split[1].Length));
-            return System.Convert.ToDouble(value) * parameterDouble;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            // Don't need to implement this
-            return null;
-        }
-    }
-
-    #endregion
-
-    #endregion
 
 }

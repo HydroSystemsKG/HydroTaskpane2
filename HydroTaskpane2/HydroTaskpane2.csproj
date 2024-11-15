@@ -64,12 +64,92 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants\IDClass.cs" />
-    <Compile Include="Variable\AttributeVariable.cs" />
+    <Compile Include="Converters\ConverterClasses.cs" />
+    <Compile Include="Custom Controls\SetMaterialDensity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Custom Controls\SetMaterialDensity.Designer.cs">
+      <DependentUpon>SetMaterialDensity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\SetMaterialWeight.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Custom Controls\SetMaterialWeight.Designer.cs">
+      <DependentUpon>SetMaterialWeight.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\SetStrength.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Custom Controls\SetStrength.designer.cs">
+      <DependentUpon>SetStrength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Custom Controls\TabContent.cs" />
+    <Compile Include="Decorators\Angebotsblatt\ImperialHandlerDecorator.cs" />
+    <Compile Include="Decorators\Angebotsblatt\MetricHandlerDecorator.cs" />
+    <Compile Include="Decorators\Angebotsblatt\ModeSwitchHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\ColorHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\ComponentsHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\CVHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DateHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DescriptionHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DimensionHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DrafterHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DrawingMatHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\DrawingStandardHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\HandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\MaterialHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\UnitModeHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\WeightHandlerDecorator.cs" />
+    <Compile Include="Decorators\Reference\DecoratorDict.cs" />
+    <Compile Include="Decorators\Reference\Decorator_e.cs" />
+    <Compile Include="Decorators\Main\StandardHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\StrengthHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\WeldInitHandlerDecorator.cs" />
+    <Compile Include="Decorators\Main\WeldmentHandlerDecorator.cs" />
+    <Compile Include="Fabrication\ControlProduct.cs" />
+    <Compile Include="Fabrication\ControlProductComponent.cs" />
+    <Compile Include="Fabrication\ControlProductFactory.cs" />
+    <Compile Include="Fabrication\Factory.cs" />
+    <Compile Include="Fabrication\FactoryParameters.cs" />
+    <Compile Include="Fabrication\IControlProduct.cs" />
+    <Compile Include="References\Flags\ActivationFlag.cs" />
+    <Compile Include="References\AttributeClass_e.cs" />
+    <Compile Include="References\ControlCollectionSingleton.cs" />
+    <Compile Include="References\ControlTypes.cs" />
+    <Compile Include="References\FieldList.cs" />
+    <Compile Include="References\Flags\ComponentUpdateFlag.cs" />
+    <Compile Include="References\Flags\DateUpdateFlag.cs" />
+    <Compile Include="References\Flags\DrafterUpdateFlag.cs" />
+    <Compile Include="References\Flags\DrawingMatFlag.cs" />
+    <Compile Include="References\Flags\HandlingFlag.cs" />
+    <Compile Include="References\Flags\WeightUpdateFlag.cs" />
+    <Compile Include="References\PageNames.cs" />
+    <Compile Include="Strategy\CheckBoxStrategy.cs" />
+    <Compile Include="Strategy\ComboBoxStrategy.cs" />
+    <Compile Include="Strategy\IProductStrategy.cs" />
+    <Compile Include="Strategy\LabelStrategy.cs" />
+    <Compile Include="Strategy\StackStrategy.cs" />
+    <Compile Include="Strategy\SeparatorStrategy.cs" />
+    <Compile Include="Strategy\TextBoxStrategy.cs" />
+    <Compile Include="SWAttributeObserver\AttributeValuePairGenerator.cs" />
+    <Compile Include="SWAttributeObserver\Observer\ISWObserver.cs" />
+    <Compile Include="SWAttributeObserver\Observer\SWObserver.cs" />
+    <Compile Include="SWAttributeObserver\Processing\SWAttributeProcessor.cs" />
+    <Compile Include="SWAttributeObserver\Publisher\Publisher.cs" />
+    <Compile Include="SWAttributeObserver\Publisher\SWAttributePublisher.cs" />
+    <Compile Include="SWAttributeObserver\UpdatePublisher.cs" />
+    <Compile Include="Connectors\SWAppConnector.cs" />
+    <Compile Include="Connectors\SWModelConnector.cs" />
+    <Compile Include="SWAttributeReader\SWAttributeAssembler.cs" />
+    <Compile Include="SWAttributeReader\ReaderStrategy\ISWReaderStrategy.cs" />
+    <Compile Include="SWAttributeReader\ReaderStrategy\SWConfigReaderStrategy.cs" />
+    <Compile Include="SWAttributeReader\ReaderStrategy\SWCustomReaderStrategy.cs" />
+    <Compile Include="SWAttributeReader\SWReader.cs" />
+    <Compile Include="References\AttributeVariable.cs" />
     <Page Include="HydroTaskpane.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Constants\AttributeConstants.cs" />
     <Compile Include="HydroTaskpane.xaml.cs">
       <DependentUpon>HydroTaskpane.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -89,6 +169,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Custom Controls\SetMaterialDensity.resx">
+      <DependentUpon>SetMaterialDensity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custom Controls\SetMaterialWeight.resx">
+      <DependentUpon>SetMaterialWeight.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Custom Controls\SetStrength.resx">
+      <DependentUpon>SetStrength.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -101,16 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\assembly_icon_sldworks.png" />
-    <Resource Include="Images\closed_folder.png" />
-    <Resource Include="Images\drawing_icon_sldworks.png" />
-    <Resource Include="Images\part_icon_sldworks.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Debug_Compass_v2.png" />
-    <Resource Include="Images\openFolder.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="F:\Hydro\System-Optionen\Macros\SolidworksLibrary\SolidworksLibrary\HydroSolidworksLibrary.csproj">
@@ -156,5 +235,6 @@
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
