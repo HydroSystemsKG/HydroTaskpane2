@@ -335,13 +335,21 @@ namespace HydroTaskpane2
                     {
                         Debug.Print($"Fill control |{controlName}|");
 
-                        ControlProductComponent product = (ControlProductComponent)controlCollection.controlCollection[controlName];
+                        try
+                        {
+                            ControlProductComponent product = (ControlProductComponent)controlCollection.controlCollection[controlName];
 
-                        string value = attrAssembler.controlValuePairs[FieldList.controlAttributeClassesPairs[controlName]];
+                            string value = attrAssembler.controlValuePairs[FieldList.controlAttributeClassesPairs[controlName]];
 
-                        //Debug.Print($"Setting |{product.parameters.getParameter("name")}| to |{value}|");
+                            //Debug.Print($"Setting |{product.parameters.getParameter("name")}| to |{value}|");
 
-                        SetControlValue(product, value);
+                            SetControlValue(product, value);
+                        }
+                        catch(Exception ex)
+                        {
+                            Debug.Print($"Failed to fill |{controlName}|: {ex.ToString()}");
+                            continue;
+                        }
                     }
                 }
             }
