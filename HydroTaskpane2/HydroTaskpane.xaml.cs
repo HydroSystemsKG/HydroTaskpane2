@@ -367,8 +367,8 @@ namespace HydroTaskpane2
             {
                 case ((int)ControlTypes.checkBox):
                     control = (CheckBox)product.GetControl();
-                    bool.TryParse(value, out bool result);
-                    ((CheckBox)control).IsChecked = result;
+                    //bool.TryParse(value, out bool result);
+                    ((CheckBox)control).IsChecked = setUnitMode((CheckBox)control, value);
                     break;
                 case ((int)ControlTypes.comboBox):
                     control = (ComboBox)product.GetControl();
@@ -379,6 +379,40 @@ namespace HydroTaskpane2
                     ((TextBox)control).Text = value;
                     break;
             };
+        }
+
+        private bool setUnitMode(CheckBox control, string value)
+        {
+            bool result = false;
+
+            if (control.Name.ToLower().Contains("_imperial"))
+            {
+                if (value.ToLower().Contains("imperial"))
+                {
+                    result = true;
+                }
+                else if (value.ToLower().Contains("metric"))
+                {
+                    result = false;
+                }
+            }
+            else if (control.Name.ToLower().Contains("_metric"))
+            {
+                if (value.ToLower().Contains("metric"))
+                {
+                    result = true;
+                }
+                else if (value.ToLower().Contains("imperial"))
+                {
+                    result = false;
+                }
+            }
+            else
+            {
+                bool.TryParse(value, out result);
+            }
+            
+            return result;
         }
 
         #endregion

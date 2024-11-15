@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using HydroTaskpane2.Connectors;
 using HydroTaskpane2.Fabrication;
 using HydroTaskpane2.References;
+using HydroTaskpane2.SWAttributeObserver;
 using SldWorks;
 using SwConst;
 using SwCommands;
@@ -124,6 +125,8 @@ namespace HydroTaskpane2.Decorators.Main
                 swExtension.SetUserPreferenceInteger(option, (int)swUserPreferenceOption_e.swDetailingNoOptionSpecified, unitsMetricOptionPairs[option]);
             }
 
+            changeUnit(sender);
+
             swModel.ForceRebuild3(true);
 
             Debug.Print("Set Metric options...done");
@@ -163,11 +166,50 @@ namespace HydroTaskpane2.Decorators.Main
                 (int)swUserPreferenceOption_e.swDetailingNoOptionSpecified,
                 (int)swUnitSystem_e.swUnitSystem_IPS);
 
+            changeUnit(sender);
+
             swModel.ForceRebuild3(true);
 
             Debug.Print("Set Imperial options...done");
 
         }
 
+        private void changeUnit(object sender)
+        {
+            CheckBox senderControl = (CheckBox)sender;
+            bool unitStatus = senderControl.IsChecked.Value;
+
+            // update unit attributes
+            ModelDoc2 swModel = SWModelConnector.GetInstance().swModel;
+            SldWorks.SldWorks swApp = SWModelConnector.GetInstance().swApp;
+
+            string name = senderControl.Name;
+            string content = "";
+
+            if (senderControl.Name.ToLower().Contains("_imperial"))
+            {
+                content = "IMPERIAL";
+            }
+            else if (senderControl.Name.ToLower().Contains("_metric"))
+            {
+                content = "METRIC";
+            }
+
+            if (!string.IsNullOrEmpty(content))
+            {
+                Debug.Print($"Weight Update - CONTROL: |{name}|; CONTENT: |{content}|");
+                UpdatePublisher publisher = new UpdatePublisher();
+                publisher.Update(name, content);
+
+                publisher = null;
+            }
+            else
+            {
+                UpdatePublisher publisher = new UpdatePublisher();
+                publisher.Update(name, "");
+
+                publisher = null;
+            }
+        }
     }
 }

@@ -33,6 +33,7 @@ namespace HydroTaskpane2.References
         dyepenetrationinsp,
         visualinsp,
         qualitylevelimp,
+        unit,
         measurements,
         measurements_inch,
         weight_kg,
